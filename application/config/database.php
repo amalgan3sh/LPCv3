@@ -78,9 +78,9 @@ $db['default'] = array(
 	// 'hostname' => 'localhost',
 	// 'username' => 'root',
 	// 'password' => '',
-	'hostname' => 'lammy.life',
-	'username' => 'lakshmipharmaceuticalfamily@gmail.com',
-	'password' => 'Lakshmi@1010',
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
 
 	'database' => 'lammygkk_db',
 	'dbdriver' => 'mysqli',
