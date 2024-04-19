@@ -75,9 +75,13 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
+	// 'hostname' => 'localhost',
+	// 'username' => 'root',
+	// 'password' => '',
+	'hostname' => 'lammy.life',
+	'username' => 'lakshmipharmaceuticalfamily@gmail.com',
+	'password' => 'Lakshmi@1010',
+
 	'database' => 'lammygkk_db',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
