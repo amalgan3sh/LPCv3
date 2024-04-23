@@ -73,15 +73,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
+
 $db['default'] = array(
 	'dsn'	=> '',
-	// 'hostname' => 'localhost',
-	// 'username' => 'root',
-	// 'password' => '',
-	'hostname' => 'lammy.life',
-	'username' => 'lakshmipharmaceuticalfamily@gmail.com',
-	'password' => 'Lakshmi@1010',
-
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
 	'database' => 'lammygkk_db',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

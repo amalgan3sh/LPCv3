@@ -35,4 +35,40 @@ class Usercontroller extends CI_Controller {
 		}
 		
 	}
+	public function userViewComposition(){
+		$id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['composition'] = $this->Usermodel->getComposition();
+		$this->load->view('user_header',$data);
+		$this->load->view('user_view_composition');
+	}
+	public function userViewProducts(){
+		$id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$composition_name = $this->input->get('composition_name');
+		$data['products'] = $this->Usermodel->getProductsByComposition($composition_name);
+		$this->load->view('user_header',$data);
+		$this->load->view('user_view_products');
+	}
+	public function userViewCart(){
+		$id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$this->load->view('user_header',$data);
+		$this->load->view('user_view_cart');
+	}
+
+	// public function userSearchComposition(){
+	// 	$id = $this->session->userdata('id');
+    // $data['user_data'] = $this->Usermodel->getUserData($id);
+    // $composition_name = $this->input->get('search_composition');
+    // $data['composition'] = $this->Usermodel->userSearchComposition($composition_name);
+
+    // // Define the current page based on the query parameter 'page'
+    // $data['current_page'] = $this->input->get('page', TRUE); // Set TRUE to get the value as integer
+
+    // $this->load->view('user_header',$data);
+    // $this->load->view('user_view_composition', $data);
+	// }
+	
+	
 }

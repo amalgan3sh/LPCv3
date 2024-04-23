@@ -227,6 +227,14 @@
 				</p>
 			</a>
 		</li>
+    <li class="nav-item">
+			<a href="<?php echo base_url('index.php/Usercontroller/userViewComposition')?>" class="nav-link">
+				<i class="nav-icon fas fa-id-card"></i>
+				<p>
+					Order
+				</p>
+			</a>
+		</li>
 		<li class="nav-item">
 			<a href="pages/widgets.html" class="nav-link">
 				<i class="nav-icon fas fa-id-card"></i>
