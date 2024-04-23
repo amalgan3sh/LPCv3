@@ -53,22 +53,15 @@ class Usercontroller extends CI_Controller {
 	public function userViewCart(){
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$product_id = $this->input->get('product_id');
+		$data['product_details'] = $this->Usermodel->getProductDetails($product_id);
 		$this->load->view('user_header',$data);
 		$this->load->view('user_view_cart');
 	}
 
-	// public function userSearchComposition(){
-	// 	$id = $this->session->userdata('id');
-    // $data['user_data'] = $this->Usermodel->getUserData($id);
-    // $composition_name = $this->input->get('search_composition');
-    // $data['composition'] = $this->Usermodel->userSearchComposition($composition_name);
-
-    // // Define the current page based on the query parameter 'page'
-    // $data['current_page'] = $this->input->get('page', TRUE); // Set TRUE to get the value as integer
-
-    // $this->load->view('user_header',$data);
-    // $this->load->view('user_view_composition', $data);
-	// }
-	
+	public function userAddToCart(){
+		echo "<script>alert('Added to cart');</script>";
+		$this->userViewCart();
+	}
 	
 }

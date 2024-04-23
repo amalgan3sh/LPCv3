@@ -69,28 +69,17 @@ class Usermodel extends CI_Model {
             return false;
         }
     }
-    // In your Usermodel.php
 
-    // public function userSearchComposition($composition_name) {
-    //     // Sanitize the input to prevent SQL injection
-    //     $composition_name = $this->db->escape_like_str($composition_name);
+    public function getProductDetails($product_id){
 
-    //     // Construct the SQL query
-    //     $this->db->distinct();
-    //     $this->db->select('composition');
-    //     $this->db->like('composition', $composition_name);
-
-    //     // Execute the query
-    //     $query = $this->db->get('products');
-
-    //     // Check if there are any results
-    //     if ($query->num_rows() > 0) {
-    //         // Fetch the results as an array
-    //         return $query->result_array();
-    //     } else {
-    //         return array(); // No results found
-    //     }
-    // }
+        $this->db->where('id', $product_id);
+        $query = $this->db->get('products');
+        if ($query) {
+            return $query->result()[0];
+        } else {
+            return false;
+        }
+    }
 
     
     
