@@ -5,7 +5,52 @@ class Usercontroller extends CI_Controller {
 
 	public function index()
 	{
-		$this->session->set_userdata('id', 83);
+		// $this->session->set_userdata('id', 83);
+		// $id = $this->session->userdata('id');
+
+		// $data['user_data'] = $this->Usermodel->getUserData($id);
+		// $data['order_count'] = $this->Usermodel->getUserOrderCount($id);
+
+		// $this->load->view('user_header',$data);
+		// $this->load->view('user_home');
+		$this->load->view('login');
+	}
+	public function userLogin(){
+		$email = $this->input->post('email');
+		$password = $this->input->post('password');
+		$response = $this->Usermodel->userLogin($email,$password);
+		if($response ==true){
+
+			echo "<script>alert('Success');</script>";
+			$this->userHome();
+
+		}else{
+			echo json_encode($response);
+		}
+
+	}
+	public function userLogout(){
+		// Destroy user session
+		$this->session->unset_userdata('id');
+    
+		// Optionally, you can destroy all session data
+		// $this->session->sess_destroy();
+		
+		// Redirect to the login page or any other page after logout
+		redirect('index.php/Usercontroller/index');
+	}
+
+	public function userHome() {
+		// Check if user is logged in
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('controller_name/login');
+		}
+		
+		// User is logged in, proceed with user home functionality
+		$id = $this->session->userdata('id');
+		
+		// Retrieve user data and other necessary information
 		$id = $this->session->userdata('id');
 
 		$data['user_data'] = $this->Usermodel->getUserData($id);

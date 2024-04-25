@@ -81,6 +81,37 @@ class Usermodel extends CI_Model {
         }
     }
 
+    public function userLogin($email, $password) {
+        // Load Database Library if not already loaded
+        $this->load->database();
+        
+        // Query the database to check if the user exists
+        $query = $this->db->get_where('users', array('email' => $email));
+        
+        // Check if a user with the given username exists
+        if ($query->num_rows() > 0) {
+            $user = $query->row(); // Get the user row
+            
+            // Verify password
+            if (password_verify($password, $user->password)) {
+                
+                // Password is correct, login successful
+                $this->session->set_userdata('id', $user->id);
+
+                return true;
+            } else {
+                // Password is incorrect
+                return false;
+                
+            }
+        } else {
+            // User with the given username does not exist
+            echo json_encode("User with the given username does not exist");
+                die();
+            return false;
+        }
+    }
+    
     
     
     
