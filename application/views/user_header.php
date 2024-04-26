@@ -228,6 +228,15 @@
 			</a>
 		</li>
     <li class="nav-item">
+    <a href="<?php echo base_url('index.php/Usercontroller/userProductQuery')?>" class="nav-link">
+          <i class="nav-icon fas fa-search"></i>
+          <p>
+              Product Query
+          </p>
+      </a>
+    </li>
+
+    <li class="nav-item">
 			<a href="<?php echo base_url('index.php/Usercontroller/userViewComposition')?>" class="nav-link">
 				<i class="nav-icon fas fa-id-card"></i>
 				<p>

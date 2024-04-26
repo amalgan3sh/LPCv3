@@ -22,7 +22,8 @@ class Usercontroller extends CI_Controller {
 		if($response ==true){
 
 			echo "<script>alert('Success');</script>";
-			$this->userHome();
+			// $this->userHome();
+			redirect('index.php/Usercontroller/userHome');
 
 		}else{
 			echo json_encode($response);
@@ -44,7 +45,7 @@ class Usercontroller extends CI_Controller {
 		// Check if user is logged in
 		if (!$this->session->userdata('id')) {
 			// User is not logged in, redirect to login page
-			redirect('controller_name/login');
+			redirect('index.php/Usercontroller/index');
 		}
 		
 		// User is logged in, proceed with user home functionality
@@ -108,5 +109,53 @@ class Usercontroller extends CI_Controller {
 		echo "<script>alert('Added to cart');</script>";
 		$this->userViewCart();
 	}
+	public function userProductQuery(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['categories'] = $this->Usermodel->getCategory();
+		$data['dosage_from'] = $this->Usermodel->getDosageFrom();
+		$this->load->view('user_header',$data);
+		$this->load->view('user_product_query');
+	}
+	public function userAddProductQuery(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$data['user_id'] = $this->session->userdata('id');
+		$data['product_name'] = $this->input->post('product_name');
+		$data['drug_category'] = $this->input->post('drug_category');
+		$data['dosage_from'] = $this->input->post('dosage_from');
+		$data['packing_size'] = $this->input->post('packing_size');
+		$data['pharmacopeia'] = $this->input->post('pharmacopeia');
+		$data['sample_photo'] = $this->input->post('sample_photo');
+		$data['quantity'] = $this->input->post('quantity');
+		$data['comments'] = $this->input->post('comments');
+		$data['date_time'] = $this->input->post('estimate_date');
+
+		$response = $this->Usermodel->userAddProductQuery($data);
+		if($response ==true){
+			echo "<script>alert('Added to cart');</script>";
+			redirect('index.php/Usercontroller/userProductQuery');
+		} else {
+			echo "false";
+		}
+	}
+
+	public function InquiryDetails(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$this->load->view('user_header',$data);
+		$this->load->view('user_product_query_details');
+	}
+
 	
 }

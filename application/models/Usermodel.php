@@ -112,10 +112,23 @@ class Usermodel extends CI_Model {
         }
     }
     
-    
-    
-    
-    
-    
-    
+    public function getCategory(){
+        $result = $this->db->get('categories');
+        return $result->result_array();
+    }
+    public function getDosageFrom(){
+        $result = $this->db->get('dosage_from');
+        return $result->result_array();
+    }
+    public function userAddProductQuery($data){
+        $this->db->insert('product_inquiry', $data);
+
+        // Check if the insertion was successful
+        if ($this->db->affected_rows() > 0) {
+            // Return the inquiry_id if successful
+            return true;
+        } else {
+            return false; // Return false if failed
+        }
+    } 
 }
