@@ -193,7 +193,6 @@ class Usercontroller extends CI_Controller {
 				// Email does not exist, proceed with registration
 				$response = $this->Usermodel->registerUser($data);
 				if ($response == true) {
-					echo "<script>alert('Success');</script>";
 					redirect('index.php/Usercontroller/index');
 				}
 			}
