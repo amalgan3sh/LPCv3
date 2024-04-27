@@ -20,9 +20,6 @@ class Usercontroller extends CI_Controller {
 		$password = $this->input->post('password');
 		$response = $this->Usermodel->userLogin($email,$password);
 		if($response ==true){
-
-			echo "<script>alert('Success');</script>";
-			// $this->userHome();
 			redirect('index.php/Usercontroller/userHome');
 
 		}else{
