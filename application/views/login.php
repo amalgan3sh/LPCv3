@@ -17,7 +17,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="<?php echo base_url('assets/')?>index2.html"><b>Admin</b>LTE</a>
+    <a href="<?php echo base_url('assets/')?>index2.html"><b>Lakshmi</b>Login</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -73,7 +73,7 @@
         <a href="forgot-password.html">I forgot my password</a>
       </p>
       <p class="mb-0">
-        <a href="<?php echo base_url('assets/')?>" class="text-center">Register a new membership</a>
+        <a href="<?php echo base_url('index.php/Usercontroller/userSignup')?>" class="text-center">Sign up</a>
       </p>
     </div>
     <!-- /.login-card-body -->

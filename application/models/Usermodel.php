@@ -131,4 +131,29 @@ class Usermodel extends CI_Model {
             return false; // Return false if failed
         }
     } 
+    public function registerUser($data) {
+        // Insert user data into the database
+        $this->db->insert('users', $data);
+        
+        // Check if the insertion was successful
+        if ($this->db->affected_rows() > 0) {
+            // Insertion successful
+            return true;
+        } else {
+            // Insertion failed
+            return false;
+        }
+    }
+    public function getUserByEmail($email){
+        // Query to fetch user by email
+        $this->db->where('email', $email);
+        $query = $this->db->get('users');
+
+        // Check if user exists
+        if ($query->num_rows() > 0) {
+            return true; // Return user data
+        } else {
+            return false; // User not found
+        }
+    }
 }

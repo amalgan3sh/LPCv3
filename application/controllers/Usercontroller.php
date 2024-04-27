@@ -157,5 +157,53 @@ class Usercontroller extends CI_Controller {
 		$this->load->view('user_product_query_details');
 	}
 
+	public function userSignup(){
+		$this->load->view('register');
+	}
+
+	public function registerUser() {
+		// Check if the form is submitted
+		if ($this->input->post()) {
+			// Get form data
+			$data = array(
+				'firstname' => $this->input->post('first_name'),
+				'lastname' => $this->input->post('last_name'),
+				'cname' => $this->input->post('company_name'),
+				'email' => $this->input->post('email'),
+				'mobile' => $this->input->post('phone'),
+				'address' => $this->input->post('signin_address'),
+				'designation' => $this->input->post('designation'),
+				'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+				'import' => $this->input->post('import_country'),
+				'order_address' => $this->input->post('delivery_address'),
+				'message' => $this->input->post('message'),
+				// Add other form fields here
+			);
+	
+			// Check if email already exists
+			$existingUser = $this->Usermodel->getUserByEmail($data['email']);
+			// echo json_encode($existingUser);
+			// die();
+			if ($existingUser==true) {
+				// Email already exists, show alert
+				
+				$this->session->set_flashdata('error_message', 'Email already exists');
+				redirect('index.php/Usercontroller/userSignup');
+			} else {
+				// Email does not exist, proceed with registration
+				$response = $this->Usermodel->registerUser($data);
+				if ($response == true) {
+					echo "<script>alert('Success');</script>";
+					redirect('index.php/Usercontroller/index');
+				}
+			}
+		} else {
+			// Form not submitted
+			echo "<script>alert('Error');</script>";
+			redirect('index.php/Usercontroller/userSignup');
+		}
+	}
+	
+
 	
 }
