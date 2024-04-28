@@ -261,6 +261,82 @@ class Usercontroller extends CI_Controller {
 		$this->load->view('user_view_product_inquiry');
 
 	}
+	public function KYCRegistration(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['document_exist'] = $this->Usermodel->getUserDocuments($id );
+		$data['kyc_registration'] = $this->Usermodel->getKycRegistration($id );
+
+		$this->load->view('user_header',$data);
+		$this->load->view('user_kyc_registration');
+
+	}
+	public function userUploadDocuments(){
+		// Check if the user is logged in
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+
+		// Check if the user has already uploaded documents
+		$userId = $this->session->userdata('id');
+		$existingDocuments = $this->Usermodel->getUserDocuments($userId);
+
+		
+
+		if ($existingDocuments ==true) {
+
+			redirect('index.php/Usercontroller/userHome');
+		}
+	
+		// Load the upload library
+		$this->load->library('upload');
+
+		
+		
+		$upload_path = FCPATH . 'assets/KYC_Documents/';
+
+		// Set the upload path in the configuration
+		$config['upload_path'] = $upload_path;
+		$config['allowed_types'] = 'gif|jpg|png|pdf'; // Specify the allowed file types
+		$config['max_size'] = 2048; // Specify the maximum file size in kilobytes
+		$config['encrypt_name'] = TRUE; // Encrypt the file name
+		$this->upload->initialize($config);
+		
+		// Check if files are being uploaded
+		if ($this->upload->do_upload('drug_license') && $this->upload->do_upload('national_id_proof') && $this->upload->do_upload('company_incorporation')) {
+			// Files uploaded successfully
+			// Get uploaded file data
+			$upload_data1 = $this->upload->data('drug_licence');
+			$upload_data2 = $this->upload->data('national_id_proof');
+			$upload_data3 = $this->upload->data('company_incorporation');
+			$data['company_incorporation_certificate'] = $_FILES["company_incorporation"]['name'];
+			$data['drug_license'] = $_FILES["drug_license"]['name'];
+			$data['national_id_proof'] =$_FILES["national_id_proof"]['name'];
+			$data['user_id']=$this->session->userdata('id');
+			$data['status']='pending';
+			
+			// Here you can process the uploaded files, for example, store their details in the database
+			$response = $this->Usermodel->userUploadDocuments($data);
+			if($response==true){
+				redirect('index.php/Usercontroller/userHome');
+			}			
+			// Redirect or load a view as needed
+		} else {
+			// Error uploading files
+			$error1 = $this->upload->display_errors();
+			$error2 = $this->upload->display_errors();
+			$error3 = $this->upload->display_errors();
+			redirect('index.php/Usercontroller/userHome');
+			
+			// Handle the errors as needed
+		}
+	}
+	
 	
 
 	

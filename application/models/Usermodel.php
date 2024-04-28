@@ -168,4 +168,58 @@ class Usermodel extends CI_Model {
             return false;
         }
     }
+    public function userUploadDocuments($data){
+        // Insert user data into the database
+        $this->db->insert('kyc_registration', $data);
+
+        // Check if the insertion was successful
+        if ($this->db->affected_rows() > 0) {
+
+            return "true";
+        } else {
+            // Insertion failed
+            return false;
+        }
+    }
+
+    public function getUserDocuments($userId) {
+        // Assuming you have a table named 'user_documents' to store uploaded documents
+        // Adjust the table name and column names as per your database schema
+        $this->db->where('user_id', $userId);
+        $query = $this->db->get('kyc_registration');
+        
+        $result = $query->num_rows();
+        if($result > 0){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+    public function getKycRegistration($id){
+        // Assuming $id is the user_id
+        
+        // Fetch KYC registration data for the user from the database
+        // Replace 'kyc_registration' with your actual table name
+        $query = $this->db->get_where('kyc_registration', array('user_id' => $id));
+        
+        // Check if data exists for the user
+        if($query->num_rows() > 0){
+            // Get the row
+            $row = $query->row();
+            
+            // Format the data into an array
+            $kyc_data = array(
+                'drug_license' => $row->drug_license ? true : false,
+                'national_id_proof' => $row->national_id_proof ? true : false,
+                'company_incorporation_certificate' => $row->company_incorporation_certificate ? true : false,
+                // Add more fields as needed
+            );
+            
+            return $kyc_data;
+        } else {
+            // No KYC registration data found for the user
+            return false;
+        }
+    }
 }

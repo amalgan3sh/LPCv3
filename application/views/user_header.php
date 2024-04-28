@@ -228,32 +228,40 @@
 			</a>
 		</li>
     <li class="nav-item">
-    <a href="<?php echo base_url('index.php/Usercontroller/userProductQuery')?>" class="nav-link">
+        <a href="#" class="nav-link">
           <i class="nav-icon fas fa-search"></i>
           <p>
-              Product Query
+            Inquiry
+            <i class="right fas fa-angle-left"></i>
           </p>
-      </a>
-    </li>
-    <li class="nav-item">
-    <a href="<?php echo base_url('index.php/Usercontroller/userViewProductInquiry')?>" class="nav-link">
-    <i class="nav-icon fas fa-chart-line"></i>
-        <p>
-            Inquiry Status
-        </p>
-    </a>
-</li>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">
+            <a href="<?php echo base_url('index.php/Usercontroller/userProductQuery')?>" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Inquire Product</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url('index.php/Usercontroller/userViewProductInquiry')?>" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Inquiry Status</p>
+            </a>
+          </li>
+        </ul>
+      </li>
 
-    <li class="nav-item">
+
+    <!-- <li class="nav-item">
 			<a href="<?php echo base_url('index.php/Usercontroller/userViewComposition')?>" class="nav-link">
 				<i class="nav-icon fas fa-id-card"></i>
 				<p>
 					Order
 				</p>
 			</a>
-		</li>
+		</li> -->
 		<li class="nav-item">
-			<a href="pages/widgets.html" class="nav-link">
+			<a href="<?php echo base_url('index.php/Usercontroller/KYCRegistration')?>" class="nav-link">
 				<i class="nav-icon fas fa-id-card"></i>
 				<p>
 					KYC Registration
