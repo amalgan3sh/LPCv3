@@ -156,4 +156,16 @@ class Usermodel extends CI_Model {
             return false; // User not found
         }
     }
+    public function userViewProductInquiry($id){
+        $query = $this->db->get_where('product_inquiry', array('user_id' => $id));
+
+        // Check if there are any results
+        if ($query->num_rows() > 0) {
+            // If there are results, return the data as an array of objects
+            return $query->result_array();
+        } else {
+            // If no results found, return false or an empty array, depending on your preference
+            return false;
+        }
+    }
 }

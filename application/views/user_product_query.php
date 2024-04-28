@@ -6,13 +6,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Project Add</h1>
+            <h1>Product Inquiry</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Product Inquiry</li>
-              <li class="breadcrumb-item active">Add additional details</li>
             </ol>
           </div>
         </div>
@@ -33,16 +32,16 @@
                 </button>
               </div>
             </div>
-            <form method="post" action="<?php echo base_url('index.php/Usercontroller/userAddProductQuery') ?>">
+            <form method="post" action="<?php echo base_url('index.php/Usercontroller/userAddProductQuery') ?>"  enctype="multipart/form-data">
 
             <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Product Name</label>
-                    <input type="name" name="product_name" class="form-control" id="product_name" placeholder="Enter Product Name">
+                    <input type="name" required name="product_name" class="form-control" id="product_name" placeholder="Enter Product Name">
                   </div>
                   <div class="form-group">
                     <label for="category">Category</label>
-                    <select id="drug_category" name="drug_category" class="custom-select">
+                    <select id="drug_category" name="drug_category" class="custom-select" required>
                         <option value="" disabled selected>Select a drug category</option>
                         <?php foreach ($categories as $category) : ?>
                             <option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
@@ -51,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     <label for="dosage_from">Dosage from</label>
-                    <select id="dosage_from" name="dosage_from" class="custom-select">
+                    <select id="dosage_from" name="dosage_from" class="custom-select" required>
                         <option value="" disabled selected>Select dosage from</option>
                         <?php foreach ($dosage_from as $dosage) : ?>
                             <option value="<?php echo $dosage['dosage_id']; ?>"><?php echo $dosage['dosage_name']; ?></option>
@@ -60,11 +59,11 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Packing Size</label>
-                    <input type="name" name="packing_size" class="form-control" id="packing_size" placeholder="Enter packing size">
+                    <input type="name" name="packing_size" class="form-control" id="packing_size" placeholder="Enter packing size" required>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Pharmacopeia</label>
-                    <input type="name" name="pharmacopeia" class="form-control" id="pharmacopeia" placeholder="Enter pharmacopeia">
+                    <input type="name" name="pharmacopeia" class="form-control" id="pharmacopeia" placeholder="Enter pharmacopeia" required>
                   </div>
             </div>
             <!-- /.card-body -->
@@ -85,19 +84,24 @@
             <div class="card-body">
               <div class="form-group">
                 <label for="inputEstimatedBudget">Sample photo</label>
-                <input type="text" name = "sample_photo" id="sample_photo" class="form-control">
+                <input type="file" name = "sample_photo" id="sample_photo" class="form-control">
               </div>
               <div class="form-group">
                 <label for="inputSpentBudget">Quantity</label>
-                <input type="number" name ="quantity" id="inputSpentBudget" class="form-control">
+                <input type="number" name ="quantity" placeholder = "Enter quantity" id="inputSpentBudget" class="form-control">
               </div>
               <div class="form-group">
-                <label for="inputSpentBudget">Comments</label>
-                <input type="number" name = "comments" id="inputSpentBudget" class="form-control">
+                <label>Comments</label>
+                <textarea class="form-control" name="comments" rows="3" placeholder="Enter comments"></textarea>
               </div>
               <div class="form-group">
                 <label for="inputEstimatedDuration">Estimated Date you need this product</label>
-                <input type="number" name = "estimate_date" id="inputEstimatedDuration" class="form-control">
+                <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <input type="date" name = "estimate_date" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
               </div>
             </div>
             <!-- /.card-body -->
@@ -115,6 +119,7 @@
     </section>
     <!-- /.content -->
   </div>
+  
   <!-- /.content-wrapper -->
 
   <footer class="main-footer">
