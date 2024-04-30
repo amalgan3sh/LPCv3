@@ -88,29 +88,38 @@ class Usermodel extends CI_Model {
         // Query the database to check if the user exists
         $query = $this->db->get_where('users', array('email' => $email));
         
-        // Check if a user with the given username exists
+        // Check if a user with the given email exists
         if ($query->num_rows() > 0) {
             $user = $query->row(); // Get the user row
             
             // Verify password
             if (password_verify($password, $user->password)) {
-                
                 // Password is correct, login successful
-                $this->session->set_userdata('id', $user->id);
-
-                return true;
+                
+                // Check user role
+                if ($user->role == 'admin') {
+                    // If user is admin, redirect to admin home
+                    $this->session->set_userdata('id', $user->id);
+                    redirect(base_url('index.php/Admincontroller/adminDashboard'));
+                } elseif ($user->role == 'customer') {
+                    
+                    // If user is customer, redirect to user home
+                    $this->session->set_userdata('id', $user->id);
+                    redirect(base_url('index.php/Usercontroller/userHome'));
+                } else {
+                    // Invalid role, handle accordingly (e.g., display error message)
+                    return "Invalid role for user.";
+                }
             } else {
                 // Password is incorrect
                 return false;
-                
             }
         } else {
-            // User with the given username does not exist
-            echo json_encode("User with the given username does not exist");
-                die();
-            return false;
+            // User with the given email does not exist
+            return "User with the given email does not exist";
         }
     }
+    
     
     public function getCategory(){
         $result = $this->db->get('categories');

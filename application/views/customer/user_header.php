@@ -209,24 +209,22 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item">
+            <a href="<?php echo base_url('index.php/Usercontroller/userHome') ?>" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-
           </li>
           <li class="nav-item">
-			<a href="<?php echo base_url('index.php/Usercontroller/userProfile') ?>" class="nav-link">
-				<i class="nav-icon fas fa-user"></i>
-				<p>
-					My Profile
-				</p>
-			</a>
-		</li>
+            <a href="<?php echo base_url('index.php/Usercontroller/userProfile') ?>" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                My Profile
+              </p>
+            </a>
+          </li>
     <li class="nav-item">
         <a href="#" class="nav-link">
           <i class="nav-icon fas fa-search"></i>

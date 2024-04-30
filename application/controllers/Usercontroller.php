@@ -54,8 +54,8 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['order_count'] = $this->Usermodel->getUserOrderCount($id);
 
-		$this->load->view('user_header',$data);
-		$this->load->view('user_home');
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_home');
 	}
 	public function userProfile(){
 		if (!$this->session->userdata('id')) {
@@ -64,8 +64,8 @@ class Usercontroller extends CI_Controller {
 		}
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
-		$this->load->view('user_header',$data);
-		$this->load->view('user_profile');
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_profile');
 	}
 	public function userUpdateProfile(){
 		if (!$this->session->userdata('id')) {
@@ -94,8 +94,8 @@ class Usercontroller extends CI_Controller {
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['composition'] = $this->Usermodel->getComposition();
-		$this->load->view('user_header',$data);
-		$this->load->view('user_view_composition');
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_view_composition');
 	}
 	public function userViewProducts(){
 		if (!$this->session->userdata('id')) {
@@ -106,8 +106,8 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$composition_name = $this->input->get('composition_name');
 		$data['products'] = $this->Usermodel->getProductsByComposition($composition_name);
-		$this->load->view('user_header',$data);
-		$this->load->view('user_view_products');
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_view_products');
 	}
 	public function userViewCart(){
 		if (!$this->session->userdata('id')) {
@@ -118,8 +118,8 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$product_id = $this->input->get('product_id');
 		$data['product_details'] = $this->Usermodel->getProductDetails($product_id);
-		$this->load->view('user_header',$data);
-		$this->load->view('user_view_cart');
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_view_cart');
 	}
 
 	public function userAddToCart(){
@@ -135,8 +135,8 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['categories'] = $this->Usermodel->getCategory();
 		$data['dosage_from'] = $this->Usermodel->getDosageFrom();
-		$this->load->view('user_header',$data);
-		$this->load->view('user_product_query');
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_product_query');
 	}
 	public function userAddProductQuery(){
 		if (!$this->session->userdata('id')) {
@@ -195,8 +195,8 @@ class Usercontroller extends CI_Controller {
 		}
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
-		$this->load->view('user_header',$data);
-		$this->load->view('user_product_query_details');
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_product_query_details');
 	}
 
 	public function userSignup(){
@@ -204,10 +204,7 @@ class Usercontroller extends CI_Controller {
 	}
 
 	public function registerUser() {
-		if (!$this->session->userdata('id')) {
-			// User is not logged in, redirect to login page
-			redirect('index.php/Usercontroller/index');
-		}
+
 		// Check if the form is submitted
 		if ($this->input->post()) {
 			// Get form data
@@ -257,8 +254,8 @@ class Usercontroller extends CI_Controller {
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['product_inquiry'] = $this->Usermodel->userViewProductInquiry($id);
-		$this->load->view('user_header',$data);
-		$this->load->view('user_view_product_inquiry');
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_view_product_inquiry');
 
 	}
 	public function KYCRegistration(){
@@ -271,8 +268,8 @@ class Usercontroller extends CI_Controller {
 		$data['document_exist'] = $this->Usermodel->getUserDocuments($id );
 		$data['kyc_registration'] = $this->Usermodel->getKycRegistration($id );
 
-		$this->load->view('user_header',$data);
-		$this->load->view('user_kyc_registration');
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_kyc_registration');
 
 	}
 	public function userUploadDocuments(){
@@ -364,8 +361,8 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
 
-		$this->load->view('user_header',$data);
-		$this->load->view('user_kyc_status');
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_kyc_status');
 	}
 	
 	
