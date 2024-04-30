@@ -281,60 +281,91 @@ class Usercontroller extends CI_Controller {
 			// User is not logged in, redirect to login page
 			redirect('index.php/Usercontroller/index');
 		}
-
+	
 		// Check if the user has already uploaded documents
 		$userId = $this->session->userdata('id');
 		$existingDocuments = $this->Usermodel->getUserDocuments($userId);
-
-		
-
-		if ($existingDocuments ==true) {
-
+	
+		if ($existingDocuments) {
 			redirect('index.php/Usercontroller/userHome');
 		}
-	
+		
 		// Load the upload library
 		$this->load->library('upload');
-
-		
 		
 		$upload_path = FCPATH . 'assets/KYC_Documents/';
-
+		
 		// Set the upload path in the configuration
 		$config['upload_path'] = $upload_path;
 		$config['allowed_types'] = 'gif|jpg|png|pdf'; // Specify the allowed file types
 		$config['max_size'] = 2048; // Specify the maximum file size in kilobytes
-		$config['encrypt_name'] = TRUE; // Encrypt the file name
+		$config['encrypt_name'] = FALSE; // Do not encrypt the file name
 		$this->upload->initialize($config);
 		
 		// Check if files are being uploaded
 		if ($this->upload->do_upload('drug_license') && $this->upload->do_upload('national_id_proof') && $this->upload->do_upload('company_incorporation')) {
 			// Files uploaded successfully
 			// Get uploaded file data
-			$upload_data1 = $this->upload->data('drug_licence');
+			$upload_data1 = $this->upload->data('drug_license');
 			$upload_data2 = $this->upload->data('national_id_proof');
 			$upload_data3 = $this->upload->data('company_incorporation');
-			$data['company_incorporation_certificate'] = $_FILES["company_incorporation"]['name'];
-			$data['drug_license'] = $_FILES["drug_license"]['name'];
-			$data['national_id_proof'] =$_FILES["national_id_proof"]['name'];
-			$data['user_id']=$this->session->userdata('id');
-			$data['status']='pending';
 			
-			// Here you can process the uploaded files, for example, store their details in the database
-			$response = $this->Usermodel->userUploadDocuments($data);
-			if($response==true){
-				redirect('index.php/Usercontroller/userHome');
-			}			
-			// Redirect or load a view as needed
+			// Generate unique names for each file
+			$userId = $this->session->userdata('id');
+			$timestamp = date('YmdHis');
+			$drugLicenseName = $userId . '_' . $timestamp . '_' . $_FILES["drug_license"]['name'];
+			$nationalIdProofName = $userId . '_' . $timestamp . '_' . $_FILES["national_id_proof"]['name'];
+			$companyIncorporationName = $userId . '_' . $timestamp . '_' . $_FILES["company_incorporation"]['name'];
+			
+			// Move the uploaded files to the destination folder with the custom names
+			$uploadSuccess1 = move_uploaded_file($_FILES['drug_license']['tmp_name'], $upload_path . $drugLicenseName);
+			$uploadSuccess2 = move_uploaded_file($_FILES['national_id_proof']['tmp_name'], $upload_path . $nationalIdProofName);
+			$uploadSuccess3 = move_uploaded_file($_FILES['company_incorporation']['tmp_name'], $upload_path . $companyIncorporationName);
+			
+			if ($uploadSuccess1 && $uploadSuccess2 && $uploadSuccess3) {
+				// Files moved successfully, insert their details into the database
+				$data['company_incorporation_certificate'] = $companyIncorporationName;
+				$data['drug_license'] = $drugLicenseName;
+				$data['national_id_proof'] = $nationalIdProofName;
+				$data['user_id'] = $userId;
+				$data['status'] = 'pending';
+				
+				// Insert document details into the database
+				$response = $this->Usermodel->userUploadDocuments($data);
+				
+				if ($response) {
+					redirect('index.php/Usercontroller/KYCRegistration');
+				} else {
+					// Error inserting data into the database
+					// Handle the error as needed
+				}
+			} else {
+				// Error moving files to the destination folder
+				// Handle the error as needed
+			}
 		} else {
 			// Error uploading files
 			$error1 = $this->upload->display_errors();
 			$error2 = $this->upload->display_errors();
 			$error3 = $this->upload->display_errors();
 			redirect('index.php/Usercontroller/userHome');
-			
 			// Handle the errors as needed
 		}
+	}
+	
+
+	public function userKycStatus(){
+		// Check if the user is logged in
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
+
+		$this->load->view('user_header',$data);
+		$this->load->view('user_kyc_status');
 	}
 	
 	

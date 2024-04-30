@@ -222,4 +222,9 @@ class Usermodel extends CI_Model {
             return false;
         }
     }
+    public function getUserDocumentsSubmitted($id){
+        $this->db->where('user_id', $id);
+        $query = $this->db->get('kyc_registration');
+        return $query->result_array();
+    }
 }

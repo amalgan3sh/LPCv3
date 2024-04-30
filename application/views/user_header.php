@@ -251,6 +251,30 @@
         </ul>
       </li>
 
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="nav-icon fas fa-id-card"></i>
+          <p>
+            KYC Registration
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">
+            <a href="<?php echo base_url('index.php/Usercontroller/KYCRegistration')?>" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Upload Documents</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url('index.php/Usercontroller/userKycStatus')?>" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>KYC Status</p>
+            </a>
+          </li>
+        </ul>
+      </li>
+
 
     <!-- <li class="nav-item">
 			<a href="<?php echo base_url('index.php/Usercontroller/userViewComposition')?>" class="nav-link">
@@ -260,14 +284,7 @@
 				</p>
 			</a>
 		</li> -->
-		<li class="nav-item">
-			<a href="<?php echo base_url('index.php/Usercontroller/KYCRegistration')?>" class="nav-link">
-				<i class="nav-icon fas fa-id-card"></i>
-				<p>
-					KYC Registration
-				</p>
-			</a>
-		</li>
+
 		<li class="nav-item">
 			<a href="pages/widgets.html" class="nav-link">
 				<i class="nav-icon fas fa-truck"></i>
