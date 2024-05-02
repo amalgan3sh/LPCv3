@@ -220,6 +220,7 @@ class Usercontroller extends CI_Controller {
 				'import' => $this->input->post('import_country'),
 				'order_address' => $this->input->post('delivery_address'),
 				'message' => $this->input->post('message'),
+				'role' => 'customer',
 				// Add other form fields here
 			);
 	
