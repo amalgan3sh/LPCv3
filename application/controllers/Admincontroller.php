@@ -49,15 +49,31 @@ class Admincontroller extends CI_Controller {
 		
 	}
 	public function adminViewUserProfile(){
-        if (!$this->session->userdata('id')) {
+		if (!$this->session->userdata('id')) {
 			// User is not logged in, redirect to login page
 			redirect('index.php/Usercontroller/index');
 		}
-
-        $id = $this->session->userdata('id');
-
+	
+		$id = $this->session->userdata('id');
+	
+		// Pagination configuration
+		$config['base_url'] = base_url('index.php/Admincontroller/adminViewUserProfile');
+		$config['total_rows'] = $this->Usermodel->countAllUserData(); // Method to count total users
+		$config['per_page'] = 9; // Number of users per page
+		$config['uri_segment'] = 3; // URI segment containing the page number
+	
+		// Initialize pagination
+		$this->pagination->initialize($config);
+	
+		// Fetch user data for the current page
+		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		$data['users'] = $this->Usermodel->getUsersPerPage($config['per_page'], $page);
+	
+		// Load view with pagination links
+		$data['pagination_links'] = $this->pagination->create_links();
 		$data['user_data'] = $this->Usermodel->getUserData($id);
-        $this->load->view('admin/admin_header',$data);
-        $this->load->view('admin/admin_view_user_profile',$data);
-    }
+		$this->load->view('admin/admin_header',$data);
+		$this->load->view('admin/admin_view_user_profile',$data);
+	}
+	
 }

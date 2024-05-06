@@ -236,4 +236,20 @@ class Usermodel extends CI_Model {
         $query = $this->db->get('kyc_registration');
         return $query->result_array();
     }
+    public function getAllUserData(){
+        $query = $this->db->get('users');
+        return $query->result();
+    }
+    // Method to count total users
+    public function countAllUserData(){
+        return $this->db->count_all('users');
+    }
+
+    // Method to fetch users for the current page
+    public function getUsersPerPage($limit, $offset){
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get('users');
+        return $query->result();
+    }
+
 }
