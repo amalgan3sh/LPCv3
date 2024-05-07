@@ -252,4 +252,57 @@ class Usermodel extends CI_Model {
         return $query->result();
     }
 
+    public function AdminInsertUser($data) {
+        // Insert data into the 'users' table
+        $inserted = $this->db->insert('users', $data);
+
+        // Check if insertion was successful and return the result
+        return $inserted;
+    }
+    public function getUserProfile($user_id){
+        $this->db->where('id', $user_id);
+        $query = $this->db->get('users');
+
+        if ($query) {
+            return $query->result_array()[0];
+        } else {
+            return false;
+        }
+    }
+    public function getProductInquiries(){
+        // Select data from product_inquiry table and join with users table
+        $query = $this->db->select('product_inquiry.*, users.*')
+                          ->from('product_inquiry')
+                          ->join('users', 'product_inquiry.user_id = users.id')
+                          ->get();
+    
+        // Check if there are any rows returned
+        if ($query->num_rows() > 0) {
+            return $query->result_array(); // Return the result as an array of arrays
+        } else {
+            return array(); // Return an empty array if no rows found
+        }
+    }
+    public function getProductInquiryDetails($inquiry_id){
+        // Custom SQL query to fetch detailed data
+        $query = $this->db->query("SELECT product_inquiry.*, dosage_from.dosage_name, 
+                                        categories.name AS category_name, CONCAT(users.firstname, ' ', users.lastname) AS username,
+                                        comments,users.cname,users.order_address
+                                    FROM product_inquiry
+                                    INNER JOIN categories ON product_inquiry.drug_category = categories.id
+                                    INNER JOIN dosage_from ON product_inquiry.dosage_from = dosage_from.dosage_id
+                                    INNER JOIN users ON product_inquiry.user_id = users.id
+                                    WHERE inquiry_id = $inquiry_id");
+    
+        // Check if there are any rows returned
+        if ($query->num_rows() > 0) {
+            return $query->row_array(); // Return the first row as an associative array
+        } else {
+            return null; // Return null if no rows found
+        }
+    }
+    
+    
+    
+
 }

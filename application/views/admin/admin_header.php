@@ -14,6 +14,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>dist/css/adminlte.min.css">
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/toastr/toastr.min.css">
+  <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/bs-stepper/css/bs-stepper.min.css">
 </head>
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -224,13 +225,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo base_url('index.php/Usercontroller/userProductQuery')?>" class="nav-link">
+                <a href="<?php echo base_url('index.php/Admincontroller/adminUserRegistration')?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Users</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url('index.php/Admincontroller/adminViewUserProfile')?>" class="nav-link">
+                <a href="<?php echo base_url('index.php/Admincontroller/adminViewUsers')?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Users</p>
                 </a>
@@ -238,7 +239,7 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="<?php echo base_url('assets/')?>pages/widgets.html" class="nav-link">
+            <a href="<?php echo base_url('index.php/Admincontroller/adminViewInquiry')?>" class="nav-link">
               <i class="nav-icon fas fa-comment"></i> <!-- Inquiry icon -->
               <p>Inquiry</p>
             </a>
