@@ -343,9 +343,15 @@ class Usermodel extends CI_Model {
         }
     }
     
-    
-    
-    
-    
-
+    public function AddWhiteLabelProducts($data){
+        // Insert data into white_label_products table
+        $inserted = $this->db->insert('white_label_products', $data);
+        // Return true if insertion was successful, otherwise false
+        return $inserted;
+    }
+    public function getWhiteLabelProducts(){
+        $query = $this->db->get('white_label_products');
+        // Return the result as an array of objects
+        return $query->result();
+    }
 }

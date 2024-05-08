@@ -13,6 +13,11 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>dist/css/adminlte.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/toastr/toastr.min.css">
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/bs-stepper/css/bs-stepper.min.css">
 </head>
@@ -219,7 +224,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
-                Users
+                User management
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -234,6 +239,30 @@
                 <a href="<?php echo base_url('index.php/Admincontroller/adminViewUsers')?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Users</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>
+                Product management
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?php echo base_url('index.php/Admincontroller/whiteLabelProducts')?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>White Label Products</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url('index.php/Admincontroller/adminViewUsers')?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Branded Products</p>
                 </a>
               </li>
             </ul>
