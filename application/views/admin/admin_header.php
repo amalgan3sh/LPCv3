@@ -245,7 +245,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?php echo base_url('assets/')?>pages/widgets.html" class="nav-link">
+            <a href="<?php echo base_url('index.php/Admincontroller/adminViewKyc')?>" class="nav-link">
               <i class="nav-icon fas fa-id-card"></i> <!-- KYC Applications icon -->
               <p>KYC Applications</p>
             </a>

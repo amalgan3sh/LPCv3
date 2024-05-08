@@ -104,7 +104,7 @@
                           </small>
                       </td>
                       <td class="project-state">
-                          <span class="badge badge-warning">Pending</span>
+                          <span class="badge badge-warning"><?php echo $row['status']; ?></span>
                       </td>
                       <td class="project-actions text-right">
                           <a class="btn btn-primary btn-sm" href="<?php echo base_url('index.php/Admincontroller/productInquiryDetails?inquiry_id='.$row['inquiry_id']) ?>">
@@ -112,15 +112,15 @@
                               </i>
                               View
                           </a>
-                          <a class="btn btn-info btn-sm" href="#">
+                          <a class="btn btn-success btn-sm" href="<?php echo base_url('index.php/Admincontroller/approveProduct?inquiry_id='.$row['inquiry_id']) ?>">
                               <i class="fas fa-pencil-alt">
                               </i>
-                              Edit
+                              Approve
                           </a>
-                          <a class="btn btn-danger btn-sm" href="#">
+                          <a class="btn btn-danger btn-sm" href="<?php echo base_url('index.php/Admincontroller/rejectProduct?inquiry_id='.$row['inquiry_id']) ?>">
                               <i class="fas fa-trash">
                               </i>
-                              Delete
+                              Reject
                           </a>
                       </td>
                   </tr>

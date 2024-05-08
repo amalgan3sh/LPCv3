@@ -161,5 +161,67 @@ class Admincontroller extends CI_Controller {
         $this->load->view('admin/admin_header',$data);
         $this->load->view('admin/admin_view_product_inquiry_details',$data);
 	}
+
+	public function adminUpdateUserProfile(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		
+		$id = $this->session->userdata('id');
+		$user_id = $this->input->get_post('user_id');
+		$data['firstname'] = $this->input->get_post('firstname');
+		$data['lastname'] = $this->input->get_post('lastname');
+		$data['email'] = $this->input->get_post('email');
+		$data['mobile'] = $this->input->get_post('mobile');
+		$data['cname'] = $this->input->get_post('cname');
+		$data['designation'] = $this->input->get_post('designation');
+		$response = $this->Usermodel->userUpdateProfile($data, $user_id);
+		if($response ==true){
+            $this->session->set_flashdata('success', 'Profile updated successfully');
+
+			 redirect('index.php/Admincontroller/adminViewUserProfile?user_id='.$user_id);
+		}
+		
+	}
+	public function approveProduct(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$inquiry_id = $this->input->get('inquiry_id');
+		$response = $this->Usermodel->approveProduct($inquiry_id);
+		if($response ==true){
+            $this->session->set_flashdata('success', 'Profile updated successfully');
+
+			 redirect('index.php/Admincontroller/adminViewInquiry');
+		}
+	}
+	public function rejectProduct(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$inquiry_id = $this->input->get('inquiry_id');
+		$response = $this->Usermodel->rejectProduct($inquiry_id);
+		if($response ==true){
+            $this->session->set_flashdata('success', 'Profile updated successfully');
+
+			 redirect('index.php/Admincontroller/adminViewInquiry');
+		}
+	}
+	public function adminViewKyc(){
+        if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+
+        $id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['kyc_data'] = $this->Usermodel->getKYCData();
+
+        $this->load->view('admin/admin_header',$data);
+        $this->load->view('admin/admin_view_kyc',$data);
+    }
 	
 }

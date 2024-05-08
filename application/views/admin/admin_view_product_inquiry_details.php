@@ -42,15 +42,15 @@
               <div class="row">
                 <div class="col-12 col-sm-4">
                   <div class="info-box bg-light">
-                    <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted">Drug Category</span>
+                    <div class="info-box-content" style="min-height: 200px;">
+                      <span class="info-box-text text-center text-muted" >Drug Category</span>
                       <span class="info-box-number text-center text-muted mb-0"><?php echo $inquiry_details['category_name']; ?></span>
                     </div>
                   </div>
                 </div>
                 <div class="col-12 col-sm-4">
                   <div class="info-box bg-light">
-                    <div class="info-box-content">
+                    <div class="info-box-content" style="min-height: 200px;">
                       <span class="info-box-text text-center text-muted">Dosage From</span>
                       <span class="info-box-number text-center text-muted mb-0"><?php echo $inquiry_details['dosage_name']; ?></span>
                     </div>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="col-12 col-sm-4">
                   <div class="info-box bg-light">
-                    <div class="info-box-content">
+                    <div class="info-box-content" style="min-height: 200px;">
                       <span class="info-box-text text-center text-muted">Pharmacopeia</span>
                       <span class="info-box-number text-center text-muted mb-0"><?php echo $inquiry_details['pharmacopeia']; ?></span>
                     </div>
@@ -82,7 +82,7 @@
                       </p>
 
                       <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
+                        <a href="<?php echo base_url('assets/product_inquiry_images/').$inquiry_details['sample_photo']; ?>" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Sample Photo</a>
                       </p>
                     </div>
 
@@ -101,6 +101,12 @@
                 </p>
                 <p class="text-sm">Order Address
                   <b class="d-block"><?php echo $inquiry_details['order_address']; ?></b>
+                </p>
+                <p class="text-sm">Packing size
+                  <b class="d-block"><?php echo $inquiry_details['packing_size']; ?></b>
+                </p>
+                <p class="text-sm">Quantity
+                  <b class="d-block"><?php echo $inquiry_details['quantity']; ?></b>
                 </p>
               </div>
 
@@ -123,8 +129,8 @@
                 </li>
               </ul> -->
               <div class="text-center mt-5 mb-3">
-                <a href="#" class="btn btn-sm btn-success">Approve</a>
-                <a href="#" class="btn btn-sm btn-danger">Reject</a>
+                <a href="<?php echo base_url('index.php/Admincontroller/approveProduct?inquiry_id='.$inquiry_details['inquiry_id']) ?>" class="btn btn-sm btn-success">Approve</a>
+                <a href="<?php echo base_url('index.php/Admincontroller/rejectProduct?inquiry_id='.$inquiry_details['inquiry_id']) ?>" class="btn btn-sm btn-danger">Reject</a>
               </div>
             </div>
           </div>

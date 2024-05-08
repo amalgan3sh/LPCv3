@@ -301,6 +301,49 @@ class Usermodel extends CI_Model {
             return null; // Return null if no rows found
         }
     }
+
+    public function approveProduct($inquiry_id){
+        // Data to be updated
+        $data = array(
+            'status' => 'approved'
+        );
+    
+        // Update the product_inquiry table where inquiry_id matches $inquiry_id
+        $this->db->where('inquiry_id', $inquiry_id);
+        $this->db->update('product_inquiry', $data);
+    
+        // Check if the update was successful
+        return $this->db->affected_rows() > 0; // Return true if rows were affected
+    }
+    public function rejectProduct($inquiry_id){
+        // Data to be updated
+        $data = array(
+            'status' => 'rejected'
+        );
+    
+        // Update the product_inquiry table where inquiry_id matches $inquiry_id
+        $this->db->where('inquiry_id', $inquiry_id);
+        $this->db->update('product_inquiry', $data);
+    
+        // Check if the update was successful
+        return $this->db->affected_rows() > 0; // Return true if rows were affected
+    }
+    public function getKYCData(){
+        // Custom SQL query to fetch KYC data with usernames
+        $query = $this->db->query("SELECT kyc_registration.*, CONCAT(users.firstname, ' ', users.lastname) AS username,
+                                    users.cname AS company_name
+                                   FROM kyc_registration
+                                   INNER JOIN users ON kyc_registration.user_id = users.id");
+    
+        // Check if there are any rows returned
+        if ($query->num_rows() > 0) {
+            return $query->result_array(); // Return the result as an array of arrays
+        } else {
+            return array(); // Return an empty array if no rows found
+        }
+    }
+    
+    
     
     
     

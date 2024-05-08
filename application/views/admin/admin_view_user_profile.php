@@ -201,7 +201,9 @@
                   <!-- /.tab-pane -->
 
                   <div class="tab-pane" id="settings">
-                    <form class="form-horizontal" action="<?php echo base_url('index.php/Admincontroller/adminUpdateProfile') ?>" method="post">
+                    <form class="form-horizontal" action="<?php echo base_url('index.php/Admincontroller/adminUpdateUserProfile') ?>" method="post">
+                    <input type="hidden" name="user_id" value="<?php echo isset($_GET['user_id']) ? htmlspecialchars($_GET['user_id']) : ''; ?>">
+
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">First Name</label>
                         <div class="col-sm-10">
