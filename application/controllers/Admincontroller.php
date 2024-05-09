@@ -326,8 +326,6 @@ class Admincontroller extends CI_Controller {
 		$product_name = $this->input->post('product_name');
 		$product_description = $this->input->post('product_description');
 		$product_features = $this->input->post('features');
-		echo $product_features;
-		die();
 
 		$date_time = date("Y-m-d H:i:s");
 	
