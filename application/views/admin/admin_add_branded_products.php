@@ -7,7 +7,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Add white label products</h1>
+            <h1>Add Branded products</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -40,7 +40,7 @@
     <div class="col-md-12">
         <div class="card card-default">
             <div class="card-body p-0">
-                <form method="post" action="<?php echo site_url('index.php/Admincontroller/AddWhiteLabelProducts'); ?>" enctype="multipart/form-data">
+                <form method="post" action="<?php echo site_url('index.php/Admincontroller/AddBrandedProducts'); ?>" enctype="multipart/form-data">
                     <div class="bs-stepper">
                         <div class="bs-stepper-header" role="tablist">
                             <!-- your steps here -->
@@ -69,26 +69,27 @@
                                     <label for="product_description">Product Description</label>
                                     <textarea class="form-control" id="product_description" name="product_description" rows="3" placeholder="Enter Product Description" required></textarea>
                                 </div>
-                                <div class="form-group">
-                                    <label for="content">Content</label>
-                                    <input type="text" class="form-control" id="content" name="content" placeholder="Enter Content" required>
-                                </div>
+
                                 
                                 <button type="button" class="btn btn-primary" onclick="stepper.next()">Next</button>
                             </div>
                             <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">
                                 <div class="form-group">
-                                    <label for="dosage_form">Dosage Form</label>
-                                    <input type="text" class="form-control" id="dosage_form" name="dosage_form" placeholder="Enter Dosage Form" required>
+                                    <label for="dosage_form">Features</label>
+                                    <input type="text" class="form-control" id="features" name="features" placeholder="Enter Features" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="strength">Strength</label>
-                                    <input type="text" class="form-control" id="strength" name="strength" placeholder="Enter Strength" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="therapeutic_use">Therapeutic Use</label>
-                                    <input type="text" class="form-control" id="therapeutic_use" name="therapeutic_use" placeholder="Enter Therapeutic Use" required>
-                                </div>
+                                <!-- <div class="form-group">
+                                    <label>Multiple</label>
+                                    <select class="select2" multiple="multiple"  name="features" data-placeholder="Select Features" style="width: 100%;">
+                                        <option>Feature 1</option>
+                                        <option>Feature 2</option>
+                                        <option>Feature 3</option>
+                                        <option>Feature 4</option>
+                                        <option>Feature 5</option>
+                                        <option>Feature 6</option>
+                                        <option>Feature 7</option>
+                                    </select>
+                                </div> -->
                                 <div class="form-group">
                                     <label for="exampleInputFile">File Upload</label>
                                     <div class="input-group">
@@ -116,7 +117,7 @@
 
         <div class="card">
               <div class="card-header">
-                <h3 class="card-title">White Label Products</h3>
+                <h3 class="card-title">Branded Products</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -125,27 +126,21 @@
                   <tr>
                     <th>ID</th>
                     <th>Product Name</th>
-                    <th>Product Description</th>
-                    <th>Content</th>
-                    <th>Dosage Form</th>
-                    <th>Strength</th>
-                    <th>Therapeutic Use</th>
+                    <th>Description</th>
+                    <th>Features</th>
                     <th>Image</th>
                     <th></th>
                   </tr>
                   </thead>
                   <tbody>
-                  <?php foreach ($white_label_products as $product): ?>
+                  <?php foreach ($branded_products as $product): ?>
                   <tr>
-                    <td><?php echo $product->wl_product_id; ?></td>
+                    <td><?php echo $product->branded_product_id; ?></td>
                     <td><?php echo $product->product_name; ?></td>
                     <td><?php echo $product->product_description; ?></td>
-                    <td><?php echo $product->content; ?></td>
-                    <td><?php echo $product->dosage_form; ?></td>
-                    <td><?php echo $product->strength; ?></td>
-                    <td><?php echo $product->therapeutic_use; ?></td>
-                    <td><a href="<?php echo base_url('assets/white_label_products/' . $product->image); ?>" target="_blank">View Image</a></td>
-                    <td><a href="<?php echo base_url('index.php/Admincontroller/deleteWhiteLabelProduct?product_id='.$product->wl_product_id); ?>" class="btn btn-block btn-danger btn-sm">Delete</a></td>
+                    <td><?php echo $product->product_features; ?></td>
+                    <td><a href="<?php echo base_url('assets/branded_products/' . $product->image); ?>" target="_blank">View Image</a></td>
+                    <td><a href="<?php echo base_url('index.php/Admincontroller/deleteBrandedProduct?product_id='.$product->branded_product_id); ?>" class="btn btn-block btn-danger btn-sm">Delete</a></td>
 
                   </tr>
                   <?php endforeach; ?>
@@ -223,12 +218,148 @@
 <!-- AdminLTE App -->
 <script src="<?php echo base_url('assets/')?>dist/js/adminlte.min.js"></script>
 <script src="<?php echo base_url('assets/')?>plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="<?php echo base_url('assets/')?>plugins/select2/js/select2.full.min.js"></script>
 <!-- Toastr -->
 <script src="<?php echo base_url('assets/')?>plugins/toastr/toastr.min.js"></script><script>
 <?php if ($this->session->flashdata('success')): ?>
     toastr.success('<?php echo $this->session->flashdata("success"); ?>');
 <?php endif; ?>
 
+</script>
+
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+
+    //Date and time picker
+    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'MM/DD/YYYY hh:mm A'
+      }
+    })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Timepicker
+    $('#timepicker').datetimepicker({
+      format: 'LT'
+    })
+
+    //Bootstrap Duallistbox
+    $('.duallistbox').bootstrapDualListbox()
+
+    //Colorpicker
+    $('.my-colorpicker1').colorpicker()
+    //color picker with addon
+    $('.my-colorpicker2').colorpicker()
+
+    $('.my-colorpicker2').on('colorpickerChange', function(event) {
+      $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+    })
+
+    $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
+
+  })
+  // BS-Stepper Init
+  document.addEventListener('DOMContentLoaded', function () {
+    window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+  })
+
+  // DropzoneJS Demo Code Start
+  Dropzone.autoDiscover = false
+
+  // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+  var previewNode = document.querySelector("#template")
+  previewNode.id = ""
+  var previewTemplate = previewNode.parentNode.innerHTML
+  previewNode.parentNode.removeChild(previewNode)
+
+  var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+    url: "/target-url", // Set the url
+    thumbnailWidth: 80,
+    thumbnailHeight: 80,
+    parallelUploads: 20,
+    previewTemplate: previewTemplate,
+    autoQueue: false, // Make sure the files aren't queued until manually added
+    previewsContainer: "#previews", // Define the container to display the previews
+    clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+  })
+
+  myDropzone.on("addedfile", function(file) {
+    // Hookup the start button
+    file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file) }
+  })
+
+  // Update the total progress bar
+  myDropzone.on("totaluploadprogress", function(progress) {
+    document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+  })
+
+  myDropzone.on("sending", function(file) {
+    // Show the total progress bar when upload starts
+    document.querySelector("#total-progress").style.opacity = "1"
+    // And disable the start button
+    file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+  })
+
+  // Hide the total progress bar when nothing's uploading anymore
+  myDropzone.on("queuecomplete", function(progress) {
+    document.querySelector("#total-progress").style.opacity = "0"
+  })
+
+  // Setup the buttons for all transfers
+  // The "add files" button doesn't need to be setup because the config
+  // `clickable` has already been specified.
+  document.querySelector("#actions .start").onclick = function() {
+    myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+  }
+  document.querySelector("#actions .cancel").onclick = function() {
+    myDropzone.removeAllFiles(true)
+  }
+  // DropzoneJS Demo Code End
 </script>
 <!-- AdminLTE for demo purposes -->
 <script>

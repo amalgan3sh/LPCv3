@@ -354,4 +354,38 @@ class Usermodel extends CI_Model {
         // Return the result as an array of objects
         return $query->result();
     }
+    public function deleteWhiteLabelProduct($product_id){
+        // Perform the deletion
+        $this->db->where('wl_product_id', $product_id);
+        $success = $this->db->delete('white_label_products');
+
+        // Check if deletion was successful
+        if ($success) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function getBrandedProducts(){
+        $query = $this->db->get('branded_products');
+        // Return the result as an array of objects
+        return $query->result();
+    }
+    public function AddBrandedProducts($data){
+        // Insert data into white_label_products table
+        $inserted = $this->db->insert('branded_products', $data);
+        // Return true if insertion was successful, otherwise false
+        return $inserted;
+    }
+    public function deleteBrandedProduct($product_id){
+        $this->db->where('branded_product_id', $product_id);
+        $success = $this->db->delete('branded_products');
+
+        // Check if deletion was successful
+        if ($success) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
