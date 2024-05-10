@@ -13,6 +13,9 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>dist/css/adminlte.min.css">
+
+  <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/dropzone/min/dropzone.min.css">
+
   <!-- DataTables -->
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
@@ -286,6 +289,14 @@
             <a href="<?php echo base_url('assets/')?>pages/widgets.html" class="nav-link">
               <i class="nav-icon fas fa-shopping-cart"></i> <!-- Orders icon -->
               <p>Orders</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url('index.php/Usercontroller/userLogout') ?>" class="nav-link">
+                <i class="nav-icon fas fa-sign-out-alt"></i>
+                <p>
+                    Log out
+                </p>
             </a>
           </li>
 

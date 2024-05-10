@@ -244,11 +244,19 @@ class Usermodel extends CI_Model {
     public function countAllUserData(){
         return $this->db->count_all('users');
     }
+    public function countAllWhiteLabelProductsData(){
+        return $this->db->count_all('white_label_products');
+    }
 
     // Method to fetch users for the current page
     public function getUsersPerPage($limit, $offset){
         $this->db->limit($limit, $offset);
         $query = $this->db->get('users');
+        return $query->result();
+    }
+    public function getWhiteLabelProductsPerPage($limit, $offset){
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get('white_label_products');
         return $query->result();
     }
 
@@ -385,6 +393,20 @@ class Usermodel extends CI_Model {
         if ($success) {
             return true;
         } else {
+            return false;
+        }
+    }
+    public function userViewWhiteLabelProductDetails($product_id){
+        // Query to fetch data from white_label_products table
+        $this->db->where('wl_product_id', $product_id);
+        $query = $this->db->get('white_label_products');
+
+        // Check if any rows were returned
+        if ($query->num_rows() > 0) {
+            // Return the result as an object
+            return $query->row();
+        } else {
+            // No data found, return false or handle accordingly
             return false;
         }
     }

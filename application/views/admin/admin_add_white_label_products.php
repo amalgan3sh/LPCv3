@@ -87,8 +87,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="therapeutic_use">Therapeutic Use</label>
-                                    <input type="text" class="form-control" id="therapeutic_use" name="therapeutic_use" placeholder="Enter Therapeutic Use" required>
+                                    <textarea class="form-control" rows="3"  class="form-control" id="therapeutic_use" name="therapeutic_use" placeholder="Enter Therapeutic Use" required></textarea>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label for="exampleInputFile">File Upload</label>
                                     <div class="input-group">
@@ -130,7 +131,7 @@
                     <th>Dosage Form</th>
                     <th>Strength</th>
                     <th>Therapeutic Use</th>
-                    <th>Image</th>
+                    <th>Doc</th>
                     <th></th>
                   </tr>
                   </thead>
@@ -144,7 +145,10 @@
                     <td><?php echo $product->dosage_form; ?></td>
                     <td><?php echo $product->strength; ?></td>
                     <td><?php echo $product->therapeutic_use; ?></td>
-                    <td><a href="<?php echo base_url('assets/white_label_products/' . $product->image); ?>" target="_blank">View Image</a></td>
+                    <td>
+                        <a href="<?php echo base_url('assets/white_label_products/' . $product->image); ?>" class="btn btn-info btn-sm" target="_blank">View Docs</a>
+                        <a href="<?php echo base_url('index.php/Admincontroller/ImageuploadPage?product_id='.$product->wl_product_id); ?>" class="btn btn-warning btn-sm">Add Images</a>
+                    </td>
                     <td><a href="<?php echo base_url('index.php/Admincontroller/deleteWhiteLabelProduct?product_id='.$product->wl_product_id); ?>" class="btn btn-block btn-danger btn-sm">Delete</a></td>
 
                   </tr>

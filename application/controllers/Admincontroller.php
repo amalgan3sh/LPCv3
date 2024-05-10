@@ -254,16 +254,18 @@ class Admincontroller extends CI_Controller {
 
 		// Set the upload path in the configuration
 		$config['upload_path'] = $upload_path;
-		$config['allowed_types'] = 'gif|jpg|jpeg|png'; // Define allowed file types
+		$config['allowed_types'] = 'gif|jpg|jpeg|png|pdf'; // Define allowed file types
 		$config['max_size'] = 1024 * 5; // Define max file size (in KB)
 	
 		// Load the upload library
 		$this->load->library('upload', $config);
+		
 	
 		// Perform file upload
 		if ($this->upload->do_upload('image')) {
 			// File uploaded successfully, get file data
 			$file_data = $this->upload->data();
+			
 	
 			// Prepare data array with image file name
 			$data = array(
@@ -285,6 +287,7 @@ class Admincontroller extends CI_Controller {
 		} else {
 			// File upload failed, handle errors
 			$upload_error = $this->upload->display_errors();
+			echo $upload_error;
 	
 			// Handle the case where file upload failed
 			// For example, show an error message or redirect to an error page
@@ -379,5 +382,36 @@ class Admincontroller extends CI_Controller {
 			redirect('index.php/Admincontroller/brandedProducts');			
 		}
 	}
+
+	public function ImageuploadPage(){
+        if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+
+        $id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+
+        $this->load->view('admin/admin_header',$data);
+        $this->load->view('admin/admin_upload_white_label_product_images',$data);
+    }
+
+	public function do_upload() {
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = 1024 * 5; // 5MB
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('userfile')) {
+            // If upload fails, display error message
+            $error = array('error' => $this->upload->display_errors());
+            $this->load->view('upload_form', $error);
+        } else {
+            // If upload succeeds, process uploaded file
+            $data = array('upload_data' => $this->upload->data());
+            $this->load->view('upload_success', $data);
+        }
+    }
 	
 }

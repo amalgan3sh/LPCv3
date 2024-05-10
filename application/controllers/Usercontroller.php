@@ -365,8 +365,49 @@ class Usercontroller extends CI_Controller {
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_kyc_status');
 	}
+
+	public function userViewWhiteLabelProducts(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
 	
+		$id = $this->session->userdata('id');
 	
+		// Pagination configuration
+		$config['base_url'] = base_url('index.php/Usercontroller/userViewWhiteLabelProducts');
+		$config['total_rows'] = $this->Usermodel->countAllWhiteLabelProductsData(); // Method to count total products
+		$config['per_page'] = 9; // Number of products per page
+		$config['uri_segment'] = 3; // URI segment containing the page number
+	
+		// Initialize pagination
+		$this->pagination->initialize($config);
+	
+		// Fetch user data for the current page
+		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		$data['white_label_products'] = $this->Usermodel->getWhiteLabelProductsPerPage($config['per_page'], $page);
+	
+		// Load view with pagination links
+		$data['pagination_links'] = $this->pagination->create_links();
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_view_white_label_products',$data);
+	}
+	
+	public function userViewWhiteLabelProductDetails(){
+		// Check if the user is logged in
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$product_id = $this->input->get('product_id');
+		$data['product_details'] = $this->Usermodel->userViewWhiteLabelProductDetails($product_id);
+
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_view_white_label_product_details');
+	}
 
 	
 }
