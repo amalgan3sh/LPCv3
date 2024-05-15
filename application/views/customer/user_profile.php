@@ -29,10 +29,20 @@
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle"
-                       src="<?php echo base_url('assets/')?>/dist/img/user4-128x128.jpg"
-                       alt="User profile picture">
+                  <!-- Form for profile picture upload -->
+      <?php echo form_open_multipart('index.php/UserController/uploadProfilePicture'); ?>
+        <label for="profile-picture-upload">
+          <img id="profile-picture" class="profile-user-img img-fluid img-circle"
+               src="<?php echo base_url('assets/')?>/dist/img/user4-128x128.jpg"
+               alt="User profile picture">
+        </label>
+        <!-- Input for profile picture upload -->
+        <input type="file" id="profile-picture-upload" name="profile_picture" style="display: none;">
+        <!-- Submit button -->
+        <button type="submit" style="display: none;"></button>
+      <?php echo form_close(); ?>
                 </div>
+
 
                 <h3 class="profile-username text-center"><?php echo ($user_data['firstname'].' '.$user_data['lastname']) ?></h3>
 

@@ -409,5 +409,38 @@ class Usercontroller extends CI_Controller {
 		$this->load->view('customer/user_view_white_label_product_details');
 	}
 
+	public function uploadProfilePicture() {
+        // Check if the form is submitted
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Configuration for file upload
+            $config['upload_path'] = './uploads/';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size'] = 1024; // 1 MB max size (adjust as needed)
+            $config['overwrite'] = TRUE; // Overwrite existing file if exists
+
+            $this->load->library('upload', $config);
+
+            // Perform the file upload
+            if ($this->upload->do_upload('profile_picture')) {
+                // File uploaded successfully
+                $data = $this->upload->data();
+                $file_name = $data['file_name'];
+
+                // Update user's profile picture in the database
+                // Example: $this->user_model->updateProfilePicture($file_name);
+
+                // Redirect back to the profile page or display a success message
+                redirect('userProfile');
+            } else {
+                // File upload failed
+                $error = array('error' => $this->upload->display_errors());
+                // Handle the error (e.g., display error message)
+            }
+        } else {
+            // If the form is not submitted via POST method, redirect to the profile page
+            redirect('userProfile');
+        }
+    }
+
 	
 }
