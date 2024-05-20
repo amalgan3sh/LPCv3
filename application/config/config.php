@@ -23,8 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/lpcv3/';
-// $config['base_url'] = 'https://user.lakshmipharmaceuticals.com/';
+// $config['base_url'] = 'http://localhost:8080/lpcv3/';
+$config['base_url'] = 'https://user.lakshmipharmaceuticals.com/';
 
 /*
 |--------------------------------------------------------------------------
