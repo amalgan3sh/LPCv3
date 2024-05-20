@@ -20,6 +20,10 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>dist/css/adminlte.min.css">
   <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/bs-stepper/css/bs-stepper.min.css">
+
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Daterange picker -->
   <link rel="stylesheet" href="<?php echo base_url('assets/')?>plugins/daterangepicker/daterangepicker.css">
@@ -244,6 +248,12 @@
             <a href="<?php echo base_url('index.php/Usercontroller/userViewWhiteLabelProducts')?>" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>White Label Product</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url('index.php/Usercontroller/userViewThirdPartyManufacturedProducts')?>" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>3rd Party Manufactured</p>
             </a>
           </li>
           <li class="nav-item">

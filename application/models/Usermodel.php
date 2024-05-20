@@ -379,13 +379,30 @@ class Usermodel extends CI_Model {
         // Return the result as an array of objects
         return $query->result();
     }
+    public function userGetThirdPartyProducts(){
+        $query = $this->db->get('third_party_manufactured_products');
+        // Return the result as an array of objects
+        return $query->result();
+    }
     public function AddBrandedProducts($data){
         // Insert data into white_label_products table
         $inserted = $this->db->insert('branded_products', $data);
         // Return true if insertion was successful, otherwise false
         return $inserted;
     }
-    public function deleteBrandedProduct($product_id){
+    public function AddThirdPartyProducts($data){
+        // Insert data into white_label_products table
+        $inserted = $this->db->insert('third_party_manufactured_products', $data);
+        // Return true if insertion was successful, otherwise false
+        return $inserted;
+    }
+    public function userAddInquiryThirdPartyProducts($data){
+        $inserted = $this->db->insert('third_party_manufactured_products', $data);
+        // Return true if insertion was successful, otherwise false
+        return $inserted;
+    }
+    public function deleteBrandedProduct($user_id){
+        $this->db->where('user_id', $user_id);
         $this->db->where('branded_product_id', $product_id);
         $success = $this->db->delete('branded_products');
 

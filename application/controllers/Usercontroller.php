@@ -441,6 +441,67 @@ class Usercontroller extends CI_Controller {
             redirect('userProfile');
         }
     }
+	public function userViewThirdPartyManufacturedProducts(){
+		// Check if the user is logged in
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$product_id = $this->input->get('product_id');
+		$data['third_party_products'] = $this->Usermodel->userGetThirdPartyProducts($product_id);
+
+		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_inquire_third_party_products');
+	}
+	public function userAddInquiryThirdPartyProducts(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		    // Load the upload library
+			$this->load->library('upload');
+			$upload_path = FCPATH . 'assets/third_party_products/';
+
+			// Configure upload preferences
+			$config['upload_path'] = $upload_path; // Directory where files should be uploaded
+			$config['allowed_types'] = 'gif|jpg|png|pdf'; // Allowed file types
+			$config['max_size'] = 2048; // Maximum file size (in KB)
+			$config['encrypt_name'] = TRUE; // Encrypt the file name for security
+		
+			// Initialize the upload library with the config
+			$this->upload->initialize($config);
+		
+			// Check if the file upload is successful
+			if (!$this->upload->do_upload('image')) {
+				// Upload failed, handle the error
+				$error = $this->upload->display_errors();
+				// You can pass the error to your view or handle it as needed
+				echo $error;
+				return;
+			} else {
+				// Upload was successful, get the uploaded file data
+				$upload_data = $this->upload->data();
+				$data['sample_photo'] = $upload_data['file_name']; // Get the file name
+			}
+		
+		// Fetch values from the form
+		$data['product_name'] = $this->input->post('product_name');
+		$data['category'] = $this->input->post('category');
+		$data['dosage_form'] = $this->input->post('dosage_form');
+		$data['packing_size'] = $this->input->post('packing_size');
+		$data['pharmacopeia'] = $this->input->post('pharmacopeia');
+		$data['comments'] = $this->input->post('comments');
+		$data['quantity'] = $this->input->post('quantity');
+		$data['created_date'] = date("Y-m-d H:i:s");
+		$data['user_id'] = $this->session->userdata('id');
+	
+		$response = $this->Usermodel->userAddInquiryThirdPartyProducts($data);
+		if($response==1){
+			redirect('index.php/Usercontroller/userViewThirdPartyManufacturedProducts');
+		}
+	}
 
 	
 }

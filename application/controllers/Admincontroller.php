@@ -413,5 +413,72 @@ class Admincontroller extends CI_Controller {
             $this->load->view('upload_success', $data);
         }
     }
+	public function adminThirdPartyManufacture(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+
+        $id = $this->session->userdata('id');
+
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+        $this->load->view('admin/admin_header',$data);
+        $this->load->view('admin/admin_add_third_party_products',$data);
+	}
+
+	public function AddThirdPartyProducts() {
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		// Fetch values from the form
+		$product_name = $this->input->post('product_name');
+		$category = $this->input->post('category');
+		$dosage_form = $this->input->post('dosage_form');
+		$packing_size = $this->input->post('packing_size');
+		$pharmacopeia = $this->input->post('pharmacopeia');
+		$sample_photo = $this->input->post('image');
+		$comments = $this->input->post('comments');
+		$comments = $this->input->post('comments');
+		$date_time = date("Y-m-d H:i:s");
+	
+		$upload_path = FCPATH . 'assets/Branded_products/';
+
+		// Set the upload path in the configuration
+		$config['upload_path'] = $upload_path;
+		$config['allowed_types'] = 'gif|jpg|jpeg|png'; // Define allowed file types
+		$config['max_size'] = 1024 * 5; // Define max file size (in KB)
+	
+		// Load the upload library
+		$this->load->library('upload', $config);
+	
+		// Perform file upload
+		if ($this->upload->do_upload('image')) {
+			// File uploaded successfully, get file data
+			$file_data = $this->upload->data();
+	
+			// Prepare data array with image file name
+			$data = array(
+				'product_name' => $product_name,
+				'product_description' => $product_description,
+				'product_features' => $product_features,
+				'date_time' => $date_time,
+				'image' => $file_data['file_name'] // Save file name to database
+			);
+	
+			// Insert data into white_label_products table using the model
+			$response = $this->Usermodel->AddThirdPartyProducts($data);
+			if($response ==true){
+				$this->session->set_flashdata('success', 'Product added successfully');
+				redirect('index.php/Admincontroller/adminThirdPartyManufacture');			
+			}
+		} else {
+			// File upload failed, handle errors
+			$upload_error = $this->upload->display_errors();
+	
+			// Handle the case where file upload failed
+			// For example, show an error message or redirect to an error page
+		}		
+	}
 	
 }
