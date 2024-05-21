@@ -28,25 +28,44 @@ class Admincontroller extends CI_Controller {
         $this->load->view('admin/admin_profile',$data);
     }
     public function adminUpdateProfile(){
+		try {
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+
+			$id = $this->session->userdata('id');
+			$data['firstname'] = $this->input->get_post('firstname');
+			$data['lastname'] = $this->input->get_post('lastname');
+			$data['email'] = $this->input->get_post('email');
+			$data['mobile'] = $this->input->get_post('mobile');
+			$data['cname'] = $this->input->get_post('cname');
+			$data['designation'] = $this->input->get_post('designation');
+			$response = $this->Usermodel->userUpdateProfile($data, $id);
+			if($response ==true){
+				$this->session->set_flashdata('success', 'Profile updated successfully');
+
+				// redirect('index.php/Admincontroller/adminProfile');
+			}
+			$this->adminProfile();
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+		
+	}
+	public function ServerError(){
 		if (!$this->session->userdata('id')) {
 			// User is not logged in, redirect to login page
 			redirect('index.php/Usercontroller/index');
 		}
-		$id = $this->session->userdata('id');
-		$data['firstname'] = $this->input->get_post('firstname');
-		$data['lastname'] = $this->input->get_post('lastname');
-		$data['email'] = $this->input->get_post('email');
-		$data['mobile'] = $this->input->get_post('mobile');
-		$data['cname'] = $this->input->get_post('cname');
-		$data['designation'] = $this->input->get_post('designation');
-		$response = $this->Usermodel->userUpdateProfile($data, $id);
-		if($response ==true){
-            $this->session->set_flashdata('success', 'Profile updated successfully');
 
-			// redirect('index.php/Admincontroller/adminProfile');
-		}
-        $this->adminProfile();
-		
+        $id = $this->session->userdata('id');
+
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+        $this->load->view('admin/admin_header',$data);
+        $this->load->view('redirect/500',$data);
 	}
 	public function adminViewUsers(){
 		if (!$this->session->userdata('id')) {
@@ -422,6 +441,7 @@ class Admincontroller extends CI_Controller {
         $id = $this->session->userdata('id');
 
 		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['third_party_products'] = $this->Usermodel->getThirdPartyManufacture();
         $this->load->view('admin/admin_header',$data);
         $this->load->view('admin/admin_add_third_party_products',$data);
 	}

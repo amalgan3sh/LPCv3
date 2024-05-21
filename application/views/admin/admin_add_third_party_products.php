@@ -7,7 +7,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Add Branded products</h1>
+            <h1>Third Party Manufacturing</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -25,7 +25,6 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-default">
           <div class="card-header">
-            <h3 class="card-title">Enter the details</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -40,81 +39,7 @@
     <div class="col-md-12">
         <div class="card card-default">
             <div class="card-body p-0">
-                <form method="post" action="<?php echo site_url('index.php/Admincontroller/AddThirdPartyProducts'); ?>" enctype="multipart/form-data">
-                    <div class="bs-stepper">
-                        <div class="bs-stepper-header" role="tablist">
-                            <!-- your steps here -->
-                            <div class="step" data-target="#logins-part">
-                                <button type="button" class="step-trigger" role="tab" aria-controls="logins-part" id="logins-part-trigger">
-                                    <span class="bs-stepper-circle">1</span>
-                                    <span class="bs-stepper-label">Basic information</span>
-                                </button>
-                            </div>
-                            <div class="line"></div>
-                            <div class="step" data-target="#information-part">
-                                <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
-                                    <span class="bs-stepper-circle">2</span>
-                                    <span class="bs-stepper-label">Additional information</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="bs-stepper-content">
-                            <!-- your steps content here -->
-                            <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
-                                <div class="form-group">
-                                    <label for="product_name">Product Name</label>
-                                    <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Enter Product Name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="product_description">Category</label>
-                                    <input class="form-control" id="category" name="category" placeholder="Enter Product Category" required></input>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="product_description">Dosage Form</label>
-                                    <input class="form-control" id="dosage_form" name="dosage_form" placeholder="Enter Product Category" required></input>
-                                </div>
-                                <div class="form-group">
-                                    <label for="dosage_form">Packing Size</label>
-                                    <input type="text" class="form-control" id="packing_size" name="packing_size" placeholder="Enter Packing Size" required>
-                                </div>
-
-                                
-                                <button type="button" class="btn btn-primary" onclick="stepper.next()">Next</button>
-                            </div>
-                            <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">
-                                
-                                <div class="form-group">
-                                    <label for="dosage_form">Pharmacopeia</label>
-                                    <input type="text" class="form-control" id="pharmacopeia" name="pharmacopeia" placeholder="Enter Pharmacopeia" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputFile">Sample Photo</label>
-                                    <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" required class="custom-file-input" name="image" id="exampleInputFile">
-                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">Upload</span>
-                                    </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="dosage_form">Comments</label>
-                                    <input type="text" class="form-control" id="pharmacopeia" name="pharmacopeia" placeholder="Enter Pharmacopeia" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="dosage_form">Quantity</label>
-                                    <input type="text" class="form-control" id="pharmacopeia" name="pharmacopeia" placeholder="Enter Pharmacopeia" required>
-                                </div>
-                                <button class="btn btn-primary" onclick="stepper.previous()">Previous</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                
             </div>
             <!-- /.card-body -->
 
@@ -123,37 +48,54 @@
 
         <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Branded Products</h3>
+                <h3 class="card-title">Third Party Product Inquiry</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
+    <div class="table-responsive">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
                     <th>ID</th>
                     <th>Product Name</th>
-                    <th>Description</th>
-                    <th>Features</th>
-                    <th>Image</th>
+                    <th>Category</th>
+                    <th>Dosage Form</th>
+                    <th>Packing Size</th>
+                    <th>Pharmacopeia</th>
+                    <th>Sample Photo</th>
+                    <th>Comments</th>
+                    <th>Quantity</th>
+                    <th>Created Date</th>
                     <th></th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <?php foreach ($branded_products as $product): ?>
-                  <tr>
-                    <td><?php echo $product->branded_product_id; ?></td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($third_party_products as $product): ?>
+                <tr>
+                    <td><?php echo $product->tpm_product_id; ?></td>
                     <td><?php echo $product->product_name; ?></td>
-                    <td><?php echo $product->product_description; ?></td>
-                    <td><?php echo $product->product_features; ?></td>
-                    <td><a href="<?php echo base_url('assets/branded_products/' . $product->image); ?>" target="_blank">View Image</a></td>
-                    <td><a href="<?php echo base_url('index.php/Admincontroller/deleteBrandedProduct?product_id='.$product->branded_product_id); ?>" class="btn btn-block btn-danger btn-sm">Delete</a></td>
+                    <td><?php echo $product->category; ?></td>
+                    <td><?php echo $product->dosage_form; ?></td>
+                    <td><?php echo $product->packing_size; ?></td>
+                    <td><?php echo $product->pharmacopeia; ?></td>
+                    <td><a href="<?php echo base_url('assets/third_party_products/' . $product->sample_photo); ?>" target="_blank">View Image</a></td>
+                    <td><?php echo $product->comments; ?></td>
+                    <td><?php echo $product->quantity; ?></td>
+                    <td><?php echo $product->created_date; ?></td>
+                    <td><?php echo $product->user_id; ?></td>
+                    <td><a href="<?php echo base_url('index.php/Admincontroller/deleteBrandedProduct?product_id='.$product->tpm_product_id); ?>" class="btn btn-block btn-danger btn-sm">Delete</a></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+  .table-responsive {
+    overflow-x: auto;
+}
 
-                  </tr>
-                  <?php endforeach; ?>
-                  
-                  </tfoot>
-                </table>
-              </div>
+</style>
               <!-- /.card-body -->
             </div>
             <!-- /.card -->

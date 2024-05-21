@@ -427,4 +427,9 @@ class Usermodel extends CI_Model {
             return false;
         }
     }
+    public function getThirdPartyManufacture(){
+        $query = $this->db->get('third_party_manufactured_products');
+        // Return the result as an array of objects
+        return $query->result();
+    }
 }
