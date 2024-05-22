@@ -500,5 +500,282 @@ class Admincontroller extends CI_Controller {
 			// For example, show an error message or redirect to an error page
 		}		
 	}
+
+	public function adminManageDrugCategory(){
+		try{
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+	
+			$id = $this->session->userdata('id');
+	
+	
+			$data['user_data'] = $this->Usermodel->getUserData($id);
+			$data['drug_category'] = $this->Usermodel->getDrugCategory();
+			$this->load->view('admin/admin_header',$data);
+			$this->load->view('admin/admin_manage_drug_category',$data);
+
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+	}
+	public function addDrugCategory(){
+		try{
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+			
+			$data['category_name'] = $this->input->post('category_name');
+			$data['description'] = $this->input->post('description');
+
+			$response = $this->Usermodel->addDrugCategory($data);
+			if($response ==true){
+				$this->session->set_flashdata('success', 'Drug Category Added');				
+			}
+			redirect('index.php/Admincontroller/adminManageDrugCategory');
+			
+
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+	}
+	public function deleteDrugCategory(){
+		try
+		{
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+			
+			$drug_category_id = $this->input->get('drug_category_id');
+
+			$response = $this->Usermodel->deleteDrugCategory($drug_category_id);
+			if($response ==true){
+				$this->session->set_flashdata('warning', 'Drug Category Deleted');				
+			}
+			redirect('index.php/Admincontroller/adminManageDrugCategory');
+			
+
+		} 
+		catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+	}
+
+	public function adminManageDosageForm(){
+		try{
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+	
+			$id = $this->session->userdata('id');
+	
+	
+			$data['user_data'] = $this->Usermodel->getUserData($id);
+			$data['dosage_form'] = $this->Usermodel->getDosageForm();
+			$this->load->view('admin/admin_header',$data);
+			$this->load->view('admin/admin_manage_dosage_form');
+			$this->load->view('admin/admin_footer');
+
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+	}
+
+	public function addDosageForm(){
+		try{
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+	
+			$data['dosage_name'] = $this->input->post('dosage_name');
+
+			$response = $this->Usermodel->addDosageForm($data);
+			if($response ==true){
+				$this->session->set_flashdata('success', 'Dosage Form Added');				
+			}
+			redirect('index.php/Admincontroller/adminManageDosageForm');
+
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+	}
+
+	public function deleteDosageForm(){
+		try
+		{
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+			
+			$dosage_id = $this->input->get('dosage_id');
+
+			$response = $this->Usermodel->deleteDosageForm($dosage_id);
+			if($response ==true){
+				$this->session->set_flashdata('warning', 'Dosage form Deleted');				
+			}
+			redirect('index.php/Admincontroller/adminManageDosageForm');
+			
+
+		} 
+		catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+	}
+	public function adminManagePackingSize(){
+		try{
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+	
+			$id = $this->session->userdata('id');
+	
+	
+			$data['user_data'] = $this->Usermodel->getUserData($id);
+			$data['packing_size'] = $this->Usermodel->getPackingSize();
+			$this->load->view('admin/admin_header',$data);
+			$this->load->view('admin/admin_manage_packing_size');
+			$this->load->view('admin/admin_footer');
+
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+	}
+
+	public function addPackingSize(){
+		try{
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+	
+			$data['packing_size'] = $this->input->post('packing_size');
+
+			$response = $this->Usermodel->addPackingSize($data);
+			if($response ==true){
+				$this->session->set_flashdata('success', 'Packing Size Added');				
+			}
+			redirect('index.php/Admincontroller/adminManagePackingSize');
+
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+	}
+
+	public function deletePackingSize(){
+		try
+		{
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+			
+			$packing_id = $this->input->get('packing_id');
+
+			$response = $this->Usermodel->deletePackingSize($packing_id);
+			if($response ==true){
+				$this->session->set_flashdata('warning', 'Packing size Deleted');				
+			}
+			redirect('index.php/Admincontroller/adminManagePackingSize');
+			
+
+		} 
+		catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+	}
+
+	public function adminManagePharmacopeia(){
+		try{
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+	
+			$id = $this->session->userdata('id');
+	
+	
+			$data['user_data'] = $this->Usermodel->getUserData($id);
+			$data['pharmacopeia'] = $this->Usermodel->getPharmacopeia();
+			$this->load->view('admin/admin_header',$data);
+			$this->load->view('admin/admin_manage_pharmacopeia');
+			$this->load->view('admin/admin_footer');
+
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+	}
+
+	public function addPharmacopeia(){
+		try{
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+	
+			$data['pharmacopeia_name'] = $this->input->post('pharmacopeia_name');
+
+			$response = $this->Usermodel->addPharmacopeia($data);
+			if($response ==true){
+				$this->session->set_flashdata('success', 'Pharmacopeia Added');				
+			}
+			redirect('index.php/Admincontroller/adminManagePharmacopeia');
+
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+	}
+	public function deletePharmacopeia(){
+		try
+		{
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+			
+			$pharmacopeia_id = $this->input->get('pharmacopeia_id');
+
+			$response = $this->Usermodel->deletePharmacopeia($pharmacopeia_id);
+			if($response ==true){
+				$this->session->set_flashdata('warning', 'Pharmacopeia Deleted');				
+			}
+			redirect('index.php/Admincontroller/adminManagePharmacopeia');
+			
+
+		} 
+		catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}
+	}
 	
 }

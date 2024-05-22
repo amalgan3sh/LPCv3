@@ -432,4 +432,98 @@ class Usermodel extends CI_Model {
         // Return the result as an array of objects
         return $query->result();
     }
+    public function getDrugCategory(){
+        $query = $this->db->get('drug_category');
+        // Return the result as an array of objects
+        return $query->result();
+    }
+    public function addDrugCategory($data) {
+        $this->db->insert('drug_category', $data);
+        if ($this->db->affected_rows() == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function deleteDrugCategory($id){
+        $this->db->where('drug_category_id', $id);
+        $this->db->delete('drug_category');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function getDosageForm(){
+        $query = $this->db->get('dosage_form');
+        // Return the result as an array of objects
+        return $query->result();
+    }
+    public function addDosageForm($data){
+        $this->db->insert('dosage_form', $data);
+        if ($this->db->affected_rows() == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function deleteDosageForm($id){
+        $this->db->where('dosage_id', $id);
+        $this->db->delete('dosage_form');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getPackingSize(){
+        $query = $this->db->get('packing_size');
+        // Return the result as an array of objects
+        return $query->result();
+    }
+
+    public function addPackingSize($data){
+        $this->db->insert('packing_size', $data);
+        if ($this->db->affected_rows() == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function deletePackingSize($id){
+        $this->db->where('packing_id', $id);
+        $this->db->delete('packing_size');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function getPharmacopeia(){
+        $query = $this->db->get('pharmacopeia');
+        // Return the result as an array of objects
+        return $query->result();
+    }
+
+    public function addPharmacopeia($data){
+        $this->db->insert('pharmacopeia', $data);
+        if ($this->db->affected_rows() == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function deletePharmacopeia($id){
+        $this->db->where('pharmacopeia_id', $id);
+        $this->db->delete('pharmacopeia');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 }

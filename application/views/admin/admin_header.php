@@ -227,6 +227,43 @@
           </li>
 
           <li class="nav-item">
+  <a href="#" class="nav-link">
+    <i class="nav-icon fas fa-pills"></i>
+    <p>
+      Drug Management
+      <i class="right fas fa-angle-left"></i>
+    </p>
+  </a>
+  <ul class="nav nav-treeview">
+    <li class="nav-item">
+      <a href="<?php echo base_url('index.php/Admincontroller/adminManageDrugCategory')?>" class="nav-link">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Drug Category</p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="<?php echo base_url('index.php/Admincontroller/adminManageDosageForm')?>" class="nav-link">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Dosage Form</p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="<?php echo base_url('index.php/Admincontroller/adminManagePackingSize')?>" class="nav-link">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Packing Size</p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="<?php echo base_url('index.php/Admincontroller/adminManagePharmacopeia')?>" class="nav-link">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Pharmacopeia</p>
+      </a>
+    </li>
+  </ul>
+</li>
+
+
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
