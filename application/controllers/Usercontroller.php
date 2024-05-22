@@ -133,8 +133,10 @@ class Usercontroller extends CI_Controller {
 		}
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
-		$data['categories'] = $this->Usermodel->getCategory();
+		$data['categories'] = $this->Usermodel->getDrugCategory();
 		$data['dosage_from'] = $this->Usermodel->getDosageFrom();
+		$data['packing_size'] = $this->Usermodel->getPackingSize();
+		$data['pharmacopeia'] = $this->Usermodel->getPharmacopeia();
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_product_query');
 	}
@@ -451,6 +453,10 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$product_id = $this->input->get('product_id');
 		$data['third_party_products'] = $this->Usermodel->userGetThirdPartyProducts($product_id);
+		$data['categories'] = $this->Usermodel->getDrugCategory();
+		$data['dosage_from'] = $this->Usermodel->getDosageFrom();
+		$data['packing_size'] = $this->Usermodel->getPackingSize();
+		$data['pharmacopeia'] = $this->Usermodel->getPharmacopeia();
 
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_inquire_third_party_products');

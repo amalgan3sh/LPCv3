@@ -42,14 +42,15 @@
                   <div class="form-group">
                     <label for="category">Category</label>
                     <select id="drug_category" name="drug_category" class="custom-select" required>
+         
                         <option value="" disabled selected>Select a drug category</option>
-                        <?php foreach ($categories as $category) : ?>
-                            <option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
+                        <?php foreach ($categories as $row): ?>
+                          <option value="<?php echo $row->category_name; ?>"><?php echo $row->category_name; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="dosage_from">Dosage from</label>
+                    <label for="dosage_from">Dosage Form</label>
                     <select id="dosage_from" name="dosage_from" class="custom-select" required>
                         <option value="" disabled selected>Select dosage from</option>
                         <?php foreach ($dosage_from as $dosage) : ?>
@@ -59,11 +60,21 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Packing Size</label>
-                    <input type="name" name="packing_size" class="form-control" id="packing_size" placeholder="Enter packing size" required>
+                    <select id="packing_size" name="packing_size" class="custom-select" required>
+                        <option value="" disabled selected>Select Packing Size</option>
+                        <?php foreach ($packing_size as $row) : ?>
+                            <option value="<?php echo $row->packing_size; ?>"><?php echo $row->packing_size; ?></option>
+                        <?php endforeach; ?>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Pharmacopeia</label>
-                    <input type="name" name="pharmacopeia" class="form-control" id="pharmacopeia" placeholder="Enter pharmacopeia" required>
+                    <select id="pharmacopeia" name="pharmacopeia" class="custom-select" required>
+                        <option value="" disabled selected>Select Pharmacopeia</option>
+                        <?php foreach ($pharmacopeia as $row) : ?>
+                            <option value="<?php echo $row->pharmacopeia_name; ?>"><?php echo $row->pharmacopeia_name; ?></option>
+                        <?php endforeach; ?>
+                    </select>
                   </div>
             </div>
             <!-- /.card-body -->

@@ -67,17 +67,32 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="product_description">Category</label>
-                                    <input class="form-control" id="category" name="category" placeholder="Enter Product Category" required></input>
+                                    <select class="form-control" id="category" name="category" required>
+                                      <option value="" disabled selected>Select Category</option>
+                                      <?php foreach ($categories as $row): ?>
+                                        <option value="<?php echo $row->category_name; ?>"><?php echo $row->category_name; ?></option>
+                                      <?php endforeach; ?>
+                                    </select>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="product_description">Dosage Form</label>
-                                    <input class="form-control" id="dosage_form" name="dosage_form" placeholder="Enter Product Category" required></input>
+                                    <select class="form-control" id="dosage_form" name="dosage_form" required>
+                                      <option value="" disabled selected>Select Dosage Form</option>
+                                      <?php foreach ($dosage_from as $row): ?>
+                                        <option value="<?php echo $row['dosage_name']; ?>"><?php echo $row['dosage_name']; ?></option>
+                                      <?php endforeach; ?>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="dosage_form">Packing Size</label>
-                                    <input type="text" class="form-control" id="packing_size" name="packing_size" placeholder="Enter Packing Size" required>
-                                </div>
+                                    <select class="form-control" id="packing_size" name="packing_size" required>
+                                        <option value="" disabled selected>Select Packing Size</option>
+                                        <?php foreach ($packing_size as $row): ?>
+                                          <option value="<?php echo $row->packing_size; ?>"><?php echo $row->packing_size; ?></option>
+                                        <?php endforeach; ?>
+                                      </select>
+                                  </div>
 
                                 
                                 <button type="button" class="btn btn-primary" onclick="stepper.next()">Next</button>
@@ -86,8 +101,13 @@
                                 
                                 <div class="form-group">
                                     <label for="dosage_form">Pharmacopeia</label>
-                                    <input type="text" class="form-control" id="pharmacopeia" name="pharmacopeia" placeholder="Enter Pharmacopeia" required>
-                                </div>
+                                    <select class="form-control" id="pharmacopeia" name="pharmacopeia" required>
+                                      <option value="" disabled selected>Select Pharmacopeia</option>
+                                      <?php foreach ($pharmacopeia as $row): ?>
+                                        <option value="<?php echo $row->pharmacopeia_name; ?>"><?php echo $row->pharmacopeia_name; ?></option>
+                                      <?php endforeach; ?>
+                                    </select>
+                                  </div>
                                 <div class="form-group">
                                     <label for="exampleInputFile">Sample Photo</label>
                                     <div class="input-group">

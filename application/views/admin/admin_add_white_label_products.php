@@ -79,7 +79,12 @@
                             <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">
                                 <div class="form-group">
                                     <label for="dosage_form">Dosage Form</label>
-                                    <input type="text" class="form-control" id="dosage_form" name="dosage_form" placeholder="Enter Dosage Form" required>
+                                    <select class="form-control" id="dosage_form" name="dosage_form" required>
+                                      <option value="" disabled selected>Select Dosage Form</option>
+                                      <?php foreach ($dosage_form as $row): ?>
+                                        <option value="<?php echo $row['dosage_name']; ?>"><?php echo $row['dosage_name']; ?></option>
+                                      <?php endforeach; ?>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="strength">Strength</label>

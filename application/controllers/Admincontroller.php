@@ -251,9 +251,10 @@ class Admincontroller extends CI_Controller {
         $id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['white_label_products'] = $this->Usermodel->getWhiteLabelProducts($id);
+		$data['dosage_form'] = $this->Usermodel->getDosageFrom();
 
         $this->load->view('admin/admin_header',$data);
-        $this->load->view('admin/admin_add_white_label_products',$data);
+        $this->load->view('admin/admin_add_white_label_products');
     }
 
 	public function AddWhiteLabelProducts() {

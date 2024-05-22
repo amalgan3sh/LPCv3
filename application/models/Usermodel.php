@@ -126,7 +126,7 @@ class Usermodel extends CI_Model {
         return $result->result_array();
     }
     public function getDosageFrom(){
-        $result = $this->db->get('dosage_from');
+        $result = $this->db->get('dosage_form');
         return $result->result_array();
     }
     public function userAddProductQuery($data){
@@ -293,12 +293,12 @@ class Usermodel extends CI_Model {
     }
     public function getProductInquiryDetails($inquiry_id){
         // Custom SQL query to fetch detailed data
-        $query = $this->db->query("SELECT product_inquiry.*, dosage_from.dosage_name, 
+        $query = $this->db->query("SELECT product_inquiry.*, dosage_form.dosage_name, 
                                         categories.name AS category_name, CONCAT(users.firstname, ' ', users.lastname) AS username,
                                         comments,users.cname,users.order_address
                                     FROM product_inquiry
                                     INNER JOIN categories ON product_inquiry.drug_category = categories.id
-                                    INNER JOIN dosage_from ON product_inquiry.dosage_from = dosage_from.dosage_id
+                                    INNER JOIN dosage_form ON product_inquiry.dosage_form = dosage_form.dosage_id
                                     INNER JOIN users ON product_inquiry.user_id = users.id
                                     WHERE inquiry_id = $inquiry_id");
     
