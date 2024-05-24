@@ -293,14 +293,12 @@ class Usermodel extends CI_Model {
     }
     public function getProductInquiryDetails($inquiry_id){
         // Custom SQL query to fetch detailed data
-        $query = $this->db->query("SELECT product_inquiry.*, dosage_form.dosage_name, 
-                                        categories.name AS category_name, CONCAT(users.firstname, ' ', users.lastname) AS username,
-                                        comments,users.cname,users.order_address
-                                    FROM product_inquiry
-                                    INNER JOIN categories ON product_inquiry.drug_category = categories.id
-                                    INNER JOIN dosage_form ON product_inquiry.dosage_form = dosage_form.dosage_id
-                                    INNER JOIN users ON product_inquiry.user_id = users.id
-                                    WHERE inquiry_id = $inquiry_id");
+        $query = $this->db->query("SELECT * FROM `product_inquiry` INNER JOIN users 
+        ON `product_inquiry`.user_id = `users`.id 
+        WHERE inquiry_id =$inquiry_id");
+
+        // $this->db->where('inquiry_id', $inquiry_id);
+        // $query = $this->db->get('product_inquiry');
     
         // Check if there are any rows returned
         if ($query->num_rows() > 0) {
@@ -524,6 +522,34 @@ class Usermodel extends CI_Model {
         } else {
             return false;
         }
+    }
+    public function getInquiryCount(){
+        $this->db->from('product_inquiry');
+        $count_query = $this->db->count_all_results();
+
+        // Return the inquiry count
+        return $count_query;
+    }
+    public function getKYCCount(){
+        $this->db->from('kyc_registration');
+        $count_query = $this->db->count_all_results();
+
+        // Return the inquiry count
+        return $count_query;
+    }
+    public function getWhiteLabelCount(){
+        $this->db->from('white_label_products');
+        $count_query = $this->db->count_all_results();
+
+        // Return the inquiry count
+        return $count_query;
+    }
+    public function getUserCount(){
+        $this->db->from('users');
+        $count_query = $this->db->count_all_results();
+
+        // Return the inquiry count
+        return $count_query;
     }
     
 }

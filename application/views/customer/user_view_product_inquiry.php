@@ -48,6 +48,7 @@
                       <th>Product Name</th>
                       <th>Comments</th>
                       <th>Estimate Date</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -57,6 +58,7 @@
                           <td><?php echo $inquiry['product_name']; ?></td>
                           <td><?php echo $inquiry['comments']; ?></td>
                           <td><?php echo $inquiry['date_time']; ?></td>
+                          <td><?php echo $inquiry['status']; ?></td>
                       </tr>
                   <?php endforeach; ?>
                   </tbody>

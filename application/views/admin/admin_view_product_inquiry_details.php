@@ -44,7 +44,7 @@
                   <div class="info-box bg-light">
                     <div class="info-box-content" style="min-height: 200px;">
                       <span class="info-box-text text-center text-muted" >Drug Category</span>
-                      <span class="info-box-number text-center text-muted mb-0"><?php echo $inquiry_details['category_name']; ?></span>
+                      <span class="info-box-number text-center text-muted mb-0"><?php echo $inquiry_details['drug_category']; ?></span>
                     </div>
                   </div>
                 </div>
@@ -52,7 +52,7 @@
                   <div class="info-box bg-light">
                     <div class="info-box-content" style="min-height: 200px;">
                       <span class="info-box-text text-center text-muted">Dosage From</span>
-                      <span class="info-box-number text-center text-muted mb-0"><?php echo $inquiry_details['dosage_name']; ?></span>
+                      <span class="info-box-number text-center text-muted mb-0"><?php echo $inquiry_details['dosage_form']; ?></span>
                     </div>
                   </div>
                 </div>
@@ -72,7 +72,7 @@
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="<?php echo base_url('assets/')?>dist/img/user1-128x128.jpg" alt="user image">
                         <span class="username">
-                          <a href="#"><?php echo $inquiry_details['username']; ?></a>
+                          <a href="#"><?php echo $inquiry_details['firstname'].' '.$inquiry_details['lastname']; ?></a>
                         </span>
                         <span class="description"><?php echo $inquiry_details['date_time']; ?></span>
                       </div>

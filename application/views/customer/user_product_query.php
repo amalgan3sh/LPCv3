@@ -106,6 +106,10 @@
                 <textarea class="form-control" name="comments" rows="3" placeholder="Enter comments"></textarea>
               </div>
               <div class="form-group">
+                <label>Budget Range</label>
+                <input type="text" class="form-control" name="budget_range" rows="3" placeholder="Enter Budget Range"></input>
+              </div>
+              <div class="form-group">
                 <label for="inputEstimatedDuration">Estimated Date you need this product</label>
                 <div class="input-group date" id="reservationdate" data-target-input="nearest">
                         <input type="date" name = "estimate_date" class="form-control datetimepicker-input" data-target="#reservationdate"/>

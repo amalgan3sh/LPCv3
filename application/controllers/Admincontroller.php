@@ -12,6 +12,10 @@ class Admincontroller extends CI_Controller {
         $id = $this->session->userdata('id');
 
 		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['inquiry_count'] = $this->Usermodel->getInquiryCount();
+		$data['kyc_count'] = $this->Usermodel->getKYCCount();
+		$data['white_label_count'] = $this->Usermodel->getWhiteLabelCount();
+		$data['user_count'] = $this->Usermodel->getUserCount();
         $this->load->view('admin/admin_header',$data);
         $this->load->view('admin/admin_home',$data);
     }

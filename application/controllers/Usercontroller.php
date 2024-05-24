@@ -177,6 +177,7 @@ class Usercontroller extends CI_Controller {
 			$data['quantity'] = $this->input->post('quantity');
 			$data['comments'] = $this->input->post('comments');
 			$data['date_time'] = $this->input->post('estimate_date');
+			$data['budget_range'] = $this->input->post('budget_range');
 			
 			// Call model function to insert data into database
 			$response = $this->Usermodel->userAddProductQuery($data);
