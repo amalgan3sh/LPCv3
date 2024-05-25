@@ -551,5 +551,152 @@ class Usermodel extends CI_Model {
         // Return the inquiry count
         return $count_query;
     }
+    public function productNotAvailable($inquiry_id){
+        $data = array(
+            'status' => 'WE DON\'T HAVE THIS PRODUCT RIGHT NOW. THANK YOU FOR CHOOSING LAKSHMI'
+        );
+      
+        // Set the where condition
+        $where = array('inquiry_id' => $inquiry_id);
+      
+        // Update the product_inquiry table
+        $this->db->update('product_inquiry', $data, $where);
+      
+        // Check for update success
+        if ($this->db->affected_rows() > 0) {
+          return true; // Update successful
+        } else {
+          return false; // Update failed
+        }
+    }
+    public function updateKycStatus($inquiry_id){
+        $data = array(
+            'status' => 'UPDATE YOUR KYC VERIFICATION'
+        );
+      
+        // Set the where condition
+        $where = array('inquiry_id' => $inquiry_id);
+      
+        // Update the product_inquiry table
+        $this->db->update('product_inquiry', $data, $where);
+      
+        // Check for update success
+        if ($this->db->affected_rows() > 0) {
+          return true; // Update successful
+        } else {
+          return false; // Update failed
+        }
+    }
+    public function thankYou($inquiry_id){
+        $data = array(
+            'status' => 'THANK YOU CHOOSING LAKSHMIPHARMACEUTICALS'
+        );
+      
+        // Set the where condition
+        $where = array('inquiry_id' => $inquiry_id);
+      
+        // Update the product_inquiry table
+        $this->db->update('product_inquiry', $data, $where);
+      
+        // Check for update success
+        if ($this->db->affected_rows() > 0) {
+          return true; // Update successful
+        } else {
+          return false; // Update failed
+        }
+    }
+    public function contactYouSoon($inquiry_id){
+        $data = array(
+            'status' => 'OUR TEAM CONTACT SOON'
+        );
+      
+        // Set the where condition
+        $where = array('inquiry_id' => $inquiry_id);
+      
+        // Update the product_inquiry table
+        $this->db->update('product_inquiry', $data, $where);
+      
+        // Check for update success
+        if ($this->db->affected_rows() > 0) {
+          return true; // Update successful
+        } else {
+          return false; // Update failed
+        }
+    }
+
+    public function queryCreatedSuccesfully($inquiry_id){
+        $data = array(
+            'status' => 'YOUR QUERY SUCCESSFULLY  CREATED'
+        );
+      
+        // Set the where condition
+        $where = array('inquiry_id' => $inquiry_id);
+      
+        // Update the product_inquiry table
+        $this->db->update('product_inquiry', $data, $where);
+      
+        // Check for update success
+        if ($this->db->affected_rows() > 0) {
+          return true; // Update successful
+        } else {
+          return false; // Update failed
+        }
+    }
+    public function onProcessOfDocumentation($inquiry_id){
+        $data = array(
+            'status' => 'ON THE PROCESS OF DOCUMENTATION'
+        );
+      
+        // Set the where condition
+        $where = array('inquiry_id' => $inquiry_id);
+      
+        // Update the product_inquiry table
+        $this->db->update('product_inquiry', $data, $where);
+      
+        // Check for update success
+        if ($this->db->affected_rows() > 0) {
+          return true; // Update successful
+        } else {
+          return false; // Update failed
+        }
+    }
+
+    public function processOfVerification($inquiry_id){
+        $data = array(
+            'status' => 'ON THE PROCESS OF VERIFICATION'
+        );
+      
+        // Set the where condition
+        $where = array('inquiry_id' => $inquiry_id);
+      
+        // Update the product_inquiry table
+        $this->db->update('product_inquiry', $data, $where);
+      
+        // Check for update success
+        if ($this->db->affected_rows() > 0) {
+          return true; // Update successful
+        } else {
+          return false; // Update failed
+        }
+    }
+
+    public function queryOnTheProcess($inquiry_id){
+        $data = array(
+            'status' => 'YOUR QUREY ON THE PROCESS'
+        );
+      
+        // Set the where condition
+        $where = array('inquiry_id' => $inquiry_id);
+      
+        // Update the product_inquiry table
+        $this->db->update('product_inquiry', $data, $where);
+      
+        // Check for update success
+        if ($this->db->affected_rows() > 0) {
+          return true; // Update successful
+        } else {
+          return false; // Update failed
+        }
+    }
     
 }

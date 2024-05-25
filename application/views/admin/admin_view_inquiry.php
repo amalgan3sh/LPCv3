@@ -107,6 +107,24 @@
                           <span class="badge badge-warning"><?php echo $row['status']; ?></span>
                       </td>
                       <td class="project-actions text-right">
+                          <div class="btn-group">
+                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                Action
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                
+                                                <a class="dropdown-item" href="<?php echo base_url('index.php/Admincontroller/updateStatus?inquiry_id='.$row['inquiry_id']).'&status=updateKyc' ?>"> UPDATE YOUR KYC VERIFICATION</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('index.php/Admincontroller/updateStatus?inquiry_id='.$row['inquiry_id']).'&status=productNotAvailable' ?>"> WE DON'T HAVE THIS PRODUCT RIGHT NOW. THANK YOU FOR CHOOSING LAKSHMI</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('index.php/Admincontroller/updateStatus?inquiry_id='.$row['inquiry_id']).'&status=thankYou' ?>"> THANK YOU CHOOSING LAKSHMIPHARMACEUTICALS</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('index.php/Admincontroller/updateStatus?inquiry_id='.$row['inquiry_id']).'&status=contactYouSoon' ?>"> OUR TEAM CONTACT SOON</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('index.php/Admincontroller/updateStatus?inquiry_id='.$row['inquiry_id']).'&status=queryCreatedSuccesfully' ?>"> YOUR QUERY SUCCESSFULLY CREATED</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('index.php/Admincontroller/updateStatus?inquiry_id='.$row['inquiry_id']).'&status=onProcessOfDocumentation' ?>"> ON THE PROCESS OF DOCUMENTATION</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('index.php/Admincontroller/updateStatus?inquiry_id='.$row['inquiry_id']).'&status=processOfVerification' ?>"> ON THE PROCESS OF VERIFICATION</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('index.php/Admincontroller/updateStatus?inquiry_id='.$row['inquiry_id']).'&status=queryOnTheProcess' ?>"> YOUR QUREY ON THE PROCESS</a>
+                                            </div>
+                                        </div>
+                        </td>
+                      <td class="project-actions text-right">
                           <a class="btn btn-primary btn-sm" href="<?php echo base_url('index.php/Admincontroller/productInquiryDetails?inquiry_id='.$row['inquiry_id']) ?>">
                               <i class="fas fa-folder">
                               </i>

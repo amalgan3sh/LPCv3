@@ -782,5 +782,70 @@ class Admincontroller extends CI_Controller {
 			redirect('index.php/Admincontroller/ServerError');
 		}
 	}
+	public function updateStatus() {
+		try {
+		  // Check user login (unchanged)
+		  if (!$this->session->userdata('id')) {
+			redirect('index.php/Usercontroller/index');
+		  }
+	  
+		  $inquiry_id = $this->input->get('inquiry_id');
+		  $status = $this->input->get('status');
+	  
+		  // Use a switch statement for efficient handling of different statuses
+		  switch ($status) {
+			case 'updateKyc':
+			  $response = $this->Usermodel->updateKycStatus($inquiry_id); // Call appropriate function
+			  $message = 'KYC update initiated successfully.';
+			  break;
+			case 'productNotAvailable':
+			  $response = $this->Usermodel->productNotAvailable($inquiry_id); // Existing logic
+			  $message = 'Status updated successfully.';
+			  break;
+			case 'thankYou':
+				$response = $this->Usermodel->thankYou($inquiry_id); // Existing logic
+				$message = 'Thank you for choosing lakshmi.';
+				break;
+			case 'contactYouSoon':
+				$response = $this->Usermodel->contactYouSoon($inquiry_id); // Existing logic
+				$message = 'Thank you for choosing lakshmi.';
+				break;
+			case 'queryCreatedSuccesfully':
+				$response = $this->Usermodel->queryCreatedSuccesfully($inquiry_id); // Existing logic
+				$message = 'Thank you for choosing lakshmi.';
+				break;
+			case 'onProcessOfDocumentation':
+				$response = $this->Usermodel->onProcessOfDocumentation($inquiry_id); // Existing logic
+				$message = 'Thank you for choosing lakshmi.';
+				break;
+			case 'processOfVerification':
+				$response = $this->Usermodel->processOfVerification($inquiry_id); // Existing logic
+				$message = 'Thank you for choosing lakshmi.';
+				break;
+			case 'queryOnTheProcess':
+				$response = $this->Usermodel->queryOnTheProcess($inquiry_id); // Existing logic
+				$message = 'Thank you for choosing lakshmi.';
+				break;
+			// Add similar cases for other statuses (queryCreatedSuccesfully, onProcessOfDocumentation, processOfVerification, queryOnTheProcess)
+			default:
+			  $response = false;
+			  $message = 'Invalid status.';
+		  }
+
+		  if ($response) {
+			$this->session->set_flashdata('success', $message);
+		  } else {
+			$this->session->set_flashdata('error', 'Error updating status.');
+		  }
+	  
+		  redirect('index.php/Admincontroller/adminViewInquiry');
+	  
+		} catch (Exception $e) {
+		  // Error handling (unchanged)
+		  $this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+		  redirect('index.php/Admincontroller/ServerError');
+		}
+	  }
+	
 	
 }
