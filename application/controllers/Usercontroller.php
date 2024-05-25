@@ -240,6 +240,7 @@ class Usercontroller extends CI_Controller {
 				// Email does not exist, proceed with registration
 				$response = $this->Usermodel->registerUser($data);
 				if ($response == true) {
+					$this->EmailModel->send_registration_email($data);
 					redirect('index.php/Usercontroller/index');
 				}
 			}
@@ -249,6 +250,7 @@ class Usercontroller extends CI_Controller {
 			redirect('index.php/Usercontroller/userSignup');
 		}
 	}
+
 
 	public function userViewProductInquiry(){
 		if (!$this->session->userdata('id')) {

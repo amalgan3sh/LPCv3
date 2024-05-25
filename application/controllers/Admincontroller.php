@@ -847,5 +847,39 @@ class Admincontroller extends CI_Controller {
 		}
 	  }
 	
+	  public function send_inquiry_email()
+		{
+			$user_email = 'amal.ganesh@icloud.com';
+			// Email configuration
+			$config = array(
+				'protocol'  => 'smtp',
+				'smtp_host' => 'mail.lammy.life',
+				'smtp_port' => 465,
+				'smtp_user' => 'enquiry@lammy.life',
+				'smtp_pass' => 'cOVO[RXJ)4?h', // Replace with the actual password
+				'smtp_crypto' => 'ssl', // Use 'ssl' for port 465
+				'mailtype'  => 'html',
+				'charset'   => 'utf-8',
+				'wordwrap'  => TRUE
+			);
+
+			// Load email library and initialize configuration
+			$this->load->library('email', $config);
+			$this->email->set_newline("\r\n");
+
+			// Set email parameters
+			$this->email->from('enquiry@lammy.life', 'Your Company');
+			$this->email->to($user_email);
+			$this->email->subject('Inquiry Successful');
+			$this->email->message('Thank you for your inquiry. We have received your request and will get back to you shortly.');
+
+			// Send email
+			if ($this->email->send()) {
+				echo 'Email sent successfully.';
+			} else {
+				echo 'Email sending failed: ' . $this->email->print_debugger();
+			}
+		}
+
 	
 }
