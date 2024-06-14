@@ -29,9 +29,9 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3><?php echo $order_count; ?></h3>
+                <h3><?php echo $enquiry_count; ?></h3>
 
-                <p>Total Orders</p>
+                <p>Your inquiry</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -44,9 +44,9 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                <h3><?php echo $white_label_count; ?><sup style="font-size: 20px"></sup></h3>
 
-                <p>Bounce Rate</p>
+                <p>White Labeled Products</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>

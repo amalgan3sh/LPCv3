@@ -106,6 +106,17 @@ class Usermodel extends CI_Model {
                     // If user is customer, redirect to user home
                     $this->session->set_userdata('id', $user->id);
                     redirect(base_url('index.php/Usercontroller/userHome'));
+                }
+                elseif ($user->role == 'agent') {
+                    
+                    // If user is customer, redirect to user home
+                    $this->session->set_userdata('id', $user->id);
+                    redirect(base_url('index.php/Usercontroller/userHome'));
+                }elseif ($user->role == 'seller') {
+                    
+                    // If user is customer, redirect to user home
+                    $this->session->set_userdata('id', $user->id);
+                    redirect(base_url('index.php/Usercontroller/userHome'));
                 } else {
                     // Invalid role, handle accordingly (e.g., display error message)
                     return "Invalid role for user.";
@@ -551,6 +562,15 @@ class Usermodel extends CI_Model {
         // Return the inquiry count
         return $count_query;
     }
+    public function getUserEnquiryCount($id){
+        $this->db->where('user_id',$id);
+        $this->db->from('product_inquiry');
+        $count_query = $this->db->count_all_results();
+
+        // Return the inquiry count
+        return $count_query;
+    }
+
     public function productNotAvailable($inquiry_id){
         $data = array(
             'status' => 'WE DON\'T HAVE THIS PRODUCT RIGHT NOW. THANK YOU FOR CHOOSING LAKSHMI'
@@ -697,6 +717,15 @@ class Usermodel extends CI_Model {
         } else {
           return false; // Update failed
         }
+    }
+
+    public function inquireWhiteLabelProduct($data){
+        $this->db->insert('white_label_inquiry', $data);
+        if ($this->db->affected_rows() > 0) {
+            return true; // Update successful
+          } else {
+            return false; // Update failed
+          }
     }
     
 }

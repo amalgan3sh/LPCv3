@@ -53,6 +53,8 @@ class Usercontroller extends CI_Controller {
 
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['order_count'] = $this->Usermodel->getUserOrderCount($id);
+		$data['enquiry_count'] = $this->Usermodel->getUserEnquiryCount($id);
+		$data['white_label_count'] = $this->Usermodel->getWhiteLabelCount();
 
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_home');
@@ -68,23 +70,29 @@ class Usercontroller extends CI_Controller {
 		$this->load->view('customer/user_profile');
 	}
 	public function userUpdateProfile(){
-		if (!$this->session->userdata('id')) {
-			// User is not logged in, redirect to login page
-			redirect('index.php/Usercontroller/index');
-		}
-		$id = $this->session->userdata('id');
-		$data['firstname'] = $this->input->get_post('firstname');
-		$data['lastname'] = $this->input->get_post('lastname');
-		$data['email'] = $this->input->get_post('email');
-		$data['mobile'] = $this->input->get_post('mobile');
-		$data['cname'] = $this->input->get_post('cname');
-		$data['designation'] = $this->input->get_post('designation');
-		$response = $this->Usermodel->userUpdateProfile($data, $id);
-		if($response ==true){
-			echo "<script>alert('Profile updated successfully');</script>";
-			$this->userProfile();
-		}
-		
+		try {
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+
+			$id = $this->session->userdata('id');
+			$data['firstname'] = $this->input->get_post('firstname');
+			$data['lastname'] = $this->input->get_post('lastname');
+			$data['email'] = $this->input->get_post('email');
+			$data['mobile'] = $this->input->get_post('mobile');
+			$data['cname'] = $this->input->get_post('cname');
+			$data['designation'] = $this->input->get_post('designation');
+			$response = $this->Usermodel->userUpdateProfile($data, $id);
+			if($response ==true){
+				echo "<script>alert('Profile updated successfully');</script>";
+				$this->userProfile();
+			}
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}		
 	}
 	public function userViewComposition(){
 		if (!$this->session->userdata('id')) {
@@ -226,6 +234,16 @@ class Usercontroller extends CI_Controller {
 				'role' => 'customer',
 				// Add other form fields here
 			);
+
+			 // Check selected role from form
+			 $selectedRole = $this->input->post('role');
+			 if ($selectedRole == 'distributor') {
+				 $data['role'] = 'customer';
+			 } elseif ($selectedRole == 'seller') {
+				 $data['role'] = 'seller';
+			 } elseif ($selectedRole == 'agent') {
+				 $data['role'] = 'agent';
+			 }
 	
 			// Check if email already exists
 			$existingUser = $this->Usermodel->getUserByEmail($data['email']);
@@ -510,6 +528,24 @@ class Usercontroller extends CI_Controller {
 		if($response==1){
 			redirect('index.php/Usercontroller/userViewThirdPartyManufacturedProducts');
 		}
+	}
+
+	public function inquireWhiteLabelProduct(){
+		try{
+			$data['wl_product_id'] = $this->input->post('product_id');
+			$data['user_id'] = $this->session->userdata('id');
+			$data['ask_rate'] = 100;
+			$data['status'] = 'pending';
+			$response = $this->Usermodel->inquireWhiteLabelProduct($data);
+			if($response==true){
+				redirect('index.php/Usercontroller/userViewWhiteLabelProductDetails?product_id='.$this->input->post('product_id'));
+			}
+		}
+		catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}	
 	}
 
 	

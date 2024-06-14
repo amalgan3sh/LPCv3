@@ -116,6 +116,7 @@
             
             <!-- Add more fields here for the right column -->
           </div>
+
           <div class="input-group mb-3">
               <textarea class="form-control" placeholder="Message" name="message"></textarea>
               <div class="input-group-append">
@@ -124,6 +125,25 @@
                 </div>
               </div>
             </div>
+
+              <div class="input-group mb-3">
+                  <select class="form-control" name="role" id="role_selection" required>
+                      <option value="" disabled selected>You want to register as?</option>
+                      <option value="distributor">Distributor</option>
+                      <option value="seller">Seller</option>
+                      <option value="agent">Agent</option>
+                  </select>
+                  <div class="input-group-append">
+                      <div class="input-group-text">
+                          <span class="fas fa-user"></span>
+                      </div>
+                  </div>
+              </div>
+
+
+        </div>
+
+          
           <!-- /.col -->
         </div>
         <!-- /.row -->

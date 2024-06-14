@@ -76,16 +76,46 @@
               </div>
 
               <div class="mt-4">
-                <div class="btn btn-primary btn-lg btn-flat">
-                  <i class="fas fa-cart-plus fa-lg mr-2"></i>
-                  Add to Cart
-                </div>
+                <form id="inquireForm" action="<?= base_url('index.php/Usercontroller/inquireWhiteLabelProduct'); ?>" method="post">
+                    <input type="hidden" name="product_id" id="product_id">
+                    <div class="btn btn-primary btn-lg btn-flat" onclick="submitInquireForm()">
+                      <i class="fas fa-cart-plus fa-lg mr-2"></i>
+                      Inquire
+                    </div>
+                </form>
 
                 <div class="btn btn-default btn-lg btn-flat">
                   <i class="fas fa-heart fa-lg mr-2"></i>
                   Add to Wishlist
                 </div>
               </div>
+
+              <script>
+                // Function to get query parameter by name
+                function getQueryParam(param) {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    return urlParams.get(param);
+                }
+
+                function submitInquireForm() {
+                    // Get the product_id from the URL and set it in the form
+                    const productId = getQueryParam('product_id');
+                    if (productId) {
+                      document.getElementById('product_id').value = productId;
+                      document.getElementById('inquireForm').submit();
+                    } else {
+                      alert('Product ID not found in URL');
+                    }
+                }
+
+                // Initialize product_id field when the page loads
+                document.addEventListener('DOMContentLoaded', () => {
+                    const productId = getQueryParam('product_id');
+                    if (productId) {
+                      document.getElementById('product_id').value = productId;
+                    }
+                });
+              </script>
 
               <div class="mt-4 product-share">
                 <a href="#" class="text-gray">
