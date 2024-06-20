@@ -298,6 +298,18 @@
 				</p>
 			</a>
 		</li> -->
+    <?php if ($user_data['role'] == 'supplier'): ?>
+    <li class="nav-item">
+        <a href="pages/widgets.html" class="nav-link">
+            <i class="nav-icon fas fa-box-open"></i>
+            <p>
+                Branded Products
+                <span class="right badge badge-danger">New</span>
+            </p>
+        </a>
+    </li>
+    <?php endif; ?>
+
 
 		<li class="nav-item">
 			<a href="pages/widgets.html" class="nav-link">

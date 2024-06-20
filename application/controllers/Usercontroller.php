@@ -239,8 +239,8 @@ class Usercontroller extends CI_Controller {
 			 $selectedRole = $this->input->post('role');
 			 if ($selectedRole == 'distributor') {
 				 $data['role'] = 'customer';
-			 } elseif ($selectedRole == 'seller') {
-				 $data['role'] = 'seller';
+			 } elseif ($selectedRole == 'supplier') {
+				 $data['role'] = 'supplier';
 			 } elseif ($selectedRole == 'agent') {
 				 $data['role'] = 'agent';
 			 }

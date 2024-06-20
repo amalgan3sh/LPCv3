@@ -112,7 +112,7 @@ class Usermodel extends CI_Model {
                     // If user is customer, redirect to user home
                     $this->session->set_userdata('id', $user->id);
                     redirect(base_url('index.php/Usercontroller/userHome'));
-                }elseif ($user->role == 'seller') {
+                }elseif ($user->role == 'supplier') {
                     
                     // If user is customer, redirect to user home
                     $this->session->set_userdata('id', $user->id);

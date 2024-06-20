@@ -130,7 +130,7 @@
                   <select class="form-control" name="role" id="role_selection" required>
                       <option value="" disabled selected>You want to register as?</option>
                       <option value="distributor">Distributor</option>
-                      <option value="seller">Seller</option>
+                      <option value="supplier">Supplier</option>
                       <option value="agent">Agent</option>
                   </select>
                   <div class="input-group-append">
@@ -188,7 +188,7 @@
         </a>
       </div>
 
-      <a href="login.html" class="text-center">I already have a membership</a>
+      <a href="https://user.lakshmipharmaceuticals.com/" class="text-center">I already have a membership</a>
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->
