@@ -111,12 +111,12 @@ class Usermodel extends CI_Model {
                     
                     // If user is customer, redirect to user home
                     $this->session->set_userdata('id', $user->id);
-                    redirect(base_url('index.php/Usercontroller/userHome'));
+                    redirect(base_url('index.php/Usercontroller/agentHome'));
                 }elseif ($user->role == 'supplier') {
                     
                     // If user is customer, redirect to user home
                     $this->session->set_userdata('id', $user->id);
-                    redirect(base_url('index.php/Usercontroller/userHome'));
+                    redirect(base_url('index.php/Usercontroller/supplierHome'));
                 } else {
                     // Invalid role, handle accordingly (e.g., display error message)
                     return "Invalid role for user.";
@@ -151,6 +151,18 @@ class Usermodel extends CI_Model {
             return false; // Return false if failed
         }
     } 
+
+    public function get_timeline() {
+        // Fetch data from the database
+        // This is just a sample data structure. Adjust as per your actual database structure.
+        return [
+            ['date' => '10 Feb. 2014', 'time' => '12:05', 'icon' => 'fas fa-envelope bg-blue', 'header' => 'Registration to Lakshmi Pharmaceuticals', 'body' => 'Agent registered to Lakshmi Pharmaceuticals'],
+            ['date' => '', 'time' => '', 'icon' => 'fas fa-user bg-green', 'header' => 'KYC Verification', 'body' => 'Agent KYC verification started'],
+            ['date' => '', 'time' => '', 'icon' => 'fas fa-comments bg-yellow', 'header' => 'KYC Verification on Process', 'body' => 'Agent KYC verification is on process'],
+            ['date' => '3 Jan. 2014', 'time' => '5 mins ago', 'icon' => 'fa fa-camera bg-purple', 'header' => 'KYC Completed', 'body' => 'Agent KYC verification completed'],
+        ];
+    }
+    
     public function registerUser($data) {
         // Insert user data into the database
         $this->db->insert('users', $data);

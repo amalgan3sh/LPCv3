@@ -59,6 +59,49 @@ class Usercontroller extends CI_Controller {
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_home');
 	}
+	public function supplierHome(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		
+		// User is logged in, proceed with user home functionality
+		$id = $this->session->userdata('id');
+		
+		// Retrieve user data and other necessary information
+		$id = $this->session->userdata('id');
+
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['order_count'] = $this->Usermodel->getUserOrderCount($id);
+		$data['enquiry_count'] = $this->Usermodel->getUserEnquiryCount($id);
+		$data['white_label_count'] = $this->Usermodel->getWhiteLabelCount();
+
+		$this->load->view('supplier/supplier_header',$data);
+		$this->load->view('supplier/supplier_timeline');
+	}
+
+	public function agentHome(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		
+		// User is logged in, proceed with user home functionality
+		$id = $this->session->userdata('id');
+		
+		// Retrieve user data and other necessary information
+		$id = $this->session->userdata('id');
+
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['order_count'] = $this->Usermodel->getUserOrderCount($id);
+		$data['enquiry_count'] = $this->Usermodel->getUserEnquiryCount($id);
+		$data['white_label_count'] = $this->Usermodel->getWhiteLabelCount();
+		$data['timeline'] = $this->Usermodel->get_timeline();
+
+		$this->load->view('agent/agent_header',$data);
+		$this->load->view('agent/agent_timeline');
+	}
+
 	public function userProfile(){
 		if (!$this->session->userdata('id')) {
 			// User is not logged in, redirect to login page
@@ -68,6 +111,16 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_profile');
+	}
+	public function agentProfile(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$this->load->view('agent/agent_header',$data);
+		$this->load->view('agent/agent_profile');
 	}
 	public function userUpdateProfile(){
 		try {
