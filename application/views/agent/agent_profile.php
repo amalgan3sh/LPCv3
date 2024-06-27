@@ -115,100 +115,36 @@
               <div class="card-body">
                 <div class="tab-content">
                   
-                  <!-- /.tab-pane -->
-                  <div class="active tab-pane" id="timeline">
-                    <!-- The timeline -->
-                    <div class="timeline timeline-inverse">
-                      <!-- timeline time label -->
-                      <div class="time-label">
-                        <span class="bg-danger">
-                          10 Feb. 2014
-                        </span>
-                      </div>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-envelope bg-primary"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 12:05</span>
-
-                          <h3 class="timeline-header"><a href="#"> Lakshmi Pharmaceuticals</a> sent you an email</h3>
-
-                          <div class="timeline-body">
-                          Welcome to the Laksmi Pharmaceuticals family!
-                           We are delighted to have you on board and are truly excited about the journey ahead..
-                          </div>
-                          <div class="timeline-footer">
-                            <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-user bg-info"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
-
-                          <h3 class="timeline-header border-0"><a href="#">Dear customer</a> your profile is created
-                          </h3>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-comments bg-warning"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
-
-                          <h3 class="timeline-header"><a href="#">Hey <?php echo $user_data['firstname'] ?> </a> Make your first order</h3>
-
-                          <div class="timeline-body">
-                          In our order section, you'll discover a treasure trove of pharmaceutical solutions tailored to your needs.
-                           Feel empowered to explore and select what resonates with you. Should you need any assistance or guidance
-                            along the way, our dedicated team is here to offer support and ensure your journey is seamless.
-                          </div>
-                          <div class="timeline-footer">
-                            <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <!-- timeline time label -->
-                      <div class="time-label">
-                        <span class="bg-success">
-                          3 Jan. 2014
-                        </span>
-                      </div>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-camera bg-purple"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-
-                          <h3 class="timeline-header"><a href="#">Your</a> First order is completed</h3>
-
-                          <!-- <div class="timeline-body">
-                            <img src="https://placehold.it/150x100" alt="...">
-                            <img src="https://placehold.it/150x100" alt="...">
-                            <img src="https://placehold.it/150x100" alt="...">
-                            <img src="https://placehold.it/150x100" alt="...">
-                          </div> -->
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <div>
-                        <i class="far fa-clock bg-gray"></i>
-                      </div>
-                    </div>
+                <div class="active tab-pane" id="timeline">
+          <!-- The timeline -->
+          <div class="timeline timeline-inverse">
+            <!-- Insert your timeline structure here -->
+            <!-- Start of timeline loop -->
+            <?php foreach ($timeline as $event): ?>
+              <?php if (!empty($event['event_date'])): ?>
+                <div class="time-label">
+                  <span class="bg-red"><?php echo date('d M. Y', strtotime($event['event_date'])); ?></span>
+                </div>
+              <?php endif; ?>
+              <div>
+                <i class="<?php echo $event['icon']; ?>"></i>
+                <div class="timeline-item">
+                  <span class="time"><i class="fas fa-clock"></i> <?php echo date('H:i', strtotime($event['event_time'])); ?></span>
+                  <h3 class="timeline-header"><a href="#"><?php echo $event['header']; ?></a></h3>
+                  <div class="timeline-body">
+                    <?php echo $event['body']; ?>
                   </div>
-                  <!-- /.tab-pane -->
+                </div>
+              </div>
+            <?php endforeach; ?>
+            <!-- End of timeline loop -->
+            <div>
+              <i class="fas fa-clock bg-gray"></i>
+            </div>
+          </div>
+          <!-- /.timeline -->
+        </div>
+        <!-- /.tab-pane -->
 
                   <div class="tab-pane" id="settings">
                     <form class="form-horizontal" action="<?php echo base_url('index.php/Usercontroller/userUpdateProfile') ?>" method="post">

@@ -230,10 +230,20 @@
             </a>
           </li>
     <li class="nav-item">
+
+    <style>
+        .blink {
+            animation: blinker 1s linear infinite;
+            color: red;
+        }
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+    </style>
        
 
       <li class="nav-item">
-        <a href="#" class="nav-link">
+        <a href="#" class="nav-link <?php echo $kyc_pending ? 'blink' : ''; ?>">
           <i class="nav-icon fas fa-id-card"></i>
           <p>
             KYC Registration
@@ -242,13 +252,13 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="<?php echo base_url('index.php/Usercontroller/KYCRegistration')?>" class="nav-link">
+            <a href="<?php echo base_url('index.php/Usercontroller/AgentKYCRegistration')?>" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Upload Documents</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?php echo base_url('index.php/Usercontroller/userKycStatus')?>" class="nav-link">
+            <a href="<?php echo base_url('index.php/Usercontroller/agentKycStatus')?>" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>KYC Status</p>
             </a>

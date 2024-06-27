@@ -152,17 +152,18 @@ class Usermodel extends CI_Model {
         }
     } 
 
-    public function get_timeline() {
-        // Fetch data from the database
-        // This is just a sample data structure. Adjust as per your actual database structure.
-        return [
-            ['date' => '10 Feb. 2014', 'time' => '12:05', 'icon' => 'fas fa-envelope bg-blue', 'header' => 'Registration to Lakshmi Pharmaceuticals', 'body' => 'Agent registered to Lakshmi Pharmaceuticals'],
-            ['date' => '', 'time' => '', 'icon' => 'fas fa-user bg-green', 'header' => 'KYC Verification', 'body' => 'Agent KYC verification started'],
-            ['date' => '', 'time' => '', 'icon' => 'fas fa-comments bg-yellow', 'header' => 'KYC Verification on Process', 'body' => 'Agent KYC verification is on process'],
-            ['date' => '3 Jan. 2014', 'time' => '5 mins ago', 'icon' => 'fa fa-camera bg-purple', 'header' => 'KYC Completed', 'body' => 'Agent KYC verification completed'],
-        ];
+    public function get_timeline($agent_id) {
+        $this->db->where('agent_id', $agent_id);
+        $query = $this->db->get('agent_timeline');
+        return $query->result_array();
     }
-    
+
+    public function check_kyc_status($agent_id) {
+        $this->db->where('user_id', $agent_id);
+        $query = $this->db->get('kyc_registration');
+        return $query->num_rows() > 0;
+    }
+
     public function registerUser($data) {
         // Insert user data into the database
         $this->db->insert('users', $data);
@@ -176,6 +177,11 @@ class Usermodel extends CI_Model {
             return false;
         }
     }
+
+    public function insert_event($data) {
+        return $this->db->insert('agent_timeline', $data);
+    }
+
     public function getUserByEmail($email){
         // Query to fetch user by email
         $this->db->where('email', $email);

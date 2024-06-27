@@ -96,7 +96,9 @@ class Usercontroller extends CI_Controller {
 		$data['order_count'] = $this->Usermodel->getUserOrderCount($id);
 		$data['enquiry_count'] = $this->Usermodel->getUserEnquiryCount($id);
 		$data['white_label_count'] = $this->Usermodel->getWhiteLabelCount();
-		$data['timeline'] = $this->Usermodel->get_timeline();
+		$data['timeline'] = $this->Usermodel->get_timeline($id);
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
 
 		$this->load->view('agent/agent_header',$data);
 		$this->load->view('agent/agent_timeline');
@@ -118,6 +120,11 @@ class Usercontroller extends CI_Controller {
 			redirect('index.php/Usercontroller/index');
 		}
 		$id = $this->session->userdata('id');
+
+		$data['timeline'] = $this->Usermodel->get_timeline($id);
+
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$this->load->view('agent/agent_header',$data);
 		$this->load->view('agent/agent_profile');
@@ -312,6 +319,24 @@ class Usercontroller extends CI_Controller {
 				$response = $this->Usermodel->registerUser($data);
 				if ($response == true) {
 					$this->EmailModel->send_registration_email($data);
+
+					// Get the newly registered user's ID
+					$newUserId = $this->db->insert_id(); // Assuming you are using CodeIgniter's Active Record
+                
+					// If the registered user is an agent, insert into agent_timeline
+					if ($data['role'] == 'agent') {
+						$timelineData = array(
+							'agent_id' => $newUserId,
+							'event_date' => date('Y-m-d'), // Current date
+							'event_time' => date('H:i:s'), // Current time
+							'icon' => 'fas fa-envelope bg-blue',
+							'header' => 'Registration to Lakshmi Pharmaceuticals',
+							'body' => 'Agent registered to Lakshmi Pharmaceuticals'
+						);
+						$this->Usermodel->insert_event($timelineData);
+						
+					}
+
 					redirect('index.php/Usercontroller/index');
 				}
 			}
@@ -346,6 +371,24 @@ class Usercontroller extends CI_Controller {
 		$data['kyc_registration'] = $this->Usermodel->getKycRegistration($id );
 
 		$this->load->view('customer/user_header',$data);
+		$this->load->view('customer/user_kyc_registration');
+
+	}
+	public function AgentKYCRegistration(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$id = $this->session->userdata('id');
+		$data['timeline'] = $this->Usermodel->get_timeline($id);
+
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['document_exist'] = $this->Usermodel->getUserDocuments($id );
+		$data['kyc_registration'] = $this->Usermodel->getKycRegistration($id );
+
+		$this->load->view('agent/agent_header',$data);
 		$this->load->view('customer/user_kyc_registration');
 
 	}
@@ -408,7 +451,18 @@ class Usercontroller extends CI_Controller {
 				$response = $this->Usermodel->userUploadDocuments($data);
 				
 				if ($response) {
-					redirect('index.php/Usercontroller/KYCRegistration');
+
+					$timelineData = array(
+						'agent_id' => $userId,
+						'event_date' => date('Y-m-d'), // Current date
+						'event_time' => date('H:i:s'), // Current time
+						'icon' => 'fas fa-user bg-green',
+						'header' => 'KYC Verification',
+						'body' => 'Agent KYC verification started'
+					);
+					$this->Usermodel->insert_event($timelineData);
+
+					redirect('index.php/Usercontroller/agentHome');
 				} else {
 					// Error inserting data into the database
 					// Handle the error as needed
@@ -437,9 +491,29 @@ class Usercontroller extends CI_Controller {
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
+		// echo json_encode($id);
+		// die();
 
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_kyc_status');
+	}
+
+	public function agentKycStatus(){
+		// Check if the user is logged in
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
+		// echo json_encode($id);
+		// die();
+
+		$this->load->view('agent/agent_header',$data);
+		$this->load->view('agent/agent_kyc_status');
 	}
 
 	public function userViewWhiteLabelProducts(){

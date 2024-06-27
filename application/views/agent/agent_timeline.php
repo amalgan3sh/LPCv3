@@ -31,15 +31,16 @@
                     <div class="col-md-12">
                         <div class="timeline">
                             <?php foreach ($timeline as $event): ?>
-                                <?php if (!empty($event['date'])): ?>
+                            
+                                <?php if (!empty($event['event_date'])): ?>
                                     <div class="time-label">
-                                        <span class="bg-red"><?php echo $event['date']; ?></span>
+                                        <span class="bg-red"><?php echo date('d M. Y', strtotime($event['event_date'])); ?></span>
                                     </div>
                                 <?php endif; ?>
                                 <div>
                                     <i class="<?php echo $event['icon']; ?>"></i>
                                     <div class="timeline-item">
-                                        <span class="time"><i class="fas fa-clock"></i> <?php echo $event['time']; ?></span>
+                                        <span class="time"><i class="fas fa-clock"></i> <?php echo date('H:i', strtotime($event['event_time'])); ?></span>
                                         <h3 class="timeline-header"><a href="#"><?php echo $event['header']; ?></a></h3>
                                         <div class="timeline-body">
                                             <?php echo $event['body']; ?>
