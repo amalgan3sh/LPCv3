@@ -108,98 +108,152 @@
             <div class="card">
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" href="#timeline" data-toggle="tab">Timeline</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
+
+                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
                   <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content">
-                  
-                <div class="active tab-pane" id="timeline">
-          <!-- The timeline -->
-          <div class="timeline timeline-inverse">
-            <!-- Insert your timeline structure here -->
-            <!-- Start of timeline loop -->
-            <?php foreach ($timeline as $event): ?>
-              <?php if (!empty($event['event_date'])): ?>
-                <div class="time-label">
-                  <span class="bg-red"><?php echo date('d M. Y', strtotime($event['event_date'])); ?></span>
-                </div>
-              <?php endif; ?>
-              <div>
-                <i class="<?php echo $event['icon']; ?>"></i>
-                <div class="timeline-item">
-                  <span class="time"><i class="fas fa-clock"></i> <?php echo date('H:i', strtotime($event['event_time'])); ?></span>
-                  <h3 class="timeline-header"><a href="#"><?php echo $event['header']; ?></a></h3>
-                  <div class="timeline-body">
-                    <?php echo $event['body']; ?>
-                  </div>
-                </div>
-              </div>
-            <?php endforeach; ?>
-            <!-- End of timeline loop -->
-            <div>
-              <i class="fas fa-clock bg-gray"></i>
-            </div>
-          </div>
-          <!-- /.timeline -->
-        </div>
-        <!-- /.tab-pane -->
 
-                  <div class="tab-pane" id="settings">
-                    <form class="form-horizontal" action="<?php echo base_url('index.php/Usercontroller/userUpdateProfile') ?>" method="post">
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">First Name</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="firstname" class="form-control" value="<?php echo $user_data['firstname'] ?>" id="inputName" placeholder="Name">
-                        </div>
+                <div class="active tab-pane" id="activity">
+                   
+
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                        <img class="img-circle img-bordered-sm" src="<?php echo base_url('assets/')?>dist/img/user6-128x128.jpg" alt="User Image">
+                        <span class="username">
+                          <a href="#"><?php echo ($user_data['firstname'].' '.$user_data['lastname']) ?></a>
+                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                        </span>
+                        <span class="description">Posted 5 photos - 5 days ago</span>
                       </div>
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">Last Name</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="lastname" class="form-control" value="<?php echo $user_data['lastname'] ?>" id="inputName" placeholder="Name">
+                      <!-- /.user-block -->
+                      <?php if (!empty($user_documents) && isset($user_documents[0])): ?>
+                        <div class="row mb-3">
+                          <div class="col-sm-4">
+                            <img class="img-fluid mb-3" src="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) ?>" alt="Photo">
+                          </div>
+                          <div class="col-sm-4">
+                            <img class="img-fluid mb-3" src="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) ?>" alt="Photo">
+                          </div>
+                          <div class="col-sm-4">
+                            <img class="img-fluid mb-3" src="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) ?>" alt="Photo">
+                          </div>
                         </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-10">
-                          <input type="email" name="email" class="form-control" value="<?php echo $user_data['email'] ?>" id="inputEmail" placeholder="Email">
+                      <?php else: ?>
+                        <div class="alert alert-warning" role="alert">
+                          <a href="<?php echo site_url('Usercontroller/AgentKYCRegistration'); ?>" class="alert-link">
+                            Complete KYC registration first.
+                          </a>
                         </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputName2" class="col-sm-2 col-form-label">Mobile</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="mobile" class="form-control" value="<?php echo $user_data['mobile'] ?>" id="inputName2" placeholder="Name">
+                      <?php endif; ?>
+
+                      <!-- /.row -->
+
+                      <p>
+                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
+                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
+                        <span class="float-right">
+                          <a href="#" class="link-black text-sm">
+                            <i class="far fa-comments mr-1"></i> Comments (5)
+                          </a>
+                        </span>
+                      </p>
+
+                      <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+                    </div>
+                    <!-- /.post -->
+                  </div>
+                  <!-- /.tab-pane -->
+                  
+                <div class="tab-pane" id="timeline">
+                  <!-- The timeline -->
+                  <div class="timeline timeline-inverse">
+                    <!-- Insert your timeline structure here -->
+                    <!-- Start of timeline loop -->
+                    <?php foreach ($timeline as $event): ?>
+                      <?php if (!empty($event['event_date'])): ?>
+                        <div class="time-label">
+                          <span class="bg-red"><?php echo date('d M. Y', strtotime($event['event_date'])); ?></span>
                         </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputExperience" class="col-sm-2 col-form-label">Company Name</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="cname" class="form-control" value="<?php echo $user_data['cname'] ?>" id="inputName2" placeholder="Name">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputSkills" class="col-sm-2 col-form-label">Designatiom</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="designation" class="form-control"  value="<?php echo $user_data['designation'] ?>" id="inputSkills" placeholder="Skills">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                          <div class="checkbox">
-                            <label>
-                              <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                            </label>
+                      <?php endif; ?>
+                      <div>
+                        <i class="<?php echo $event['icon']; ?>"></i>
+                        <div class="timeline-item">
+                          <span class="time"><i class="fas fa-clock"></i> <?php echo date('H:i', strtotime($event['event_time'])); ?></span>
+                          <h3 class="timeline-header"><a href="#"><?php echo $event['header']; ?></a></h3>
+                          <div class="timeline-body">
+                            <?php echo $event['body']; ?>
                           </div>
                         </div>
                       </div>
-                      <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                          <button type="submit" class="btn btn-danger">Save</button>
-                        </div>
-                      </div>
-                    </form>
+                    <?php endforeach; ?>
+                    <!-- End of timeline loop -->
+                    <div>
+                      <i class="fas fa-clock bg-gray"></i>
+                    </div>
                   </div>
+                  <!-- /.timeline -->
+                </div>
+          <!-- /.tab-pane -->
+
+                    <div class="tab-pane" id="settings">
+                      <form class="form-horizontal" action="<?php echo base_url('index.php/Usercontroller/userUpdateProfile') ?>" method="post">
+                        <div class="form-group row">
+                          <label for="inputName" class="col-sm-2 col-form-label">First Name</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="firstname" class="form-control" value="<?php echo $user_data['firstname'] ?>" id="inputName" placeholder="Name">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputName" class="col-sm-2 col-form-label">Last Name</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="lastname" class="form-control" value="<?php echo $user_data['lastname'] ?>" id="inputName" placeholder="Name">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                          <div class="col-sm-10">
+                            <input type="email" name="email" class="form-control" value="<?php echo $user_data['email'] ?>" id="inputEmail" placeholder="Email">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputName2" class="col-sm-2 col-form-label">Mobile</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="mobile" class="form-control" value="<?php echo $user_data['mobile'] ?>" id="inputName2" placeholder="Name">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputExperience" class="col-sm-2 col-form-label">Company Name</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="cname" class="form-control" value="<?php echo $user_data['cname'] ?>" id="inputName2" placeholder="Name">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputSkills" class="col-sm-2 col-form-label">Designatiom</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="designation" class="form-control"  value="<?php echo $user_data['designation'] ?>" id="inputSkills" placeholder="Skills">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="offset-sm-2 col-sm-10">
+                            <div class="checkbox">
+                              <label>
+                                <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="offset-sm-2 col-sm-10">
+                            <button type="submit" class="btn btn-danger">Save</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
                   <!-- /.tab-pane -->
                 </div>
                 <!-- /.tab-content -->

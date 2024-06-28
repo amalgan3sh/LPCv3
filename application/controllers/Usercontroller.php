@@ -120,7 +120,7 @@ class Usercontroller extends CI_Controller {
 			redirect('index.php/Usercontroller/index');
 		}
 		$id = $this->session->userdata('id');
-
+		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
 		$data['timeline'] = $this->Usermodel->get_timeline($id);
 
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
