@@ -16,6 +16,32 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`lammygkk_db` /*!40100 DEFAULT CHARACTER
 
 USE `lammygkk_db`;
 
+/*Table structure for table `agent_timeline` */
+
+DROP TABLE IF EXISTS `agent_timeline`;
+
+CREATE TABLE `agent_timeline` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `agent_id` int(11) NOT NULL,
+  `event_date` date DEFAULT NULL,
+  `event_time` time DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL,
+  `header` varchar(255) DEFAULT NULL,
+  `body` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `agent_timeline` */
+
+insert  into `agent_timeline`(`id`,`agent_id`,`event_date`,`event_time`,`icon`,`header`,`body`) values 
+(1,1,'2023-01-01','09:00:00','fas fa-envelope bg-blue','Registration to Lakshmi Pharmaceuticals','Agent registered to Lakshmi Pharmaceuticals'),
+(2,1,'2023-01-02','10:00:00','fas fa-user bg-green','KYC Verification','Agent KYC verification started'),
+(3,1,'2023-01-03','11:00:00','fas fa-comments bg-yellow','KYC Verification on Process','Agent KYC verification is on process'),
+(4,1,'2023-01-04','12:00:00','fa fa-camera bg-purple','KYC Completed','Agent KYC verification completed'),
+(5,121,'2024-06-26','13:11:43','fas fa-envelope bg-blue','Registration to Lakshmi Pharmaceuticals','Agent registered to Lakshmi Pharmaceuticals'),
+(6,121,'2024-06-27','07:34:47','fas fa-user bg-green','KYC Verification','Agent KYC verification started'),
+(7,121,'2024-07-02','06:23:23','fas fa-check-circle bg-green','KYC Verification Accepted','Agent KYC verification has been accepted');
+
 /*Table structure for table `blogs` */
 
 DROP TABLE IF EXISTS `blogs`;
@@ -6286,22 +6312,117 @@ CREATE TABLE `divisions` (
 
 /*Data for the table `divisions` */
 
-/*Table structure for table `dosage_from` */
+/*Table structure for table `dosage_form` */
 
-DROP TABLE IF EXISTS `dosage_from`;
+DROP TABLE IF EXISTS `dosage_form`;
 
-CREATE TABLE `dosage_from` (
+CREATE TABLE `dosage_form` (
   `dosage_id` int(11) NOT NULL AUTO_INCREMENT,
-  `dosage_name` varchar(100) DEFAULT NULL,
+  `dosage_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`dosage_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*Data for the table `dosage_from` */
+/*Data for the table `dosage_form` */
 
-insert  into `dosage_from`(`dosage_id`,`dosage_name`) values 
-(1,'injectables'),
-(2,'tablets'),
-(3,'capsules');
+insert  into `dosage_form`(`dosage_id`,`dosage_name`) values 
+(5,'Injectables'),
+(6,'creamsointment'),
+(7,'tablets'),
+(8,'liquid-orals'),
+(9,'liquid-external'),
+(10,'suppositories'),
+(11,'capsules'),
+(12,'powder'),
+(13,'veterinary-tablets'),
+(14,'eyeearnasal-drops'),
+(15,'combi-kit'),
+(16,'dry-syrup'),
+(17,'oral-suspension'),
+(18,'ear-drops'),
+(19,'veterinary-injection'),
+(20,'eye-drops'),
+(21,'inhaler'),
+(22,'eyeear-drops'),
+(23,'external-preparation'),
+(24,'liquid-preparation'),
+(25,'surgical-goods'),
+(26,'lyophillised-injections'),
+(27,'tablet'),
+(28,'cream'),
+(29,'gummies'),
+(30,'liquid'),
+(31,'ointment'),
+(32,'effervescent-tablets'),
+(33,'diskette'),
+(34,'syurp-liquid'),
+(35,'syrup-liquid'),
+(36,'powder'),
+(37,'spray'),
+(38,'twin-pack-inhaler-roll-on'),
+(39,'shampoo'),
+(40,'face-wash'),
+(41,'body-wash'),
+(42,'lotion'),
+(43,'oil'),
+(44,'toner'),
+(45,'facial-kit'),
+(46,'scrub'),
+(47,'serum'),
+(48,'lip-balm'),
+(49,'hand-skin-disinfectants'),
+(50,'hand-skin-cleansing-solution'),
+(51,'cleaning-liquid-for-hospitals'),
+(52,'disinfection-of-medical-devices'),
+(53,'cleanser-for-instruments-devices'),
+(54,'disinfectant-for-drains'),
+(55,'disinfectant-for-manufacturing-areas'),
+(56,'antimicrobial-hand-washing'),
+(57,'disposable-items'),
+(58,'single-use-items'),
+(59,'ortho-bandage'),
+(60,'abdominal-mop-sponge'),
+(61,'adhesive-tape'),
+(62,'microporous-paper-tape'),
+(63,'orthopaedic-items'),
+(64,'bed-sheet'),
+(65,'absorbent-cotton'),
+(66,'underpad-sheet'),
+(67,'safety-goggles'),
+(68,'examination-gloves'),
+(69,'bio-medical-waste-carry-bags'),
+(70,'cover'),
+(71,'surgical-item'),
+(72,'reusable-pot'),
+(73,'clamp'),
+(74,'face-wsh'),
+(75,'TABLET'),
+(76,'SUSPENSION'),
+(77,'SYRUP'),
+(78,'INJECTION'),
+(79,'CAPSULE'),
+(80,'syrup'),
+(81,'CREAM');
+
+/*Table structure for table `drug_category` */
+
+DROP TABLE IF EXISTS `drug_category`;
+
+CREATE TABLE `drug_category` (
+  `drug_category_id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(100) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`drug_category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `drug_category` */
+
+insert  into `drug_category`(`drug_category_id`,`category_name`,`description`) values 
+(10,'Pharmaceuticals','This category encompasses a wide range of products including prescription medications, over-the-counter drugs, vaccines, and biologics. Pharmaceuticals are developed through extensive research and clinical trials to ensure their efficacy and safety. They play a crucial role in modern healthcare by managing and curing illnesses, alleviating symptoms, and improving the overall quality of life for patients.'),
+(11,'Nutraceuticals','Nutraceuticals are products derived from food sources that offer additional health benefits beyond basic nutrition. These include dietary supplements, functional foods, and fortified foods that provide essential nutrients, such as vitamins, minerals, amino acids, and antioxidants. Nutraceuticals are used to support overall health, prevent chronic diseases, improve performance, and manage specific health conditions. They bridge the gap between nutrition and pharmaceuticals, aiming to enhance well'),
+(12,'Cosmetics','Cosmetics are products applied to the body, especially the face, to enhance or alter appearance. This category includes a wide range of items such as makeup, skincare products, hair care products, fragrances, and nail care products. Cosmetics are used for cleansing, beautifying, promoting attractiveness, and altering appearance without affecting the body\'s structure or functions. They play a significant role in personal grooming and self-expression, offering solutions for various aesthetic needs'),
+(13,'Hospital care','Hospital care refers to the comprehensive range of medical services and treatments provided within a hospital setting. This includes emergency care, inpatient and outpatient services, surgeries, intensive care, diagnostic testing, and specialized medical treatments. Hospital care is delivered by a team of healthcare professionals, including doctors, nurses, and support staff, who work together to diagnose, treat, and manage various health conditions. The goal of hospital care is to provide high-'),
+(14,'Surgical devices','Surgical devices are specialized tools and instruments used by medical professionals during surgical procedures. These devices encompass a wide range of equipment, including scalpels, forceps, clamps, retractors, and high-tech instruments like lasers, robotic surgery systems, and endoscopes. Designed to assist in cutting, manipulating, and repairing tissues and organs, surgical devices are essential for performing precise and effective surgeries. They are crafted to meet stringent safety and ste'),
+(15,'Cosmeceuticals','Cosmeceuticals are a hybrid category of products that combine cosmetics and pharmaceuticals, offering both aesthetic and therapeutic benefits. These products contain active ingredients that can improve the health and appearance of the skin, such as vitamins, peptides, antioxidants, and botanicals. Unlike regular cosmetics, cosmeceuticals have bioactive compounds that can bring about biological changes in the skin, targeting issues like aging, acne, hyperpigmentation, and more. While not as rigor');
 
 /*Table structure for table `enquiries` */
 
@@ -6619,6 +6740,28 @@ insert  into `enquiries`(`id`,`name`,`email`,`mobile`,`message`,`state`,`city`,`
 (370,'NwSTsAhjXFyPEZMm','glindaloyaxc@outlook.com','3606787230','ZtEaXAhDRSolLHs',NULL,'sMgqeLRfG','WmHslabuN',1,'2024-04-18 09:42:06','2024-04-18 09:42:06'),
 (371,'NwSTsAhjXFyPEZMm','glindaloyaxc@outlook.com','3606787230','ZtEaXAhDRSolLHs',NULL,'sMgqeLRfG','WmHslabuN',1,'2024-04-18 09:42:07','2024-04-18 09:42:07');
 
+/*Table structure for table `error_logs` */
+
+DROP TABLE IF EXISTS `error_logs`;
+
+CREATE TABLE `error_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `message` text NOT NULL,
+  `file` varchar(255) NOT NULL,
+  `line` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `error_logs` */
+
+insert  into `error_logs`(`id`,`message`,`file`,`line`,`created_at`) values 
+(1,'This is a test error to check error handling.','C:\\xampp\\htdocs\\LPCv3\\application\\controllers\\Admincontroller.php',36,'2024-05-21 12:46:51'),
+(2,'This is a test error to check error handling.','C:\\xampp\\htdocs\\LPCv3\\application\\controllers\\Admincontroller.php',36,'2024-05-21 12:47:02'),
+(3,'This is a test error to check error handling.','C:\\xampp\\htdocs\\LPCv3\\application\\controllers\\Admincontroller.php',36,'2024-05-21 12:51:00'),
+(4,'This is a test error to check error handling.','C:\\xampp\\htdocs\\LPCv3\\application\\controllers\\Admincontroller.php',36,'2024-05-21 12:53:07'),
+(5,'This is a simulated error for testing purposes.','C:\\xampp\\htdocs\\LPCv3\\application\\controllers\\Usercontroller.php',79,'2024-05-27 13:09:42');
+
 /*Table structure for table `failed_jobs` */
 
 DROP TABLE IF EXISTS `failed_jobs`;
@@ -6667,12 +6810,13 @@ CREATE TABLE `kyc_registration` (
   `user_id` int(30) DEFAULT NULL,
   `status` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`kyc_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `kyc_registration` */
 
 insert  into `kyc_registration`(`kyc_id`,`company_incorporation_certificate`,`drug_license`,`national_id_proof`,`user_id`,`status`) values 
-(1,'86_20240430133834_CERTIFICATE-OF-INCORPORATION-scaled.jpg','86_20240430133834_drug_liscense.png','86_20240430133834_Nationl_id.png',86,'pending');
+(1,'86_20240430133834_CERTIFICATE-OF-INCORPORATION-scaled.jpg','86_20240430133834_drug_liscense.png','86_20240430133834_Nationl_id.png',86,'pending'),
+(5,'121_20240702055904_call-to-action.png','121_20240702055904_rewards.png','121_20240702055904_automatic.png',121,'accepted');
 
 /*Table structure for table `migrations` */
 
@@ -6908,6 +7052,50 @@ insert  into `orders`(`id`,`user_id`,`product_id`,`status`,`delevered`,`created_
 (236,83,10432,1,NULL,'2024-04-12 10:51:46'),
 (237,83,10434,1,NULL,'2024-04-12 10:51:46');
 
+/*Table structure for table `packing_size` */
+
+DROP TABLE IF EXISTS `packing_size`;
+
+CREATE TABLE `packing_size` (
+  `packing_id` int(11) NOT NULL AUTO_INCREMENT,
+  `packing_size` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`packing_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `packing_size` */
+
+insert  into `packing_size`(`packing_id`,`packing_size`) values 
+(3,'Blister(10*1)'),
+(4,'Blister(10*2)'),
+(5,'Blister(10*3)'),
+(6,'Blister(10*5)'),
+(7,'Blister(10*4)'),
+(8,'Blister(10*20)'),
+(9,'Blister(10*30)'),
+(10,'Blister(10*10)'),
+(11,'Blister(20 X 10)'),
+(12,'Alu Alu(10*1)'),
+(13,'Alu Alu(10*2)'),
+(14,'Alu Alu(10*3)'),
+(15,'Alu Alu(10*5)'),
+(16,'Alu Alu(10*4)'),
+(17,'Alu Alu(10*20)'),
+(18,'Alu Alu(10*30'),
+(19,'Alu Alu(10*10)'),
+(20,'Alu Alu(20 * 10)'),
+(21,'Strip'),
+(22,'Vial'),
+(23,'Amp'),
+(24,'Dispo'),
+(25,'Bottle(30ml)'),
+(26,'Bottle(60ml)'),
+(27,'Bottle(100ml)'),
+(28,'Bottle(250ml)'),
+(29,'Bottle(500ml)'),
+(30,'diskettes'),
+(31,'Sachet'),
+(32,'Other');
+
 /*Table structure for table `pages` */
 
 DROP TABLE IF EXISTS `pages`;
@@ -6944,6 +7132,25 @@ CREATE TABLE `password_resets` (
 
 /*Data for the table `password_resets` */
 
+/*Table structure for table `pharmacopeia` */
+
+DROP TABLE IF EXISTS `pharmacopeia`;
+
+CREATE TABLE `pharmacopeia` (
+  `pharmacopeia_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pharmacopeia_name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`pharmacopeia_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `pharmacopeia` */
+
+insert  into `pharmacopeia`(`pharmacopeia_id`,`pharmacopeia_name`) values 
+(3,'USP'),
+(4,'BP'),
+(5,'IP'),
+(6,'USFDA'),
+(7,'EUR');
+
 /*Table structure for table `product_inquiry` */
 
 DROP TABLE IF EXISTS `product_inquiry`;
@@ -6953,21 +7160,23 @@ CREATE TABLE `product_inquiry` (
   `user_id` int(11) DEFAULT NULL,
   `product_name` varchar(50) DEFAULT NULL,
   `drug_category` varchar(50) DEFAULT NULL,
-  `dosage_from` varchar(50) DEFAULT NULL,
+  `dosage_form` varchar(50) DEFAULT NULL,
   `packing_size` varchar(50) DEFAULT NULL,
   `pharmacopeia` varchar(50) DEFAULT NULL,
   `sample_photo` varchar(500) DEFAULT NULL,
   `comments` varchar(500) DEFAULT NULL,
   `quantity` varchar(200) DEFAULT NULL,
+  `budget_range` varchar(100) DEFAULT NULL,
   `date_time` varchar(50) DEFAULT NULL,
-  `status` varchar(20) DEFAULT 'pending',
+  `status` varchar(100) DEFAULT 'YOUR QUERY SUCCESSFULLY CREATED',
   PRIMARY KEY (`inquiry_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `product_inquiry` */
 
-insert  into `product_inquiry`(`inquiry_id`,`user_id`,`product_name`,`drug_category`,`dosage_from`,`packing_size`,`pharmacopeia`,`sample_photo`,`comments`,`quantity`,`date_time`,`status`) values 
-(1,86,'Paracetamol Tablets','247','2','100 tablets','USP','yugnac-p-aceclofenac-paracetamol-tablets-10x10-tablets-pack-189.jpg',' These tablets are for general pain relief.','10000','2024-11-21','rejected');
+insert  into `product_inquiry`(`inquiry_id`,`user_id`,`product_name`,`drug_category`,`dosage_form`,`packing_size`,`pharmacopeia`,`sample_photo`,`comments`,`quantity`,`budget_range`,`date_time`,`status`) values 
+(1,86,'Paracetamol Tablets','247','2','100 tablets','USP','yugnac-p-aceclofenac-paracetamol-tablets-10x10-tablets-pack-189.jpg',' These tablets are for general pain relief.','10000',NULL,'2024-11-21','UPDATE YOUR KYC VERIFICATION'),
+(2,86,'Ibuprofen Tablets','Pharmaceuticals','7','Blister(20 X 10)','USP','ibuprofen-400-mg-bp-tablets.jpg','I\'m looking for an over-the-counter pain reliever for occasional headaches and muscle aches.','10000','$5 - $10 per bottle','2024-05-30','ON THE PROCESS OF VERIFICATION');
 
 /*Table structure for table `products` */
 
@@ -18698,6 +18907,30 @@ insert  into `slugs`(`id`,`slug`,`type`,`slugid`,`created_at`,`updated_at`) valu
 (10956,'Azithromycin',1,10456,'2023-06-28 04:25:04','2023-06-28 04:25:04'),
 (10957,'Ondansetron-4',1,10457,'2023-06-28 04:29:09','2023-06-28 04:29:09');
 
+/*Table structure for table `third_party_manufactured_products` */
+
+DROP TABLE IF EXISTS `third_party_manufactured_products`;
+
+CREATE TABLE `third_party_manufactured_products` (
+  `tpm_product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_name` varchar(50) DEFAULT NULL,
+  `category` varchar(30) DEFAULT NULL,
+  `dosage_form` varchar(30) DEFAULT NULL,
+  `packing_size` varchar(30) DEFAULT NULL,
+  `pharmacopeia` varchar(30) DEFAULT NULL,
+  `sample_photo` varchar(100) DEFAULT NULL,
+  `comments` varchar(300) DEFAULT NULL,
+  `quantity` varchar(50) DEFAULT NULL,
+  `created_date` varchar(30) DEFAULT NULL,
+  `user_id` int(20) DEFAULT NULL,
+  PRIMARY KEY (`tpm_product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `third_party_manufactured_products` */
+
+insert  into `third_party_manufactured_products`(`tpm_product_id`,`product_name`,`category`,`dosage_form`,`packing_size`,`pharmacopeia`,`sample_photo`,`comments`,`quantity`,`created_date`,`user_id`) values 
+(1,'sample','sample cat','dosage','size','pharma','2416a99b9becd38814fc582dee52524e.pdf','comments','quant','2024-05-20 07:55:40',86);
+
 /*Table structure for table `users` */
 
 DROP TABLE IF EXISTS `users`;
@@ -18726,7 +18959,7 @@ CREATE TABLE `users` (
   `role` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `users` */
 
@@ -18784,10 +19017,10 @@ insert  into `users`(`id`,`firstname`,`lastname`,`mobile`,`email`,`email_verifie
 (80,'Dominick Bryant','Dominick Bryant','1','JsoJPJ.hwbbhtq@sandcress.xyz',NULL,'$2y$10$oIFwKcR3Hev.E.qNWHGEK.HruJ8kKhMCkgYzm24Y/TYv7hkYbJ086',NULL,'no','Nathan','Dominick Bryant','Dominick Bryant','Dominick Bryant','Dominick Bryant','Dominick Bryant','2024-04-07 16:37:08','2024-04-07 16:37:08','0',NULL,NULL,NULL),
 (81,'VgTxwtDaCnHYkASB','SNKunxVJgqWBLGT','8394295369','andrey7n2lav@outlook.com',NULL,'$2y$10$Il80O02F4SpEai0.sIhWae22frB7e30d/1dDpHEaJGIpi1sK8RVFi',NULL,'no','fnOxgsbqFVkS','aIDnFzjYO','FugBMCjpWTNrvyUk','kpDwoyjg','zPwsQJKiBlm','QPCxlhkgWTvMI','2024-04-10 04:11:01','2024-04-10 04:11:01','0','446833',NULL,NULL),
 (82,'yDeIOELbYpuH','RXpUrqFOwJdHGS','6183269451','hollrps756@gmail.com',NULL,'$2y$10$fmkjJc0ggCautXM28L43pOGhSDtZ03.yeVXhBG7BQ7fghhsPL2gK.',NULL,'no','jYEWUGVZefvJyXK','kJOwRQuqerAm','reLoZxydwSBRDiW','kZyjFvChRdbt','nJqObSepoPCwkEK','JSDbmBcsChF','2024-04-10 04:13:47','2024-04-10 04:13:47','0',NULL,NULL,NULL),
-(83,'Amal','Ganesh','7356529545','amalganesh4u@gmail.com',NULL,'$2y$10$OnfxngU8Oqg0d5bKz.4LOeAw6hC8hI4SyJu4383bKvVN991wKryJ.',NULL,'no','AMAL PHARMA','MANAGER','sample message','cambodia','amalganesh','amal address','2024-04-12 05:13:26','2024-04-12 05:13:26','0',NULL,NULL,NULL),
+(83,'Amal','Ganesh','7356529545','amalganesh4uu@gmail.com',NULL,'$2y$10$OnfxngU8Oqg0d5bKz.4LOeAw6hC8hI4SyJu4383bKvVN991wKryJ.',NULL,'no','AMAL PHARMA','MANAGER','sample message','cambodia','amalganesh','amal address','2024-04-12 05:13:26','2024-04-12 05:13:26','0',NULL,NULL,NULL),
 (84,'nwrTUlVNAvBqb','oOyDGHeRihq','7854560328','adriennethomas6309@yahoo.com',NULL,'$2y$10$1txXmSE75Lsg.3dBE4uKbO8g5SOITf.yIqUuhFOEugZscbHVbfhMq',NULL,'no','AymSQkrCITsFRoL','LnZeBlHMztDVu','PWnUBgXeA','lxVdEwWQsYCDc','ZuUvLfJTbdMoDa','wlQkuBmHT','2024-04-14 13:48:22','2024-04-14 13:48:22','0',NULL,NULL,NULL),
 (85,'yvCZplNzOtXsV','razjOoeUX','3591029893','holmesrita1979@yahoo.com',NULL,'$2y$10$.2p4mRv8f3Y8Y.wuND845uKtmr60q8mBGD360PkvrMEK1zfUfo0vu',NULL,'no','WAlPThxnzvUa','jRIuXMcqQVxiBpEl','MrXUpzgElF','BzyDbetMEp','vwiAJSMs','qXhYiwFHkPpab','2024-04-16 06:03:31','2024-04-16 06:03:31','0',NULL,NULL,NULL),
-(86,'Test','account1','7898985858','test@gmail.com',NULL,'$2y$10$Lj61H6txoLBpNGU79wW.meHteommSQU0vHsmwteHQsx8pPa/qxh/q',NULL,'no','testing company','Test engineer','test message','INDIA','testaddress','test delivery','2024-04-18 06:19:40','2024-04-18 06:19:40','0',NULL,NULL,'customer'),
+(86,'Test','account','7898985858','test@gmail.com',NULL,'$2y$10$Lj61H6txoLBpNGU79wW.meHteommSQU0vHsmwteHQsx8pPa/qxh/q',NULL,'no','testing company','Test engineer','test message','INDIA','testaddress','test delivery','2024-04-18 06:19:40','2024-04-18 06:19:40','0',NULL,NULL,'customer'),
 (87,'tjrxOpZi','TwhiKDfnepx','2051054010','dib.sam553258@aol.com',NULL,'$2y$10$tqG/r0KxtPrvN5Rz0zkMYe0Y8cEhnyeJlzT2JvOhBD9keKeO0zoJq',NULL,'no','uhMqvwfEaXHBRiP','WVkqXSrUZYCIzHh','LOFsvqjba','VghWqrPz','FuCqsMVD','jCAuyXDPrnpJW','2024-04-18 09:31:57','2024-04-18 09:31:57','0','770957',NULL,NULL),
 (88,'lJsSYdqTevGuK','JgnYMZxFQslDIzc','4759342188','glindaloyaxc@outlook.com',NULL,'$2y$10$n0//eSF79.uHYJaHiemON.enESjqx9nGerVViigyrxwrkOtIDWWrO',NULL,'no','RAYZwrbUgXfmGy','PpEYcJRoyhbAZDf','cmJjponhDIq','mLJiUWuZKv','tGuMoIabs','owikRYeMJ','2024-04-18 09:42:11','2024-04-18 09:42:11','0','202725',NULL,NULL),
 (89,'Sample','user','8598785896','sample@email.com',NULL,'$2y$10$7I3jsDpmvfmiNc7K43h/vOsifmD12qAD92FcJH47UfGqUS9b6o6uG',NULL,'no','sample company','sample designation','sample message','sample country','sampleaddress','sample delivery','2024-04-19 05:43:42','2024-04-19 05:43:42','0',NULL,NULL,NULL),
@@ -18805,7 +19038,11 @@ insert  into `users`(`id`,`firstname`,`lastname`,`mobile`,`email`,`email_verifie
 (101,'test','test','07356529545','test123@gmail.com',NULL,'$2y$10$zb55iifPx38VQ7JB02raQOGSDEz9iAc7QiJZf3.6IWW0/5gP/mjX.',NULL,'0','test','test','jhsd','jhjh','hk','hk',NULL,NULL,'0',NULL,NULL,'admin'),
 (102,'test','test','07356529545','test1234@gmail.com',NULL,'$2y$10$Y0ZlzSECpmdKs5hWgBdWduPz4RmIN4e.vabNtruMREQh6YE.2ECO.',NULL,'0','test','test','jhsd','jhjh','hk','hk',NULL,NULL,'0',NULL,NULL,'admin'),
 (103,'Amal','jh','7777777777','ioooo@gmail.com',NULL,'$2y$10$mB2E2EFmSPj3JIi5r2Jf6u4UGvgnyAhXHdWGpEuaaEAV82mMHRTv6',NULL,'0','','ioo','ooo','ooo','ooo','ooo',NULL,NULL,'0',NULL,NULL,'admin'),
-(104,'test new fname','iui','7788788888','teftert@gmail.com',NULL,'$2y$10$j2jMQ/jZugDsvi5owMa5..v/nx..0vOmTwZKytSBRhdHgM77c01qe',NULL,'0','iy','iyi','yi','y','iy','iy',NULL,NULL,'0',NULL,NULL,'admin');
+(117,'Amal','Ganesh','7878989858','amal.ganesh@icloud.com',NULL,'$2y$10$Y1RdgdIzwDyUesaD8ytTNOhbIQJ4sEUSlmZG.xg7ee/4i3JbQD3P2',NULL,'no','Claysys Technologies','Software Engineer','','India','india','kerala',NULL,NULL,'0',NULL,NULL,'customer'),
+(118,'Agent','Vinod1','7878785859','agent@gmail.com',NULL,'$2y$10$AaeG2MFO6FYsNP4cKeZRwO0NPJYfoZSVF0RzzzKK1..off7UEKvEm',NULL,'no','SpyderHub','Agent','hai guys','India','india','kerala',NULL,NULL,'0',NULL,NULL,'agent'),
+(119,'Gustavo','Fring','7878585896','supplier@gmail.com',NULL,'$2y$10$jJGMLHF1HdR3oY6vDinm.ewmXN4ezdDf9ERJHOl04hUQFBO8E5zo.',NULL,'no','Los Pollos Hermanos','Manager','','USA','USA','alberqueckie',NULL,NULL,'0',NULL,NULL,'supplier'),
+(120,'Agent','Cody','7878787877','agentcody@gmail.com',NULL,'$2y$10$Ids/H.3DJ8SjifkUSAZ1ZOfNYt995iKeklKYUtOyXMu86oJQfXpTG',NULL,'no','Cody company','Agent','','USA','USA','USA',NULL,NULL,'0',NULL,NULL,'agent'),
+(121,'James','Bond','8787478758','bond@gmail.com',NULL,'$2y$10$i0XDKhrr3DGK8Lm7IWuckeHn.7DihTdYXNbplX9FGKYZcrFd2uc6q',NULL,'no','Bont Associates','Agent','','UK','UK','UK',NULL,NULL,'0',NULL,NULL,'agent');
 
 /*Table structure for table `visuals` */
 
@@ -18822,6 +19059,27 @@ CREATE TABLE `visuals` (
 ) ENGINE=MyISAM AUTO_INCREMENT=221 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `visuals` */
+
+/*Table structure for table `white_label_inquiry` */
+
+DROP TABLE IF EXISTS `white_label_inquiry`;
+
+CREATE TABLE `white_label_inquiry` (
+  `wl_inquiry_id` int(11) NOT NULL AUTO_INCREMENT,
+  `wl_product_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `ask_rate` int(11) DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`wl_inquiry_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `white_label_inquiry` */
+
+insert  into `white_label_inquiry`(`wl_inquiry_id`,`wl_product_id`,`user_id`,`ask_rate`,`status`) values 
+(1,4,86,100,'pending'),
+(2,4,86,100,'pending'),
+(3,4,86,100,'pending'),
+(4,4,86,100,'pending');
 
 /*Table structure for table `white_label_products` */
 
