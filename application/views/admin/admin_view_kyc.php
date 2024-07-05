@@ -214,6 +214,10 @@
                               </i>
                               Delete
                           </a>
+                          <a class="btn btn-success btn-sm" href="<?php echo base_url('index.php/Admincontroller/acceptKyc?user_id='.$row['user_id'])?>">
+                              <i class="fas fa-check"></i>
+                              Accept
+                          </a>
                       </td>
                   </tr>
                   <?php endforeach; ?>

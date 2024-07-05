@@ -179,7 +179,40 @@ class Usermodel extends CI_Model {
     }
 
     public function insert_event($data) {
-        return $this->db->insert('agent_timeline', $data);
+
+        // Check for existing event using a unique identifier or combination of fields
+        $this->db->select('*');
+        $this->db->from('agent_timeline');
+        $this->db->where('agent_id', $data['agent_id']);
+        $this->db->where('icon', $data['icon']);
+        $existingEvent = $this->db->get()->row();
+    
+        if (!$existingEvent) {
+            // Event not found, proceed with insertion
+            return $this->db->insert('agent_timeline', $data);
+        } else {
+            // Event already exists, handle the case (optional)
+            // - Log a message
+            log_message('info', 'Duplicate event attempted to be inserted: ' . json_encode($data));
+    
+            // - Update existing event if necessary (consider data changes)
+            // You'll need to implement the update logic here based on your requirements
+    
+            // - Return a specific error code or message
+            return false; // Or a custom error code/message
+        }
+    }
+    public function acceptKyc($user_id){
+        // Update the status in the kyc_registration table
+        $this->db->where('user_id', $user_id);
+        $this->db->update('kyc_registration', ['status' => 'accepted']);
+
+        // Check if the update was successful
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getUserByEmail($email){

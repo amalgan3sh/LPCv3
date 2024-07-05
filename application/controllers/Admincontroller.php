@@ -31,6 +31,41 @@ class Admincontroller extends CI_Controller {
         $this->load->view('admin/admin_header',$data);
         $this->load->view('admin/admin_profile',$data);
     }
+	public function acceptKyc(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		
+		$user_id = $this->input->get_post('user_id');
+		
+		// Ensure $user_id is valid and not empty
+		if (!$user_id) {
+			// Handle the case where user_id is not provided or invalid
+			show_error('Invalid user ID.');
+		}
+		
+		$response = $this->Usermodel->acceptKyc($user_id);
+		
+		if ($response) {
+			$timelineData = array(
+				'agent_id' => $user_id,
+				'event_date' => date('Y-m-d'), // Current date
+				'event_time' => date('H:i:s'), // Current time
+				'icon' => 'fas fa-check-circle bg-green',
+				'header' => 'KYC Verification Accepted',
+				'body' => 'Agent KYC verification has been accepted'
+			);
+			
+			$this->Usermodel->insert_event($timelineData);
+		} else {
+			// Handle the case where KYC acceptance failed
+			log_message('error', 'KYC acceptance failed for user ID: ' . $user_id);
+		}
+		
+		redirect('index.php/Admincontroller/adminViewKyc');
+	}
+	
     public function adminUpdateProfile(){
 		try {
 			if (!$this->session->userdata('id')) {
