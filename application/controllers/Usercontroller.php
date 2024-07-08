@@ -126,6 +126,7 @@ class Usercontroller extends CI_Controller {
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
         $data['kyc_pending'] = !$kycStatus;
 		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['agent_bank_data'] = $this->Usermodel->getAgentBankData($id);
 		$this->load->view('agent/agent_header',$data);
 		$this->load->view('agent/agent_profile');
 	}
@@ -154,6 +155,7 @@ class Usercontroller extends CI_Controller {
 			redirect('index.php/Admincontroller/ServerError');
 		}		
 	}
+	
 	public function userViewComposition(){
 		if (!$this->session->userdata('id')) {
 			// User is not logged in, redirect to login page
@@ -418,14 +420,25 @@ class Usercontroller extends CI_Controller {
 		$config['max_size'] = 2048; // Specify the maximum file size in kilobytes
 		$config['encrypt_name'] = FALSE; // Do not encrypt the file name
 		$this->upload->initialize($config);
+
+		
 		
 		// Check if files are being uploaded
-		if ($this->upload->do_upload('drug_license') && $this->upload->do_upload('national_id_proof') && $this->upload->do_upload('company_incorporation')) {
+		if ($this->upload->do_upload('national_id_proof')) {
+
+		// if ($this->upload->do_upload('drug_license') && $this->upload->do_upload('national_id_proof') && $this->upload->do_upload('company_incorporation')) {
 			// Files uploaded successfully
 			// Get uploaded file data
 			$upload_data1 = $this->upload->data('drug_license');
 			$upload_data2 = $this->upload->data('national_id_proof');
 			$upload_data3 = $this->upload->data('company_incorporation');
+			// Pass file names to view or process as needed
+
+			$uploadData = array();
+			$errors = array();
+			$uploaded_other_doc_names = '';
+			$delimiter = '';
+			
 			
 			// Generate unique names for each file
 			$userId = $this->session->userdata('id');
@@ -433,19 +446,40 @@ class Usercontroller extends CI_Controller {
 			$drugLicenseName = $userId . '_' . $timestamp . '_' . $_FILES["drug_license"]['name'];
 			$nationalIdProofName = $userId . '_' . $timestamp . '_' . $_FILES["national_id_proof"]['name'];
 			$companyIncorporationName = $userId . '_' . $timestamp . '_' . $_FILES["company_incorporation"]['name'];
+
+			foreach ($_FILES['other_documents']['name'] as $key => $file) {
+				$_FILES['userfile']['name'] = $_FILES['other_documents']['name'][$key];
+				$_FILES['userfile']['type'] = $_FILES['other_documents']['type'][$key];
+				$_FILES['userfile']['tmp_name'] = $_FILES['other_documents']['tmp_name'][$key];
+				$_FILES['userfile']['error'] = $_FILES['other_documents']['error'][$key];
+				$_FILES['userfile']['size'] = $_FILES['other_documents']['size'][$key];
+	
+				if ($this->upload->do_upload('userfile')) {
+					$uploadData[$key] = $this->upload->data();
+					$doc_name = $userId . '_' . $timestamp . '_' . $_FILES['other_documents']['name'][$key];
+					$uploaded_other_doc_names .= $delimiter.$doc_name;
+					$delimiter = '|';
+					$uploadotherfile = move_uploaded_file($_FILES['other_documents']['tmp_name'][$key], $upload_path . $doc_name);
+				} else {
+					$errors[$key] = array('error' => $this->upload->display_errors());
+				}
+			}
 			
 			// Move the uploaded files to the destination folder with the custom names
-			$uploadSuccess1 = move_uploaded_file($_FILES['drug_license']['tmp_name'], $upload_path . $drugLicenseName);
+			// $uploadSuccess1 = move_uploaded_file($_FILES['drug_license']['tmp_name'], $upload_path . $drugLicenseName);
 			$uploadSuccess2 = move_uploaded_file($_FILES['national_id_proof']['tmp_name'], $upload_path . $nationalIdProofName);
-			$uploadSuccess3 = move_uploaded_file($_FILES['company_incorporation']['tmp_name'], $upload_path . $companyIncorporationName);
+			// $uploadSuccess3 = move_uploaded_file($_FILES['company_incorporation']['tmp_name'], $upload_path . $companyIncorporationName);
+
 			
-			if ($uploadSuccess1 && $uploadSuccess2 && $uploadSuccess3) {
+			
+			if ($uploadSuccess2 && empty($errors)) {
 				// Files moved successfully, insert their details into the database
-				$data['company_incorporation_certificate'] = $companyIncorporationName;
-				$data['drug_license'] = $drugLicenseName;
+				$data['company_incorporation_certificate'] = '';
+				$data['drug_license'] = '';
 				$data['national_id_proof'] = $nationalIdProofName;
 				$data['user_id'] = $userId;
 				$data['status'] = 'pending';
+				$data['other_documents'] = $uploaded_other_doc_names;
 				
 				// Insert document details into the database
 				$response = $this->Usermodel->userUploadDocuments($data);
@@ -673,6 +707,34 @@ class Usercontroller extends CI_Controller {
 			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
 			redirect('index.php/Admincontroller/ServerError');
 		}	
+	}
+
+	//Update agent bank details
+	public function userUpdateBankDetails(){ 
+		try {
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+
+			$id = $this->session->userdata('id');
+			$data['user_id'] = $id;
+			$data['account_no'] = $this->input->get_post('account_no');
+			$data['swift_code'] = $this->input->get_post('swift_code');
+			$data['acc_holder_name'] = $this->input->get_post('acc_holder_name');
+			$data['bank_name'] = $this->input->get_post('bank_name');
+			$data['iban_no'] = $this->input->get_post('iban_no');
+			$data['bank_address'] = $this->input->get_post('bank_address');
+			$response = $this->Usermodel->userUpdateBankDetails($data,$id);
+			if($response ==true){
+				echo "<script>alert('Bank Details updated successfully');</script>";
+				$this->agentProfile();
+			}
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}		
 	}
 
 	

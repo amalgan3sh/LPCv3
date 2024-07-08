@@ -284,6 +284,7 @@ class Usermodel extends CI_Model {
                 'drug_license' => $row->drug_license ? true : false,
                 'national_id_proof' => $row->national_id_proof ? true : false,
                 'company_incorporation_certificate' => $row->company_incorporation_certificate ? true : false,
+                'other_documents' => $row->other_documents ? true : false,
                 // Add more fields as needed
             );
             
@@ -778,5 +779,39 @@ class Usermodel extends CI_Model {
             return false; // Update failed
           }
     }
-    
+    public function userUpdateBankDetails($data,$id){
+       
+        $query = $this->db->get_where('agent_bank_details', array('user_id' => $id));
+
+        // Check if a row exists with the given ID
+        if ($query->num_rows() > 0) {
+            $this->db->set($data);
+
+            $this->db->where('user_id', $id); 
+           // Execute the update query
+            $this->db->update('agent_bank_details');
+        } else {
+            $this->db->insert('agent_bank_details', $data);
+        }
+        // Check if the update was successful
+        if ($this->db->affected_rows() > 0) {
+            // Update successful
+            return true;
+        } else {
+            // Update failed
+            return false;
+        }
+    }
+
+    public function getAgentBankData($id){
+        $this->db->where('user_id', $id);
+        $query = $this->db->get('agent_bank_details');
+        // $query = $this->db->get_where('agent_bank_details', array('user_id' => $id));
+
+        if ($query->result_array()) {
+            return $query->result_array()[0];
+        } else {
+            return false;
+        }
+    }
 }

@@ -7,7 +7,7 @@ $query_builder = TRUE;
 if (strpos($_SERVER['SERVER_NAME'], 'localhost') !== false) {
     $db['default'] = array(
         'dsn'      => '',
-        'hostname' => 'localhost',
+        'hostname' => 'localhost:3307',
         'username' => 'root',
         'password' => '',
         'database' => 'lammygkk_db',

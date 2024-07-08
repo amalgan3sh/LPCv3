@@ -32,7 +32,7 @@
               <!-- form start -->
               <form method="post" action="<?php echo base_url('index.php/Usercontroller/userUploadDocuments') ?>"  enctype="multipart/form-data">
                 <div class="card-body">
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                   <label for="exampleInputFile">Drug Licence</label>
                     <div class="input-group">
                       <div class="custom-file">
@@ -43,7 +43,7 @@
                         <span class="input-group-text">Upload</span>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="form-group">
                   <label for="exampleInputFile">National ID Proof</label>
                     <div class="input-group">
@@ -56,7 +56,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="exampleInputFile">Company Incorporation Certificate</label>
                     <div class="input-group">
                       <div class="custom-file">
@@ -67,6 +67,13 @@
                         <span class="input-group-text">Upload</span>
                       </div>
                     </div>
+                  </div> -->
+                  <div class="form-group">
+                    <label for="exampleInputFile">Other Documents</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="other_documents" name="other_documents[]"  multiple>
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
                   </div>
                   <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -97,19 +104,20 @@
 
                     <?php
                     // Assuming $kyc_registration is your array containing KYC registration data
+                    $other_documents_proof_progress = isset($kyc_registration['other_documents']) ? ($kyc_registration['other_documents'] == 1 ? 100 : 20) : 0;
 
-                    $drug_license_progress = isset($kyc_registration['drug_license']) ? ($kyc_registration['drug_license'] == 1 ? 100 : 20) : 0;
-                    $company_incorporation_certificate_progress = isset($kyc_registration['company_incorporation_certificate']) ? ($kyc_registration['company_incorporation_certificate'] == 1 ? 100 : 20) : 0;
+                    // $drug_license_progress = isset($kyc_registration['drug_license']) ? ($kyc_registration['drug_license'] == 1 ? 100 : 20) : 0;
+                    // $company_incorporation_certificate_progress = isset($kyc_registration['company_incorporation_certificate']) ? ($kyc_registration['company_incorporation_certificate'] == 1 ? 100 : 20) : 0;
                     $national_id_proof_progress = isset($kyc_registration['national_id_proof']) ? ($kyc_registration['national_id_proof'] == 1 ? 100 : 20) : 0;
                     ?>
 
-                    <div class="progress-group">
+                    <!-- <div class="progress-group">
                       Upload Drug Licence
-                      <span class="float-right"><b><?= $drug_license_progress ?></b>/100</span>
+                      <span class="float-right"><b></b>/100</span>
                       <div class="progress progress-sm">
-                        <div class="progress-bar bg-primary" style="width: <?= $drug_license_progress ?>%"></div>
+                        <div class="progress-bar bg-primary" style="width: %"></div>
                       </div>
-                    </div>
+                    </div> -->
                     <!-- /.progress-group -->
 
                     <div class="progress-group">
@@ -122,10 +130,10 @@
 
                     <!-- /.progress-group -->
                     <div class="progress-group">
-                      <span class="progress-text">Upload Company Incorporation Certificate</span>
-                      <span class="float-right"><b><?= $company_incorporation_certificate_progress ?></b>/100</span>
+                      <span class="progress-text">Other Documents</span>
+                      <span class="float-right"><b><?= $other_documents_proof_progress ?></b>/100</span>
                       <div class="progress progress-sm">
-                        <div class="progress-bar bg-success" style="width: <?= $company_incorporation_certificate_progress ?>%"></div>
+                        <div class="progress-bar bg-success" style="width: <?= $other_documents_proof_progress ?>%"></div>
                       </div>
                     </div>
 

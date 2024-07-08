@@ -132,6 +132,7 @@
                       <option value="distributor">Distributor</option>
                       <option value="supplier">Supplier</option>
                       <option value="agent">Agent</option>
+                      <option value="franchise">Franchise</option>
                   </select>
                   <div class="input-group-append">
                       <div class="input-group-text">
