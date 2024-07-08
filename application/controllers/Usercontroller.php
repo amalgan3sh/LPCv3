@@ -429,9 +429,9 @@ class Usercontroller extends CI_Controller {
 		// if ($this->upload->do_upload('drug_license') && $this->upload->do_upload('national_id_proof') && $this->upload->do_upload('company_incorporation')) {
 			// Files uploaded successfully
 			// Get uploaded file data
-			$upload_data1 = $this->upload->data('drug_license');
+			// $upload_data1 = $this->upload->data('drug_license');
 			$upload_data2 = $this->upload->data('national_id_proof');
-			$upload_data3 = $this->upload->data('company_incorporation');
+			// $upload_data3 = $this->upload->data('company_incorporation');
 			// Pass file names to view or process as needed
 
 			$uploadData = array();
@@ -443,9 +443,9 @@ class Usercontroller extends CI_Controller {
 			// Generate unique names for each file
 			$userId = $this->session->userdata('id');
 			$timestamp = date('YmdHis');
-			$drugLicenseName = $userId . '_' . $timestamp . '_' . $_FILES["drug_license"]['name'];
+			// $drugLicenseName = $userId . '_' . $timestamp . '_' . $_FILES["drug_license"]['name'];
 			$nationalIdProofName = $userId . '_' . $timestamp . '_' . $_FILES["national_id_proof"]['name'];
-			$companyIncorporationName = $userId . '_' . $timestamp . '_' . $_FILES["company_incorporation"]['name'];
+			// $companyIncorporationName = $userId . '_' . $timestamp . '_' . $_FILES["company_incorporation"]['name'];
 
 			foreach ($_FILES['other_documents']['name'] as $key => $file) {
 				$_FILES['userfile']['name'] = $_FILES['other_documents']['name'][$key];
