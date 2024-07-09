@@ -424,6 +424,129 @@ class Usercontroller extends CI_Controller {
 		
 		
 		// Check if files are being uploaded
+
+		if ($this->upload->do_upload('drug_license') && $this->upload->do_upload('national_id_proof') && $this->upload->do_upload('company_incorporation')) {
+			// Files uploaded successfully
+			// Get uploaded file data
+			$upload_data1 = $this->upload->data('drug_license');
+			$upload_data2 = $this->upload->data('national_id_proof');
+			$upload_data3 = $this->upload->data('company_incorporation');
+			// Pass file names to view or process as needed
+
+			$uploadData = array();
+			$errors = array();
+			$uploaded_other_doc_names = '';
+			// $delimiter = '';
+			
+			
+			// Generate unique names for each file
+			$userId = $this->session->userdata('id');
+			$timestamp = date('YmdHis');
+			$drugLicenseName = $userId . '_' . $timestamp . '_' . $_FILES["drug_license"]['name'];
+			$nationalIdProofName = $userId . '_' . $timestamp . '_' . $_FILES["national_id_proof"]['name'];
+			$companyIncorporationName = $userId . '_' . $timestamp . '_' . $_FILES["company_incorporation"]['name'];
+
+			// foreach ($_FILES['other_documents']['name'] as $key => $file) {
+			// 	$_FILES['userfile']['name'] = $_FILES['other_documents']['name'][$key];
+			// 	$_FILES['userfile']['type'] = $_FILES['other_documents']['type'][$key];
+			// 	$_FILES['userfile']['tmp_name'] = $_FILES['other_documents']['tmp_name'][$key];
+			// 	$_FILES['userfile']['error'] = $_FILES['other_documents']['error'][$key];
+			// 	$_FILES['userfile']['size'] = $_FILES['other_documents']['size'][$key];
+	
+			// 	if ($this->upload->do_upload('userfile')) {
+			// 		$uploadData[$key] = $this->upload->data();
+			// 		$doc_name = $userId . '_' . $timestamp . '_' . $_FILES['other_documents']['name'][$key];
+			// 		$uploaded_other_doc_names .= $delimiter.$doc_name;
+			// 		$delimiter = '|';
+			// 		$uploadotherfile = move_uploaded_file($_FILES['other_documents']['tmp_name'][$key], $upload_path . $doc_name);
+			// 	} else {
+			// 		$errors[$key] = array('error' => $this->upload->display_errors());
+			// 	}
+			// }
+			
+			// Move the uploaded files to the destination folder with the custom names
+			$uploadSuccess1 = move_uploaded_file($_FILES['drug_license']['tmp_name'], $upload_path . $drugLicenseName);
+			$uploadSuccess2 = move_uploaded_file($_FILES['national_id_proof']['tmp_name'], $upload_path . $nationalIdProofName);
+			$uploadSuccess3 = move_uploaded_file($_FILES['company_incorporation']['tmp_name'], $upload_path . $companyIncorporationName);
+
+			
+			
+			if ($uploadSuccess2 && empty($errors)) {
+				// Files moved successfully, insert their details into the database
+				$data['company_incorporation_certificate'] = $companyIncorporationName;
+				$data['drug_license'] = $drugLicenseName;
+				$data['national_id_proof'] = $nationalIdProofName;
+				$data['user_id'] = $userId;
+				$data['status'] = 'pending';
+				$data['other_documents'] = $uploaded_other_doc_names;
+				
+				// Insert document details into the database
+				$response = $this->Usermodel->userUploadDocuments($data);
+				
+				if ($response) {
+
+					$timelineData = array(
+						'agent_id' => $userId,
+						'event_date' => date('Y-m-d'), // Current date
+						'event_time' => date('H:i:s'), // Current time
+						'icon' => 'fas fa-user bg-green',
+						'header' => 'KYC Verification',
+						'body' => 'Agent KYC verification started'
+					);
+					$this->Usermodel->insert_event($timelineData);
+
+					redirect('index.php/Usercontroller/agentHome');
+				} else {
+					// Error inserting data into the database
+					// Handle the error as needed
+				}
+			} else {
+				// Error moving files to the destination folder
+				// Handle the error as needed
+			}
+		} else {
+			// Error uploading files
+			$error1 = $this->upload->display_errors();
+			$error2 = $this->upload->display_errors();
+			$error3 = $this->upload->display_errors();
+			redirect('index.php/Usercontroller/userHome');
+			// Handle the errors as needed
+		}
+	}
+
+
+	public function agentKYCUploadDocuments(){
+		
+		// Check if the user is logged in
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+	
+		// Check if the user has already uploaded documents
+		$userId = $this->session->userdata('id');
+		$existingDocuments = $this->Usermodel->getUserDocuments($userId);
+	
+		if ($existingDocuments) {
+			
+			$this->agentProfile();
+		}
+		
+		// Load the upload library
+		$this->load->library('upload');
+		
+		$upload_path = FCPATH . 'assets/KYC_Documents/';
+		
+		// Set the upload path in the configuration
+		$config['upload_path'] = $upload_path;
+		$config['allowed_types'] = 'gif|jpg|png|pdf'; // Specify the allowed file types
+		$config['max_size'] = 2048; // Specify the maximum file size in kilobytes
+		$config['encrypt_name'] = FALSE; // Do not encrypt the file name
+		$this->upload->initialize($config);
+
+		
+		
+		// Check if files are being uploaded
 		if ($this->upload->do_upload('national_id_proof')) {
 
 		// if ($this->upload->do_upload('drug_license') && $this->upload->do_upload('national_id_proof') && $this->upload->do_upload('company_incorporation')) {
@@ -496,23 +619,31 @@ class Usercontroller extends CI_Controller {
 					);
 					$this->Usermodel->insert_event($timelineData);
 
-					redirect('index.php/Usercontroller/agentHome');
+					$this->agentProfile();
+
 				} else {
+					print_r($response);
+					return;
 					// Error inserting data into the database
 					// Handle the error as needed
 				}
 			} else {
 				// Error moving files to the destination folder
 				// Handle the error as needed
+				print_r($errors);
+				return;
 			}
 		} else {
 			// Error uploading files
 			$error1 = $this->upload->display_errors();
 			$error2 = $this->upload->display_errors();
 			$error3 = $this->upload->display_errors();
-			redirect('index.php/Usercontroller/userHome');
+			echo $error1;
+			return;
+			// $this->agentProfile();
 			// Handle the errors as needed
 		}
+		
 	}
 	
 

@@ -30,7 +30,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="<?php echo base_url('index.php/Usercontroller/userUploadDocuments') ?>"  enctype="multipart/form-data">
+              <form method="post" action="<?php echo base_url('index.php/Usercontroller/agentKYCUploadDocuments') ?>"  enctype="multipart/form-data">
                 <div class="card-body">
                   <!-- <div class="form-group">
                   <label for="exampleInputFile">Drug Licence</label>

@@ -145,9 +145,16 @@
                           </div> --> 
                           <?php if($user_documents[0]['other_documents'] != ''){ ?>
                             <?php $other_documents = explode('|',$user_documents[0]['other_documents']);
-                            foreach($other_documents as $doc_info) { ?>
+                            foreach($other_documents as $doc_info) {
+                              $parts = explode('.', $doc_info);
+                              $extension = end($parts); ?>
                               <div class="col-sm-4">
+                                <?php if($extension != 'pdf'){ ?>
                               <img class="img-fluid mb-3" src="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" alt="Photo">
+                              <?php  } else { ?>
+                                <p><a href="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" target="_blank"> <?php echo $doc_info; ?></a></p>
+
+                                <?php } ?> 
                             </div>
                           <?php  }
                           }
