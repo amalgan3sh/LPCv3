@@ -148,14 +148,17 @@
                             foreach($other_documents as $doc_info) {
                               $parts = explode('.', $doc_info);
                               $extension = end($parts); ?>
-                              <div class="col-sm-4">
+                              
                                 <?php if($extension != 'pdf'){ ?>
-                              <img class="img-fluid mb-3" src="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" alt="Photo">
+                                  <div class="col-sm-4">
+                                  <img class="img-fluid mb-3" src="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" alt="Photo">
+                                </div>
                               <?php  } else { ?>
-                                <p><a href="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" target="_blank"> <?php echo $doc_info; ?></a></p>
-
+                                <div class="col-sm-2 mt-3">
+                                <p><a href="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" target="_blank">  <i class="fas fa-file-pdf mt-3" style="font-size: 100px;"></i><br></a>View PDF</p>
+                              </div>
                                 <?php } ?> 
-                            </div>
+                            
                           <?php  }
                           }
                             ?>

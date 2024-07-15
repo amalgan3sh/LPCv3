@@ -1,3 +1,4 @@
+-- Agent Query details
 
 CREATE TABLE `agent_bank_details` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -13,3 +14,8 @@ CREATE TABLE `agent_bank_details` (
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 ALTER TABLE `kyc_registration` ADD `other_documents` text;
+
+
+-- Distributor query details 
+
+ALTER TABLE `kyc_registration` ADD `tax_details` varchar(200), ADD `iec_code` varchar(200);
