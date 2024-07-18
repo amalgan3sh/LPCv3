@@ -13,9 +13,8 @@ CREATE TABLE `agent_bank_details` (
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+-- New query details 
 ALTER TABLE `kyc_registration` ADD `other_documents` text;
-
-
--- Distributor query details 
 
 ALTER TABLE `kyc_registration` ADD `tax_details` varchar(200), ADD `iec_code` varchar(200);
