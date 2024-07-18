@@ -117,6 +117,11 @@ class Usermodel extends CI_Model {
                     // If user is customer, redirect to user home
                     $this->session->set_userdata('id', $user->id);
                     redirect(base_url('index.php/Usercontroller/supplierHome'));
+                } elseif ($user->role == 'franchise') {
+                    
+                    // If user is customer, redirect to user home
+                    $this->session->set_userdata('id', $user->id);
+                    redirect(base_url('index.php/Usercontroller/franchiseHome'));
                 } else {
                     // Invalid role, handle accordingly (e.g., display error message)
                     return "Invalid role for user.";

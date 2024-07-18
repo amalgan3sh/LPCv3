@@ -1,3 +1,4 @@
+
 <style>
     .info-banner {
       background-color: #cce5ff; /* Light red background */
@@ -8,7 +9,7 @@
       border: 1px solid #b8daff; /* Dark red border */
     }
   </style>
-  
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -16,7 +17,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>KYC Status</h1>
+            <h1>KYC Registration</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -94,17 +95,19 @@
         <div class="card card-success">
           <div class="card-body">
           <?php  if( isset($user_documents) && count($user_documents) > 0){ ?>
-              <div class="row">
-               
-                <div class="col-sm-3">
-                  
-                    <a href="<?php echo (isset($user_documents) && $user_documents[0]['national_id_proof'] !== null) ? base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) : '#' ?>">
-                      <div class=" mb-2 ">
-                        <img class="img-fluid" src="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) ?>" alt="Dist Photo 1">
-                      </div>
-                    </a>
+          <div class="row">
+           
+            <div class="col-sm-3">
+            <a href="<?php echo ($user_documents[0]['drug_license'] !== null) ? base_url('assets/KYC_Documents/'.$user_documents[0]['drug_license']) : '#' ?>">
+                <div class="mb-2">
+                    <img class="img-fluid" src="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['drug_license'])?>" alt="Dist Photo 1">
+                   
+                    
                 </div>
-                <?php if(isset($other_documents) && $user_documents[0]['other_documents'] != ''){ ?>
+                </a>
+            </div>
+
+            <?php if($user_documents[0]['other_documents'] != ''){ ?>
                   <?php $other_documents = explode('|',$user_documents[0]['other_documents']); ?>
                   <?php 
                   foreach($other_documents as $doc_info) {
@@ -115,23 +118,23 @@
                       <div class="col-sm-3">
                       <img class="img-fluid mb-3" src="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" alt="Photo">
                       </div>
-                    <?php  }else {
-                      $doc_name = explode('_',$doc_info,3);
-                       ?>
+                    <?php  }else { 
+                        $doc_name = explode('_',$doc_info,3);?>
                       <div class="col-sm-2">
-                      <p><a href="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" target="_blank">  <i class="fas fa-file-pdf mt-4" style="font-size: 100px;"></i><br></a><?php  echo $doc_name[2]; ?></p>
+                      <p><a href="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" target="_blank">  <i class="fas fa-file-pdf mt-5" style="font-size: 100px;"></i><br></a> <?php  echo $doc_name[2]; ?></p>
                     </div>
                    <?php } ?>
                   
                  <?php }
                   ?>
-                <?php } 
-                ?>
-              
-              </div>
+                <?php } ?>
+
+                </div>
                 <?php  } else  {?>
                   <div class="info info-banner">Kindly upload  the documents required for KYC Registration first</div>
                 <?php } ?>
+              
+              </div>
             </div>
           </div>
         </div>
