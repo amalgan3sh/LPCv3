@@ -840,9 +840,9 @@ class Usermodel extends CI_Model {
     }
 
 
-    public function franchiseUpdateBankDetails($data,$id){
+    public function franchiseUpdateBankDetails($data,$id){ 
        
-        $query = $this->db->get_where('agent_bank_details', array('user_id' => $id));
+        $query = $this->db->get_where('franchise_bank_details', array('user_id' => $id));
 
         // Check if a row exists with the given ID
         if ($query->num_rows() > 0) {
