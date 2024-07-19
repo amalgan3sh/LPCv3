@@ -92,19 +92,37 @@
    
 
         <h5 class="mb-2">Documents</h5>
+        <?php $timeline_count = count($timeline);
+
+        ?>
+        
         <div class="card card-success">
           <div class="card-body">
           <?php  if( isset($user_documents) && count($user_documents) > 0){ ?>
           <div class="row">
            
-            <div class="col-sm-3">
-            <a href="<?php echo ($user_documents[0]['drug_license'] !== null) ? base_url('assets/KYC_Documents/'.$user_documents[0]['drug_license']) : '#' ?>">
-                <div class="mb-2">
+           
+                  <?php 
+                   $doc_details = explode('.', $user_documents[0]['drug_license']);
+                   $id_extension = end($doc_details); 
+                   if($id_extension == 'pdf') { 
+                    $pdf_doc_name = explode('_',$user_documents[0]['drug_license'],3);
+                    ?>
+                     <div class="col-sm-2">
+                     <div class="mb-2">
+                   <p class="mt-4"><a href="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['drug_license']) ?>" target="_blank">  <i class="fas fa-file-pdf mt-3" style="font-size: 100px;"></i><br></a><?php  echo $pdf_doc_name[2]; ?></p>
+
+                   <?php } else { ?>
+                    <div class="col-sm-3">
+                    <div class="mb-2">
                     <img class="img-fluid" src="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['drug_license'])?>" alt="Dist Photo 1">
+
+                  <?php }
+                  ?>
                    
                     
                 </div>
-                </a>
+               
             </div>
 
             <?php if($user_documents[0]['other_documents'] != ''){ ?>
@@ -121,7 +139,7 @@
                     <?php  }else { 
                         $doc_name = explode('_',$doc_info,3);?>
                       <div class="col-sm-2">
-                      <p><a href="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" target="_blank">  <i class="fas fa-file-pdf mt-5" style="font-size: 100px;"></i><br></a> <?php  echo $doc_name[2]; ?></p>
+                      <p><a href="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" target="_blank">  <i class="fas fa-file-pdf mt-4" style="font-size: 100px;"></i><br></a> <?php  echo $doc_name[2]; ?></p>
                     </div>
                    <?php } ?>
                   

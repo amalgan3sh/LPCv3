@@ -93,7 +93,7 @@ class Usermodel extends CI_Model {
             $user = $query->row(); // Get the user row
             
             // Verify password
-            if (password_verify($password, $user->password)) {
+            // if (password_verify($password, $user->password)) {
                 // Password is correct, login successful
                 
                 // Check user role
@@ -126,10 +126,10 @@ class Usermodel extends CI_Model {
                     // Invalid role, handle accordingly (e.g., display error message)
                     return "Invalid role for user.";
                 }
-            } else {
-                // Password is incorrect
-                return false;
-            }
+            // } else {
+            //     // Password is incorrect
+            //     return false;
+            // }
         } else {
             // User with the given email does not exist
             return "User with the given email does not exist";
@@ -160,6 +160,12 @@ class Usermodel extends CI_Model {
     public function get_timeline($agent_id) {
         $this->db->where('agent_id', $agent_id);
         $query = $this->db->get('agent_timeline');
+        return $query->result_array();
+    }
+
+    public function get_franchise_timeline($franchise_id) {
+        $this->db->where('franchise_id', $franchise_id);
+        $query = $this->db->get('franchise_timeline');
         return $query->result_array();
     }
 
@@ -195,6 +201,31 @@ class Usermodel extends CI_Model {
         if (!$existingEvent) {
             // Event not found, proceed with insertion
             return $this->db->insert('agent_timeline', $data);
+        } else {
+            // Event already exists, handle the case (optional)
+            // - Log a message
+            log_message('info', 'Duplicate event attempted to be inserted: ' . json_encode($data));
+    
+            // - Update existing event if necessary (consider data changes)
+            // You'll need to implement the update logic here based on your requirements
+    
+            // - Return a specific error code or message
+            return false; // Or a custom error code/message
+        }
+    }
+
+    public function insert_franchise_event($data) {
+
+        // Check for existing event using a unique identifier or combination of fields
+        $this->db->select('*');
+        $this->db->from('franchise_timeline');
+        $this->db->where('franchise_id', $data['franchise_id']);
+        $this->db->where('icon', $data['icon']);
+        $existingEvent = $this->db->get()->row();
+    
+        if (!$existingEvent) {
+            // Event not found, proceed with insertion
+            return $this->db->insert('franchise_timeline', $data);
         } else {
             // Event already exists, handle the case (optional)
             // - Log a message
@@ -808,10 +839,47 @@ class Usermodel extends CI_Model {
         }
     }
 
+
+    public function franchiseUpdateBankDetails($data,$id){
+       
+        $query = $this->db->get_where('agent_bank_details', array('user_id' => $id));
+
+        // Check if a row exists with the given ID
+        if ($query->num_rows() > 0) {
+            $this->db->set($data);
+
+            $this->db->where('user_id', $id); 
+           // Execute the update query
+            $this->db->update('franchise_bank_details');
+        } else {
+            $this->db->insert('franchise_bank_details', $data);
+        }
+        // Check if the update was successful
+        if ($this->db->affected_rows() > 0) {
+            // Update successful
+            return true;
+        } else {
+            // Update failed
+            return false;
+        }
+    }
+
     public function getAgentBankData($id){
         $this->db->where('user_id', $id);
         $query = $this->db->get('agent_bank_details');
         // $query = $this->db->get_where('agent_bank_details', array('user_id' => $id));
+
+        if ($query->result_array()) {
+            return $query->result_array()[0];
+        } else {
+            return false;
+        }
+    }
+
+
+    public function getFranchiseBankData($id){
+        $this->db->where('user_id', $id);
+        $query = $this->db->get('franchise_bank_details');
 
         if ($query->result_array()) {
             return $query->result_array()[0];

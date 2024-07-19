@@ -133,24 +133,26 @@
                       </div>
                       <!-- /.user-block -->
                       <?php if (!empty($user_documents) && isset($user_documents[0])): ?>
-                        <div class="row mb-3">
-                           <?php 
-                           $doc_details = explode('.', $user_documents[0]['national_id_proof']);
-                           $id_extension = end($doc_details); 
-                           if($id_extension == 'pdf') { 
-                            $pdf_doc_name = explode('_',$user_documents[0]['national_id_proof'],3);
-                            ?>
-                            <div class="col-sm-3">
-                            <p class="mt-3"><a href="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) ?>" target="_blank">  <i class="fas fa-file-pdf mt-3" style="font-size: 100px;"></i><br></a><?php  echo $pdf_doc_name[2]; ?></p>
-                           </div>
-                           <?php } else { ?> 
-                            <div class="col-sm-4">
-                               <img class="img-fluid mb-3" src="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) ?>" alt="Photo">
-                           </div>
-                          <?php }
-                          ?>
+                          <div class="row mb-3">
+                          <?php 
+                              $doc_details = explode('.', $user_documents[0]['national_id_proof']);
+                              $id_extension = end($doc_details); 
+                              if($id_extension == 'pdf') { 
+                                  $pdf_doc_name = explode('_',$user_documents[0]['national_id_proof'],3);  ?>
+                                <div class="col-sm-3">
+                                  <p class="mt-3">
+                                      <a href="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) ?>" target="_blank">  <i class="fas fa-file-pdf mt-3" style="font-size: 100px;"></i><br></a>
+                                      <?php  echo $pdf_doc_name[2]; ?>
+                                  </p>
+                                </div>
+                          <?php } else { ?> 
+                                <div class="col-sm-4">
+                                    <img class="img-fluid mb-3" src="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) ?>" alt="Photo">
+                                </div>
+                          <?php } ?>
                           
-                          <?php if($user_documents[0]['other_documents'] != ''){ ?>
+                          
+                          <?php if(isset($user_documents[0]['other_documents']) && $user_documents[0]['other_documents'] != ''){ ?>
                             <?php $other_documents = explode('|',$user_documents[0]['other_documents']);
                             foreach($other_documents as $doc_info) {
                               $parts = explode('.', $doc_info);

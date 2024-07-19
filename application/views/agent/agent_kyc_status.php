@@ -96,31 +96,47 @@
           <?php  if( isset($user_documents) && count($user_documents) > 0){ ?>
               <div class="row">
                
-                <div class="col-sm-3">
+               
+                        <?php 
+                         $doc_details = explode('.', $user_documents[0]['national_id_proof']);
+                         $id_extension = end($doc_details);  
+                         if($id_extension == 'pdf') { 
+                          $pdf_doc_name = explode('_',$user_documents[0]['national_id_proof'],3);
+                          ?>
+                           <div class="col-sm-2">
                   
-                    <a href="<?php echo (isset($user_documents) && $user_documents[0]['national_id_proof'] !== null) ? base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) : '#' ?>">
-                      <div class=" mb-2 ">
-                        <img class="img-fluid" src="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) ?>" alt="Dist Photo 1">
+                          <div class=" mb-2 ">
+                         <p class="mt-3"><a href="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) ?>" target="_blank">  <i class="fas fa-file-pdf mt-3" style="font-size: 100px;"></i><br></a><?php  echo $pdf_doc_name[2]; ?></p>
+
+                         <?php } else { ?>
+                          <div class="col-sm-3">
+                  
+                  <div class=" mb-2 ">
+                          <img class="img-fluid" src="<?php echo base_url('assets/KYC_Documents/'.$user_documents[0]['national_id_proof']) ?>" alt="Dist Photo 1">
+
+                        <?php }
+                        ?>
                       </div>
-                    </a>
                 </div>
-                <?php if(isset($other_documents) && $user_documents[0]['other_documents'] != ''){ ?>
+                <?php if( isset($user_documents[0]['other_documents']) && $user_documents[0]['other_documents'] != ''){ ?>
                   <?php $other_documents = explode('|',$user_documents[0]['other_documents']); ?>
                   <?php 
                   foreach($other_documents as $doc_info) {
                     $parts = explode('.', $doc_info);
                     $extension = end($parts); ?>
                     
-                    <?php if($extension != 'pdf'){ ?>
-                      <div class="col-sm-3">
-                      <img class="img-fluid mb-3" src="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" alt="Photo">
-                      </div>
-                    <?php  }else {
-                      $doc_name = explode('_',$doc_info,3);
-                       ?>
+                    <?php if($extension == 'pdf'){ 
+                      $doc_name = explode('_',$doc_info,3);?>
                       <div class="col-sm-2">
                       <p><a href="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" target="_blank">  <i class="fas fa-file-pdf mt-4" style="font-size: 100px;"></i><br></a><?php  echo $doc_name[2]; ?></p>
                     </div>
+                    <?php  }else {
+                      
+                       ?>
+                       <div class="col-sm-3">
+                      <img class="img-fluid mb-3" src="<?php echo base_url('assets/KYC_Documents/'.$doc_info) ?>" alt="Photo">
+                      </div>
+                     
                    <?php } ?>
                   
                  <?php }

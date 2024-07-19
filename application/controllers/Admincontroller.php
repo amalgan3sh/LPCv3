@@ -44,20 +44,41 @@ class Admincontroller extends CI_Controller {
 			// Handle the case where user_id is not provided or invalid
 			show_error('Invalid user ID.');
 		}
+
+		$user_data = $this->Usermodel->getUserData($user_id);
+
 		
 		$response = $this->Usermodel->acceptKyc($user_id);
 		
 		if ($response) {
-			$timelineData = array(
-				'agent_id' => $user_id,
-				'event_date' => date('Y-m-d'), // Current date
-				'event_time' => date('H:i:s'), // Current time
-				'icon' => 'fas fa-check-circle bg-green',
-				'header' => 'KYC Verification Accepted',
-				'body' => 'Agent KYC verification has been accepted'
-			);
+			if($user_data['role'] == 'agent') {
+				$timelineData = array(
+					'agent_id' => $user_id,
+					'event_date' => date('Y-m-d'), // Current date
+					'event_time' => date('H:i:s'), // Current time
+					'icon' => 'fas fa-check-circle bg-green',
+					'header' => 'KYC Verification Accepted',
+					'body' => 'Agent KYC verification has been accepted'
+				);
+
+				$this->Usermodel->insert_event($timelineData);
+			}
+			else if($user_data['role'] == 'franchise') {
+
+				$timelineData = array(
+					'franchise_id' => $user_id,
+					'event_date' => date('Y-m-d'), // Current date
+					'event_time' => date('H:i:s'), // Current time
+					'icon' => 'fas fa-check-circle bg-green',
+					'header' => 'KYC Verification Accepted',
+					'body' => 'Franchise KYC verification has been accepted'
+				);
+
+				$this->Usermodel->insert_franchise_event($timelineData);
+			}
 			
-			$this->Usermodel->insert_event($timelineData);
+			
+			
 		} else {
 			// Handle the case where KYC acceptance failed
 			log_message('error', 'KYC acceptance failed for user ID: ' . $user_id);

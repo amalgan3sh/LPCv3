@@ -121,7 +121,7 @@ class Usercontroller extends CI_Controller {
 		$data['order_count'] = $this->Usermodel->getUserOrderCount($id);
 		$data['enquiry_count'] = $this->Usermodel->getUserEnquiryCount($id);
 		$data['white_label_count'] = $this->Usermodel->getWhiteLabelCount();
-		$data['timeline'] = $this->Usermodel->get_timeline($id);
+		$data['timeline'] = $this->Usermodel->get_franchise_timeline($id);
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
         $data['kyc_pending'] = !$kycStatus;
 
@@ -168,11 +168,12 @@ class Usercontroller extends CI_Controller {
 		}
 		$id = $this->session->userdata('id');
 		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
-		$data['timeline'] = $this->Usermodel->get_timeline($id);
+		$data['timeline'] = $this->Usermodel->get_franchise_timeline($id);
 
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
 		$data['kyc_pending'] = !$kycStatus;
 		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['franchise_bank_data'] = $this->Usermodel->getFranchiseBankData($id);
 		$this->load->view('franchise/franchise_header',$data);
 		$this->load->view('franchise/franchise_profile');
 	}
@@ -401,6 +402,18 @@ class Usercontroller extends CI_Controller {
 						$this->Usermodel->insert_event($timelineData);
 						
 					}
+					// If the registered user is an franchise, insert into franchise_timeline
+					else if($data['role'] == 'franchise') {
+						$timelineData = array(
+							'franchise_id' => $newUserId,
+							'event_date' => date('Y-m-d'), // Current date
+							'event_time' => date('H:i:s'), // Current time
+							'icon' => 'fas fa-envelope bg-blue',
+							'header' => 'Registration to Lakshmi Pharmaceuticals',
+							'body' => 'Franchise registered to Lakshmi Pharmaceuticals'
+						);
+						$this->Usermodel->insert_franchise_event($timelineData);
+					}
 
 					redirect('index.php/Usercontroller/index');
 				}
@@ -464,7 +477,7 @@ class Usercontroller extends CI_Controller {
 			redirect('index.php/Usercontroller/index');
 		}
 		$id = $this->session->userdata('id');
-		$data['timeline'] = $this->Usermodel->get_timeline($id);
+		$data['timeline'] = $this->Usermodel->get_franchise_timeline($id);
 
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
         $data['kyc_pending'] = !$kycStatus;
@@ -814,14 +827,14 @@ class Usercontroller extends CI_Controller {
 				if ($response) {
 
 					$timelineData = array(
-						'agent_id' => $userId,
+						'franchise_id' => $userId,
 						'event_date' => date('Y-m-d'), // Current date
 						'event_time' => date('H:i:s'), // Current time
 						'icon' => 'fas fa-user bg-green',
 						'header' => 'KYC Verification',
 						'body' => 'Franchise KYC verification started'
 					);
-					$this->Usermodel->insert_event($timelineData);
+					$this->Usermodel->insert_franchise_event($timelineData);
 
 					$this->franchiseProfile();
 
@@ -1011,6 +1024,8 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
+		
+		$data['timeline'] = $this->Usermodel->get_franchise_timeline($id);
         $data['kyc_pending'] = !$kycStatus;
 		// echo json_encode($id);
 		// die();
@@ -1216,6 +1231,34 @@ class Usercontroller extends CI_Controller {
 			if($response ==true){
 				echo "<script>alert('Bank Details updated successfully');</script>";
 				$this->agentProfile();
+			}
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}		
+	}
+
+
+	public function franchiseUpdateBankDetails() {
+		try {
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+
+			$id = $this->session->userdata('id');
+			$data['user_id'] = $id;
+			$data['account_no'] = $this->input->get_post('account_no');
+			$data['swift_code'] = $this->input->get_post('swift_code');
+			$data['acc_holder_name'] = $this->input->get_post('acc_holder_name');
+			$data['bank_name'] = $this->input->get_post('bank_name');
+			$data['iban_no'] = $this->input->get_post('iban_no');
+			$data['bank_address'] = $this->input->get_post('bank_address');
+			$response = $this->Usermodel->franchiseUpdateBankDetails($data,$id);
+			if($response ==true){
+				echo "<script>alert('Bank Details updated successfully');</script>";
+				$this->franchiseProfile();
 			}
 		} catch (Exception $e) {
 			// Log error to the database

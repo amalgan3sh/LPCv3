@@ -18,3 +18,16 @@ CREATE TABLE `agent_bank_details` (
 ALTER TABLE `kyc_registration` ADD `other_documents` text;
 
 ALTER TABLE `kyc_registration` ADD `tax_details` varchar(200), ADD `iec_code` varchar(200);
+
+-- Franchise Query 
+CREATE TABLE `franchise_timeline` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `franchise_id` int(11) NOT NULL,
+  `event_date` date DEFAULT NULL,
+  `event_time` time DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL,
+  `header` varchar(255) DEFAULT NULL,
+  `body` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+;
