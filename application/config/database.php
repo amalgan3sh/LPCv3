@@ -26,6 +26,29 @@ if (strpos($_SERVER['SERVER_NAME'], 'localhost') !== false) {
         'failover' => array(),
         'save_queries' => TRUE
     );
+
+    $db['secondary'] = array(
+        'dsn'      => '',
+        'hostname' => 'localhost:3307',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'lammygkk_aranea',
+        'dbdriver' => 'mysqli',
+        'dbprefix' => '',
+        'pconnect' => FALSE,
+        'db_debug' => TRUE,
+        'cache_on' => FALSE,
+        'cachedir' => '',
+        'char_set' => 'utf8',
+        'dbcollat' => 'utf8_general_ci',
+        'swap_pre' => '',
+        'encrypt' => FALSE,
+        'compress' => FALSE,
+        'stricton' => FALSE,
+        'failover' => array(),
+        'save_queries' => TRUE
+    );
+
 } else {
     $db['default'] = array(
         'dsn'      => '',
@@ -48,4 +71,7 @@ if (strpos($_SERVER['SERVER_NAME'], 'localhost') !== false) {
         'failover' => array(),
         'save_queries' => TRUE
     );
+
+    
+    
 }

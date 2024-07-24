@@ -314,6 +314,12 @@
                   <p>3rd Party Manufacturing</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url('index.php/Admincontroller/addInvestProducts')?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Invest Products</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">

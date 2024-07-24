@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admincontroller extends CI_Controller {
 
+
 	public function adminDashboard(){
         if (!$this->session->userdata('id')) {
 			// User is not logged in, redirect to login page
@@ -115,6 +116,26 @@ class Admincontroller extends CI_Controller {
 		}
 		
 	}
+
+
+	public function addInvestProducts() {
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+
+        $id = $this->session->userdata('id');
+
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['dosage_form'] = $this->Usermodel->getDosageFrom();
+		// $this->load->database('secondary');
+		// $query = $this->db->get('product_data');
+		// $data['data'] = $query->result();
+
+        $this->load->view('admin/admin_header',$data);
+        $this->load->view('admin/admin_add_invest_products',$data);
+	}
+
 	public function ServerError(){
 		if (!$this->session->userdata('id')) {
 			// User is not logged in, redirect to login page
@@ -197,6 +218,8 @@ class Admincontroller extends CI_Controller {
 		}
 		$this->adminUserRegistration();
     }
+
+	
 
 	public function adminViewUserProfile(){
         if (!$this->session->userdata('id')) {
@@ -316,6 +339,107 @@ class Admincontroller extends CI_Controller {
         $this->load->view('admin/admin_header',$data);
         $this->load->view('admin/admin_add_white_label_products');
     }
+
+	public function AdminInsertInvestProduct() {
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		
+
+		// Fetch values from the form
+		$product_name = $this->input->post('product_name');
+		// $product_description = $this->input->post('product_description');
+		$content = $this->input->post('content');
+		$dosage_form = $this->input->post('dosage_form');
+		$strength = $this->input->post('strength');
+		$therapeutic_use = $this->input->post('therapeutic_use');
+		$tab_shape_and_color = $this->input->post('tab_shape_and_color');
+		$packaging = $this->input->post('packaging');
+		$batch_number = $this->input->post('batch_number');
+		$manufacturing_date = $this->input->post('manufacturing_date');
+		$expiry_date = $this->input->post('expiry_date');
+		$unit_size = $this->input->post('unit_size');
+
+		$upload_path = FCPATH . 'assets/product_images/';
+
+		// Set the upload path in the configuration
+		$config['upload_path'] = $upload_path;
+		$config['allowed_types'] = 'gif|jpg|jpeg|png|pdf'; // Define allowed file types
+		$config['max_size'] = 1024 * 5; // Define max file size (in KB)
+
+		// // Load the upload library
+		$this->load->library('upload', $config);
+
+		// Perform file upload
+		if ($this->upload->do_upload('product_image')) {
+		// 	// File uploaded successfully, get file data
+			$file_data = $this->upload->data();
+			$fileName = $file_data['file_name'];
+
+			//File path at local server
+			$source = 'assets/product_images/'.$fileName;
+
+			//Load codeigniter FTP class
+			$this->load->library('ftp');
+			
+			 //FTP configuration
+			 $ftp_config['hostname'] = 'ftp.lammy.life'; 
+			 $ftp_config['username'] = 'avsneha@lammy.life';
+			 $ftp_config['password'] = 'avsneha@1999';
+			 $ftp_config['debug']    = TRUE;
+
+			 //Connect to the remote server
+			 $this->ftp->connect($ftp_config);
+
+			 $remote_path = '/assets/assets/img/products/'.$product_name;
+
+			 $this->ftp->mkdir($remote_path);
+
+			  //File upload path of remote server
+			  $destination = '/assets/assets/img/products/'.$product_name.'/'.$fileName;
+
+			  //Upload file to the remote server
+			  $this->ftp->upload($source, ".".$destination);
+
+			  //Close FTP connection
+			  $this->ftp->close();
+                
+			  //Delete file from local server
+			  @unlink($source);
+	
+			// Prepare data array with image file name
+			$data = array(
+				'ProductName' => $product_name,
+				// 'product_description' => $product_description,
+				'Content' => $content,
+				'DosageForm' => $dosage_form,
+				'Strength' => $strength,
+				'TherapeuticUse' => $therapeutic_use,
+				'TabletShapeAndColor' => $tab_shape_and_color,
+				'Packaging' => $packaging,
+				'BatchNumber' => $batch_number,
+				'ManufacturingDate' => $manufacturing_date,
+				'ExpiryDate' => $expiry_date,
+				'UnitSize' => $unit_size,
+				'icon' => $fileName // Save file name to database
+			);
+	
+			// Insert data into white_label_products table using the model
+			$response = $this->Usermodel->AdminInsertInvestProduct($data);
+			if($response ==true){
+				$this->session->set_flashdata('success', 'Product added successfully');
+				redirect('index.php/Admincontroller/addInvestProducts');			
+			}
+		} else {
+			// File upload failed, handle errors
+			$upload_error = $this->upload->display_errors();
+			echo $upload_error;
+	
+			// Handle the case where file upload failed
+			// For example, show an error message or redirect to an error page
+		}
+	}
 
 	public function AddWhiteLabelProducts() {
 		if (!$this->session->userdata('id')) {

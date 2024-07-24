@@ -454,6 +454,18 @@ class Usermodel extends CI_Model {
         // Return true if insertion was successful, otherwise false
         return $inserted;
     }
+
+    public function AdminInsertInvestProduct($data) {
+            $this->db2 = $this->load->database('secondary', TRUE);
+
+        // Example: Update data in secondary database
+        $inserted = $this->db2->insert('invest_product_data', $data);
+        return $inserted;
+
+       
+       
+    }
+
     public function getWhiteLabelProducts(){
         $query = $this->db->get('white_label_products');
         // Return the result as an array of objects
