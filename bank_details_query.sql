@@ -43,3 +43,19 @@ CREATE TABLE `franchise_bank_details` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- Supplier DB Changes
+
+CREATE TABLE `supplier_timeline` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `supplier_id` int(11) NOT NULL,
+  `event_date` date DEFAULT NULL,
+  `event_time` time DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL,
+  `header` varchar(255) DEFAULT NULL,
+  `body` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `kyc_registration` ADD `gmp_certificate` varchar(200);

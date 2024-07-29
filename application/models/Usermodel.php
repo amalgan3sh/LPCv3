@@ -169,6 +169,12 @@ class Usermodel extends CI_Model {
         return $query->result_array();
     }
 
+    public function get_supplier_timeline($franchise_id) {
+        $this->db->where('supplier_id', $franchise_id);
+        $query = $this->db->get('supplier_timeline');
+        return $query->result_array();
+    }
+
     public function check_kyc_status($agent_id) {
         $this->db->where('user_id', $agent_id);
         $query = $this->db->get('kyc_registration');
@@ -226,6 +232,29 @@ class Usermodel extends CI_Model {
         if (!$existingEvent) {
             // Event not found, proceed with insertion
             return $this->db->insert('franchise_timeline', $data);
+        } else {
+            // Event already exists, handle the case (optional)
+            // - Log a message
+            log_message('info', 'Duplicate event attempted to be inserted: ' . json_encode($data));
+    
+            // - Update existing event if necessary (consider data changes)
+            // You'll need to implement the update logic here based on your requirements
+    
+            // - Return a specific error code or message
+            return false; // Or a custom error code/message
+        }
+    }
+    public function insert_supplier_event($data) {
+        // Check for existing event using a unique identifier or combination of fields
+        $this->db->select('*');
+        $this->db->from('supplier_timeline');
+        $this->db->where('supplier_id', $data['supplier_id']);
+        $this->db->where('icon', $data['icon']);
+        $existingEvent = $this->db->get()->row();
+    
+        if (!$existingEvent) {
+            // Event not found, proceed with insertion
+            return $this->db->insert('supplier_timeline', $data);
         } else {
             // Event already exists, handle the case (optional)
             // - Log a message

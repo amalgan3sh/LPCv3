@@ -179,7 +179,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="<?php echo base_url('index.php/Usercontroller/userHome') ?>" class="brand-link">
+    <a href="<?php echo base_url('index.php/Usercontroller/supplierHome') ?>" class="brand-link">
       <img src="<?php echo base_url('assets/')?>dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Lakshmi</span>
     </a>
@@ -192,7 +192,7 @@
           <img src="<?php echo base_url('assets/')?>dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-        <a href="<?php echo base_url('index.php/Usercontroller/userProfile') ?>" class="d-block"><?php echo ($user_data['firstname'].' '.$user_data['lastname']) ?></a>
+        <a href="<?php echo base_url('index.php/Usercontroller/supplierProfile') ?>" class="d-block"><?php echo ($user_data['firstname'].' '.$user_data['lastname']) ?></a>
         </div>
       </div>
       
@@ -214,7 +214,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="<?php echo base_url('index.php/Usercontroller/userHome') ?>" class="nav-link active">
+            <a href="<?php echo base_url('index.php/Usercontroller/supplierHome') ?>" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -222,7 +222,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?php echo base_url('index.php/Usercontroller/userProfile') ?>" class="nav-link">
+            <a href="<?php echo base_url('index.php/Usercontroller/supplierProfile') ?>" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 My Profile
@@ -242,13 +242,13 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="<?php echo base_url('index.php/Usercontroller/KYCRegistration')?>" class="nav-link">
+            <a href="<?php echo base_url('index.php/Usercontroller/supplierKYCRegistration')?>" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Upload Documents</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?php echo base_url('index.php/Usercontroller/userKycStatus')?>" class="nav-link">
+            <a href="<?php echo base_url('index.php/Usercontroller/supplierKycStatus')?>" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>KYC Status</p>
             </a>

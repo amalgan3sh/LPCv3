@@ -78,6 +78,20 @@ class Admincontroller extends CI_Controller {
 				$this->Usermodel->insert_franchise_event($timelineData);
 			}
 			
+			else if($user_data['role'] == 'supplier') {
+
+				$timelineData = array(
+					'supplier_id' => $user_id,
+					'event_date' => date('Y-m-d'), // Current date
+					'event_time' => date('H:i:s'), // Current time
+					'icon' => 'fas fa-check-circle bg-green',
+					'header' => 'KYC Verification Accepted',
+					'body' => 'Supplier KYC verification has been accepted'
+				);
+
+				$this->Usermodel->insert_supplier_event($timelineData);
+			}
+			
 			
 			
 		} else {

@@ -75,6 +75,7 @@ class Usercontroller extends CI_Controller {
 		$data['order_count'] = $this->Usermodel->getUserOrderCount($id);
 		$data['enquiry_count'] = $this->Usermodel->getUserEnquiryCount($id);
 		$data['white_label_count'] = $this->Usermodel->getWhiteLabelCount();
+		$data['timeline'] = $this->Usermodel->get_supplier_timeline($id);
 
 		$this->load->view('supplier/supplier_header',$data);
 		$this->load->view('supplier/supplier_timeline');
@@ -160,6 +161,23 @@ class Usercontroller extends CI_Controller {
 	}
 
 
+	public function supplierProfile(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$id = $this->session->userdata('id');
+		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
+		$data['timeline'] = $this->Usermodel->get_supplier_timeline($id);
+
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		// $data['agent_bank_data'] = $this->Usermodel->getAgentBankData($id);
+		$this->load->view('supplier/supplier_header',$data);
+		$this->load->view('supplier/supplier_profile');
+	}
+
 
 	public function franchiseProfile() {
 		if (!$this->session->userdata('id')) {
@@ -205,6 +223,9 @@ class Usercontroller extends CI_Controller {
 				}
 				else if($user->role == 'franchise') {
 					$this->franchiseProfile();
+				}
+				else if($user->role == 'supplier') {
+					$this->supplierProfile();
 				}
 				else {
 					$this->userProfile();
@@ -414,6 +435,17 @@ class Usercontroller extends CI_Controller {
 						);
 						$this->Usermodel->insert_franchise_event($timelineData);
 					}
+					else if($data['role'] == 'supplier') {
+						$timelineData = array(
+							'franchise_id' => $newUserId,
+							'event_date' => date('Y-m-d'), // Current date
+							'event_time' => date('H:i:s'), // Current time
+							'icon' => 'fas fa-envelope bg-blue',
+							'header' => 'Registration to Lakshmi Pharmaceuticals',
+							'body' => 'Supplier registered to Lakshmi Pharmaceuticals'
+						);
+						$this->Usermodel->insert_supplier_event($timelineData);
+					}
 
 					redirect('index.php/Usercontroller/index');
 				}
@@ -469,6 +501,24 @@ class Usercontroller extends CI_Controller {
 		$this->load->view('agent/agent_header',$data);
 		$this->load->view('agent/agent_kyc_registration');
 
+	}
+
+	public function supplierKYCRegistration(){
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$id = $this->session->userdata('id');
+		$data['timeline'] = $this->Usermodel->get_timeline($id);
+
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['document_exist'] = $this->Usermodel->getUserDocuments($id );
+		$data['kyc_registration'] = $this->Usermodel->getKycRegistration($id );
+
+		$this->load->view('supplier/supplier_header',$data);
+		$this->load->view('supplier/supplier_kyc_registration');
 	}
 
 	public function FranchiseKYCRegistration() {
@@ -864,6 +914,138 @@ class Usercontroller extends CI_Controller {
 
 	}
 
+	public function supplierKYCUploadDocuments() {
+		// Check if the user is logged in
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+	
+		// Check if the user has already uploaded documents
+		$userId = $this->session->userdata('id');
+		$existingDocuments = $this->Usermodel->getUserDocuments($userId);
+	
+		if ($existingDocuments) {
+			
+			$this->supplierProfile();
+		}
+		
+		// Load the upload library
+		$this->load->library('upload');
+		
+		$upload_path = FCPATH . 'assets/KYC_Documents/';
+		
+		// Set the upload path in the configuration
+		$config['upload_path'] = $upload_path;
+		$config['allowed_types'] = 'gif|jpg|png|pdf|jpeg'; // Specify the allowed file types
+		$config['max_size'] = 2048; // Specify the maximum file size in kilobytes
+		$config['encrypt_name'] = FALSE; // Do not encrypt the file name
+		$this->upload->initialize($config);
+
+		
+		
+		// Check if files are being uploaded
+		if ($this->upload->do_upload('national_id_proof') && $this->upload->do_upload('drug_license') && $this->upload->do_upload('gmp_certificate')) {
+
+		// if ($this->upload->do_upload('drug_license') && $this->upload->do_upload('national_id_proof') && $this->upload->do_upload('company_incorporation')) {
+			// Files uploaded successfully
+			// Get uploaded file data
+			$upload_data1 = $this->upload->data('drug_license');
+			$upload_data2 = $this->upload->data('national_id_proof');
+			$upload_data3 = $this->upload->data('gmp_certificate');
+			// Pass file names to view or process as needed
+
+			$uploadData = array();
+			$errors = array();
+			$uploaded_other_doc_names = '';
+			$delimiter = '';
+			
+			
+			// Generate unique names for each file
+			$userId = $this->session->userdata('id');
+			$timestamp = date('YmdHis');
+			$drugLicenseName = $userId . '_' . $timestamp . '_' . $_FILES["drug_license"]['name'];
+			$nationalIdProofName = $userId . '_' . $timestamp . '_' . $_FILES["national_id_proof"]['name'];
+			$gmpcertificateName = $userId . '_' . $timestamp . '_' . $_FILES["gmp_certificate"]['name'];
+
+			foreach ($_FILES['other_documents']['name'] as $key => $file) {
+				$_FILES['userfile']['name'] = $_FILES['other_documents']['name'][$key];
+				$_FILES['userfile']['type'] = $_FILES['other_documents']['type'][$key];
+				$_FILES['userfile']['tmp_name'] = $_FILES['other_documents']['tmp_name'][$key];
+				$_FILES['userfile']['error'] = $_FILES['other_documents']['error'][$key];
+				$_FILES['userfile']['size'] = $_FILES['other_documents']['size'][$key];
+	
+				if ($this->upload->do_upload('userfile')) {
+					$uploadData[$key] = $this->upload->data();
+					$doc_name = $userId . '_' . $timestamp . '_' . $_FILES['other_documents']['name'][$key];
+					$uploaded_other_doc_names .= $delimiter.$doc_name;
+					$delimiter = '|';
+					$uploadotherfile = move_uploaded_file($_FILES['other_documents']['tmp_name'][$key], $upload_path . $doc_name);
+				} else {
+					$errors[$key] = array('error' => $this->upload->display_errors());
+				}
+			}
+			
+			// Move the uploaded files to the destination folder with the custom names
+			$uploadSuccess1 = move_uploaded_file($_FILES['drug_license']['tmp_name'], $upload_path . $drugLicenseName);
+			$uploadSuccess2 = move_uploaded_file($_FILES['national_id_proof']['tmp_name'], $upload_path . $nationalIdProofName);
+			$uploadSuccess3 = move_uploaded_file($_FILES['gmp_certificate']['tmp_name'], $upload_path . $gmpcertificateName);
+
+			
+			
+			if ($uploadSuccess2 && empty($errors)) {
+				// Files moved successfully, insert their details into the database
+				$data['company_incorporation_certificate'] = '';
+				$data['drug_license'] = $drugLicenseName;
+				$data['gmp_certificate'] = $gmpcertificateName;
+				$data['national_id_proof'] = $nationalIdProofName;
+				$data['user_id'] = $userId;
+				$data['tax_details'] = $this->input->get_post('tax_details');;
+				$data['status'] = 'pending';
+				$data['other_documents'] = $uploaded_other_doc_names;
+				
+				// Insert document details into the database
+				$response = $this->Usermodel->userUploadDocuments($data);
+				
+				if ($response) {
+
+					$timelineData = array(
+						'supplier_id' => $userId,
+						'event_date' => date('Y-m-d'), // Current date
+						'event_time' => date('H:i:s'), // Current time
+						'icon' => 'fas fa-user bg-green',
+						'header' => 'KYC Verification',
+						'body' => 'Supplier KYC verification started'
+					);
+					$this->Usermodel->insert_supplier_event($timelineData);
+
+					$this->supplierProfile();
+
+				} else {
+					print_r($response);
+					return;
+					// Error inserting data into the database
+					// Handle the error as needed
+				}
+			} else {
+				// Error moving files to the destination folder
+				// Handle the error as needed
+				print_r($errors);
+				return;
+			}
+		} else {
+			// Error uploading files
+			$error1 = $this->upload->display_errors();
+			$error2 = $this->upload->display_errors();
+			$error3 = $this->upload->display_errors();
+			echo $error1;
+			return;
+			// $this->agentProfile();
+			// Handle the errors as needed
+		}
+		
+	}
+
 
 	public function agentKYCUploadDocuments(){
 		
@@ -1050,6 +1232,24 @@ class Usercontroller extends CI_Controller {
 
 		$this->load->view('agent/agent_header',$data);
 		$this->load->view('agent/agent_kyc_status');
+	}
+
+	public function supplierKycStatus(){
+		// Check if the user is logged in
+		if (!$this->session->userdata('id')) {
+			// User is not logged in, redirect to login page
+			redirect('index.php/Usercontroller/index');
+		}
+		$id = $this->session->userdata('id');
+		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
+		// echo json_encode($id);
+		// die();
+
+		$this->load->view('supplier/supplier_header',$data);
+		$this->load->view('supplier/supplier_kyc_status');
 	}
 
 	public function userViewWhiteLabelProducts(){
