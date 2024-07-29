@@ -686,7 +686,7 @@ class Usercontroller extends CI_Controller {
 		// Set the upload path in the configuration
 		$config['upload_path'] = $upload_path;
 		$config['allowed_types'] = 'gif|jpg|png|pdf|jpeg'; // Specify the allowed file types
-		$config['max_size'] = 2048; // Specify the maximum file size in kilobytes
+		$config['max_size'] = 5048; // Specify the maximum file size in kilobytes
 		$config['encrypt_name'] = FALSE; // Do not encrypt the file name
 		$this->upload->initialize($config);
 
@@ -812,7 +812,7 @@ class Usercontroller extends CI_Controller {
 		// Set the upload path in the configuration
 		$config['upload_path'] = $upload_path;
 		$config['allowed_types'] = 'gif|jpg|png|pdf|jpeg'; // Specify the allowed file types
-		$config['max_size'] = 2048; // Specify the maximum file size in kilobytes
+		$config['max_size'] = 5048; // Specify the maximum file size in kilobytes
 		$config['encrypt_name'] = FALSE; // Do not encrypt the file name
 		$this->upload->initialize($config);
 
@@ -938,7 +938,7 @@ class Usercontroller extends CI_Controller {
 		// Set the upload path in the configuration
 		$config['upload_path'] = $upload_path;
 		$config['allowed_types'] = 'gif|jpg|png|pdf|jpeg'; // Specify the allowed file types
-		$config['max_size'] = 2048; // Specify the maximum file size in kilobytes
+		$config['max_size'] = 5048; // Specify the maximum file size in kilobytes
 		$config['encrypt_name'] = FALSE; // Do not encrypt the file name
 		$this->upload->initialize($config);
 
@@ -1072,7 +1072,7 @@ class Usercontroller extends CI_Controller {
 		// Set the upload path in the configuration
 		$config['upload_path'] = $upload_path;
 		$config['allowed_types'] = 'gif|jpg|png|pdf|jpeg'; // Specify the allowed file types
-		$config['max_size'] = 2048; // Specify the maximum file size in kilobytes
+		$config['max_size'] = 5048; // Specify the maximum file size in kilobytes
 		$config['encrypt_name'] = FALSE; // Do not encrypt the file name
 		$this->upload->initialize($config);
 
