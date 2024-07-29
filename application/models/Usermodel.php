@@ -169,8 +169,8 @@ class Usermodel extends CI_Model {
         return $query->result_array();
     }
 
-    public function get_supplier_timeline($franchise_id) {
-        $this->db->where('supplier_id', $franchise_id);
+    public function get_supplier_timeline($supplier_id) {
+        $this->db->where('supplier_id', $supplier_id);
         $query = $this->db->get('supplier_timeline');
         return $query->result_array();
     }

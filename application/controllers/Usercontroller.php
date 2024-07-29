@@ -437,7 +437,7 @@ class Usercontroller extends CI_Controller {
 					}
 					else if($data['role'] == 'supplier') {
 						$timelineData = array(
-							'franchise_id' => $newUserId,
+							'supplier_id' => $newUserId,
 							'event_date' => date('Y-m-d'), // Current date
 							'event_time' => date('H:i:s'), // Current time
 							'icon' => 'fas fa-envelope bg-blue',
