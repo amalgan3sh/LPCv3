@@ -89,7 +89,8 @@
                   </div>
                   <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Terms and conditions</label>
+                    I agree to the <a href="javascript:void(0);" onclick="redirectToTerms()">Terms and Conditions</a>
+                    <!-- <label class="form-check-label" for="exampleCheck1">Terms and conditions</label> -->
                   </div>
                 </div>
                 <!-- /.card-body -->
@@ -225,6 +226,10 @@ $('.toastsDefaultDanger').click(function() {
         body: 'Document already under verification. Please wait for the process to complete.'
     });
 });
+
+function redirectToTerms() {
+    window.open('<?php echo base_url('index.php/Usercontroller/terms_view') ?>', '_blank');
+}
 </script>
 </body>
 </html>

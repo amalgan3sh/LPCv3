@@ -15,6 +15,10 @@ class Usercontroller extends CI_Controller {
 		// $this->load->view('user_home');
 		$this->load->view('login');
 	}
+
+	public function terms_view(){
+		$this->load->view('terms_view');
+	}
 	public function userLogin(){
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
@@ -139,6 +143,7 @@ class Usercontroller extends CI_Controller {
 		}
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$data['timeline'] = $this->Usermodel->get_user_timeline($id);
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_profile');
 	}
@@ -173,7 +178,7 @@ class Usercontroller extends CI_Controller {
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
         $data['kyc_pending'] = !$kycStatus;
 		$data['user_data'] = $this->Usermodel->getUserData($id);
-		// $data['agent_bank_data'] = $this->Usermodel->getAgentBankData($id);
+		$data['supplier_bank_data'] = $this->Usermodel->getSupplierBankData($id);
 		$this->load->view('supplier/supplier_header',$data);
 		$this->load->view('supplier/supplier_profile');
 	}
@@ -363,6 +368,7 @@ class Usercontroller extends CI_Controller {
 
 		// Check if the form is submitted
 		if ($this->input->post()) {
+
 			// Get form data
 			$data = array(
 				'firstname' => $this->input->post('first_name'),
@@ -405,8 +411,9 @@ class Usercontroller extends CI_Controller {
 				// Email does not exist, proceed with registration
 				$response = $this->Usermodel->registerUser($data);
 				if ($response == true) {
-					$this->EmailModel->send_registration_email($data);
 
+					$this->EmailModel->send_registration_email($data);
+					
 					// Get the newly registered user's ID
 					$newUserId = $this->db->insert_id(); // Assuming you are using CodeIgniter's Active Record
                 
@@ -446,8 +453,21 @@ class Usercontroller extends CI_Controller {
 						);
 						$this->Usermodel->insert_supplier_event($timelineData);
 					}
+					else if($data['role'] == 'customer') {
+						$timelineData = array(
+							'user_id' => $newUserId,
+							'event_date' => date('Y-m-d'), // Current date
+							'event_time' => date('H:i:s'), // Current time
+							'icon' => 'fas fa-envelope bg-blue',
+							'header' => 'Registration to Lakshmi Pharmaceuticals',
+							'body' => 'Distributor registered to Lakshmi Pharmaceuticals'
+						);
+						$this->Usermodel->insert_distributor_event($timelineData);
+					}
+					echo "<script>alert('User registered to Lakshmi Pharmaceuticals successfully. ');</script>";
+					$this->load->view('login');
+					// redirect('index.php/Usercontroller/index');
 
-					redirect('index.php/Usercontroller/index');
 				}
 			}
 		} else {
@@ -751,14 +771,14 @@ class Usercontroller extends CI_Controller {
 				if ($response) {
 
 					$timelineData = array(
-						'agent_id' => $userId,
+						'supplier_id' => $userId,
 						'event_date' => date('Y-m-d'), // Current date
 						'event_time' => date('H:i:s'), // Current time
 						'icon' => 'fas fa-user bg-green',
 						'header' => 'KYC Verification',
-						'body' => 'Agent KYC verification started'
+						'body' => 'Distributor KYC verification started'
 					);
-					$this->Usermodel->insert_event($timelineData);
+					$this->Usermodel->insert_supplier_event($timelineData);
 
 					redirect('index.php/Usercontroller/userHome');
 
@@ -1459,6 +1479,33 @@ class Usercontroller extends CI_Controller {
 			if($response ==true){
 				echo "<script>alert('Bank Details updated successfully');</script>";
 				$this->franchiseProfile();
+			}
+		} catch (Exception $e) {
+			// Log error to the database
+			$this->ErrorLogModel->logError($e->getMessage(), $e->getFile(), $e->getLine());
+			redirect('index.php/Admincontroller/ServerError');
+		}		
+	}
+
+	public function supplierUpdateBankDetails() {
+		try {
+			if (!$this->session->userdata('id')) {
+				// User is not logged in, redirect to login page
+				redirect('index.php/Usercontroller/index');
+			}
+
+			$id = $this->session->userdata('id');
+			$data['user_id'] = $id;
+			$data['account_no'] = $this->input->get_post('account_no');
+			$data['swift_code'] = $this->input->get_post('swift_code');
+			$data['acc_holder_name'] = $this->input->get_post('acc_holder_name');
+			$data['bank_name'] = $this->input->get_post('bank_name');
+			$data['iban_no'] = $this->input->get_post('iban_no');
+			$data['bank_address'] = $this->input->get_post('bank_address');
+			$response = $this->Usermodel->supplierUpdateBankDetails($data,$id);
+			if($response ==true){
+				echo "<script>alert('Bank Details updated successfully');</script>";
+				$this->supplierProfile();
 			}
 		} catch (Exception $e) {
 			// Log error to the database

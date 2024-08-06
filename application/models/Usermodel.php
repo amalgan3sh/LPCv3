@@ -163,6 +163,12 @@ class Usermodel extends CI_Model {
         return $query->result_array();
     }
 
+    public function get_user_timeline($user_id){
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get('user_timeline');
+        return $query->result_array();
+    }
+
     public function get_franchise_timeline($franchise_id) {
         $this->db->where('franchise_id', $franchise_id);
         $query = $this->db->get('franchise_timeline');
@@ -267,6 +273,32 @@ class Usermodel extends CI_Model {
             return false; // Or a custom error code/message
         }
     }
+
+
+    public function insert_distributor_event($data) {
+        // Check for existing event using a unique identifier or combination of fields
+        $this->db->select('*');
+        $this->db->from('user_timeline');
+        $this->db->where('user_id', $data['user_id']);
+        $this->db->where('icon', $data['icon']);
+        $existingEvent = $this->db->get()->row();
+    
+        if (!$existingEvent) {
+            // Event not found, proceed with insertion
+            return $this->db->insert('user_timeline', $data);
+        } else {
+            // Event already exists, handle the case (optional)
+            // - Log a message
+            log_message('info', 'Duplicate event attempted to be inserted: ' . json_encode($data));
+    
+            // - Update existing event if necessary (consider data changes)
+            // You'll need to implement the update logic here based on your requirements
+    
+            // - Return a specific error code or message
+            return false; // Or a custom error code/message
+        }
+    }
+
     public function acceptKyc($user_id){
         // Update the status in the kyc_registration table
         $this->db->where('user_id', $user_id);
@@ -905,6 +937,29 @@ class Usermodel extends CI_Model {
         }
     }
 
+    public function supplierUpdateBankDetails($data, $id) {
+        $query = $this->db->get_where('supplier_bank_details', array('user_id' => $id));
+
+        // Check if a row exists with the given ID
+        if ($query->num_rows() > 0) {
+            $this->db->set($data);
+
+            $this->db->where('user_id', $id); 
+           // Execute the update query
+            $this->db->update('supplier_bank_details');
+        } else {
+            $this->db->insert('supplier_bank_details', $data);
+        }
+        // Check if the update was successful
+        if ($this->db->affected_rows() > 0) {
+            // Update successful
+            return true;
+        } else {
+            // Update failed
+            return false;
+        }
+    }
+
     public function getAgentBankData($id){
         $this->db->where('user_id', $id);
         $query = $this->db->get('agent_bank_details');
@@ -921,6 +976,17 @@ class Usermodel extends CI_Model {
     public function getFranchiseBankData($id){
         $this->db->where('user_id', $id);
         $query = $this->db->get('franchise_bank_details');
+
+        if ($query->result_array()) {
+            return $query->result_array()[0];
+        } else {
+            return false;
+        }
+    }
+
+    public function getSupplierBankData($id){
+        $this->db->where('user_id', $id);
+        $query = $this->db->get('supplier_bank_details');
 
         if ($query->result_array()) {
             return $query->result_array()[0];

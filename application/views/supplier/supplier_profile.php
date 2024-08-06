@@ -60,7 +60,7 @@
                   </li>
                 </ul>
 
-                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
               </div>
               <!-- /.card-body -->
             </div>
@@ -112,6 +112,7 @@
 
                   <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
                   <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#bank_details" data-toggle="tab">Bank Details</a></li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
@@ -322,7 +323,51 @@
                       </form>
                     </div>
 
-                    
+                    <div class="tab-pane" id="bank_details">
+                        <form class="form-horizontal" action="<?php echo base_url('index.php/Usercontroller/userUpdateBankDetails') ?>" method="post">
+                          <div class="form-group row">
+                            <label for="inputAccountNo" class="col-sm-2 col-form-label">Account Number</label>
+                            <div class="col-sm-10">
+                              <input type="text" name="account_no" class="form-control" value="<?php if(is_array($supplier_bank_data) && $supplier_bank_data['account_no']) { echo $supplier_bank_data['account_no']; } ?>" id="inputAccountNo" placeholder="Account Number">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputSwiftCode" class="col-sm-2 col-form-label">Swift Code</label>
+                            <div class="col-sm-10">
+                              <input type="text" name="swift_code" class="form-control" value="<?php if(is_array($supplier_bank_data) && $supplier_bank_data['swift_code']) { echo $supplier_bank_data['swift_code']; } ?>" id="inputSwiftCode" placeholder="Swift Code">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputAccountHolderName" class="col-sm-2 col-form-label">Account Holder Name</label>
+                            <div class="col-sm-10">
+                              <input type="text" name="acc_holder_name" class="form-control" value="<?php if(is_array($supplier_bank_data) && $supplier_bank_data['acc_holder_name']) { echo $supplier_bank_data['acc_holder_name']; } ?>" id="inputAccountHolderName" placeholder="Account Holder Name">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputBankName" class="col-sm-2 col-form-label">Bank Name</label>
+                            <div class="col-sm-10">
+                              <input type="text" name="bank_name" class="form-control" value="<?php if(is_array($supplier_bank_data) && $supplier_bank_data['bank_name']) { echo $supplier_bank_data['bank_name']; } ?>" id="inputBankName" placeholder="Bank Name">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputIbanNo" class="col-sm-2 col-form-label">IBAN Number</label>
+                            <div class="col-sm-10">
+                              <input type="text" name="iban_no" class="form-control" value="<?php if(is_array($supplier_bank_data) && $supplier_bank_data['iban_no']) { echo $supplier_bank_data['iban_no']; } ?>" id="inputIbanNo" placeholder="IBAN Number">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputaddress" class="col-sm-2 col-form-label">Bank Address</label>
+                            <div class="col-sm-10">
+                              <textarea name="bank_address" class="form-control" placeholder="Bank Address"><?php if(is_array($supplier_bank_data) && $supplier_bank_data['bank_address']) { echo $supplier_bank_data['bank_address']; } ?></textarea>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                          <div class="offset-sm-2 col-sm-10">
+                            <button type="submit" class="btn btn-danger">Save</button>
+                          </div>
+                        </div>
+                        </form>
+                      </div>
 
                   <!-- /.tab-pane -->
                 </div>
