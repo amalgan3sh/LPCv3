@@ -1,4 +1,27 @@
+<?php
+$daysAgo = '';
+if($kyc_details['added_date'] != null && $kyc_details['added_date'] != '') {
+  $givenDate = new DateTime($kyc_details['added_date'].' '.$kyc_details['added_time']);
 
+  $currentDate = new DateTime();
+
+  // Calculate the difference
+  $interval = $currentDate->diff($givenDate);
+
+  // Get the number of days
+  // $daysAgo = $interval->days;
+  if ($interval->days === 0) {
+    // If the difference is in days, calculate the difference in minutes
+    $minutesAgo = ($currentDate->getTimestamp() - $givenDate->getTimestamp()) / 60;
+    $minutesAgo = floor($minutesAgo);
+    $daysAgo =  "Uploaded documents  (".$minutesAgo.") minutes ago" ;
+  } else {
+    // If the difference is not in days (i.e., not today), just show days
+    $daysAgo =  "Uploaded documents  (".$interval->days.") days ago";
+  }
+}
+
+?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -30,17 +53,15 @@
               <div class="card-body box-profile">
                 <div class="text-center">
                   <!-- Form for profile picture upload -->
-      <?php echo form_open_multipart('index.php/UserController/uploadProfilePicture'); ?>
-        <label for="profile-picture-upload">
-          <img id="profile-picture" class="profile-user-img img-fluid img-circle"
-               src="<?php echo base_url('assets/')?>/dist/img/user4-128x128.jpg"
-               alt="User profile picture">
-        </label>
-        <!-- Input for profile picture upload -->
-        <input type="file" id="profile-picture-upload" name="profile_picture" style="display: none;">
-        <!-- Submit button -->
-        <button type="submit" style="display: none;"></button>
-      <?php echo form_close(); ?>
+                  <?php $image_avatar = "user4-128x128.jpg"; ?>
+      <form id="upload-form" action="<?php echo site_url('index.php/UserController/uploadProfilePicture'); ?>" method="post" enctype="multipart/form-data">
+    <input type="file" name="profile_picture" id="profile-picture-upload" style="display: none;" onchange="submitForm()">
+    <label for="profile-picture-upload">
+        <img id="profile-picture" class="profile-user-img img-fluid img-circle"
+             src="<?php echo base_url('assets/')?>/dist/img/<?php  if($user_data['profile_photo'] != '' && $user_data['profile_photo'] != null) {  echo $user_data['profile_photo']; }else {echo $image_avatar;} ?>"
+             alt="User profile picture">
+    </label>
+</form>
                 </div>
 
 
@@ -129,7 +150,7 @@
                           <a href="#"><?php echo ($user_data['firstname'].' '.$user_data['lastname']) ?></a>
                           <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
                         </span>
-                        <span class="description">Posted 5 photos - 5 days ago</span>
+                        <span class="description"><?php echo $daysAgo; ?></span>
                       </div>
                       <!-- /.user-block -->
                       <?php if (!empty($user_documents) && isset($user_documents[0])): ?>
@@ -368,5 +389,11 @@
 <!-- AdminLTE App -->
 <script src="<?php echo base_url('assets/')?>dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
+
+<script>
+  function submitForm() {
+    document.getElementById('upload-form').submit();
+}
+</script>
 </body>
 </html>

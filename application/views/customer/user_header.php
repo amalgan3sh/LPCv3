@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LPC User | Dashboard</title>
+  <title>LPC User | Dashboard </title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -265,9 +265,19 @@
         </ul>
       </li>
 
+      <style>
+        .blink {
+            animation: blinker 1s linear infinite;
+            color: red;
+        }
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+    </style>
+
       <li class="nav-item">
-        <a href="#" class="nav-link">
-          <i class="nav-icon fas fa-id-card"></i>
+      <a href="#" class="nav-link <?php  if($kyc_pending || $kyc_details['status'] !='accepted'){ echo 'blink';  } else { ''; } ?>">
+      <i class="nav-icon fas fa-id-card"></i>
           <p>
             KYC Registration
             <i class="right fas fa-angle-left"></i>

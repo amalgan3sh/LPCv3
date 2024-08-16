@@ -140,9 +140,9 @@
                   <span class="fas fa-eye"></span>
                 </div>
               </div> -->
-              
+              <span class="error" id="passwordError"></span>
             </div>
-            <span class="error" id="passwordError"></span>
+           
             <div class="col-md-12 mb-3 p-0">
               <input type="password" class="form-control" placeholder="Confirm Password" id="confirm_password" name="confirm_password" required>
               <span class="toggle-password fas fa-eye" onclick="togglePasswordVisibility('confirm_password')"></span>
@@ -152,9 +152,10 @@
                   <span class=" fa-eye"></span>
                 </div>
               </div> -->
+              <span class="error" id="confirmPasswordError"></span>
             </div>
             
-            <span class="error" id="confirmPasswordError"></span>
+            
 
           <div class="input-group mb-3">
               <textarea class="form-control" placeholder="Message" name="message"></textarea>
@@ -291,23 +292,23 @@ function togglePasswordVisibility(id) {
                 $("#confirm_password").removeClass('error');
 
                 // Get form values
-                const password = document.getElementById('user_password').value;
-                const confirmPassword = document.getElementById('user_confirm_password').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm_password').value;
 
                 // Validate password
                 if (password.length < 8) {
                     document.getElementById('passwordError').textContent = 'Password must be at least 8 characters long.';
-                    $("#user_password").addClass('error');
+                    $("#password").addClass('error');
                     isValid = false;
                 } else if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password) || !/[\W_]/.test(password)) {
                     document.getElementById('passwordError').textContent = 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.';
-                    $("#user_confirm_password").addClass('error');
+                    $("#confirm_password").addClass('error');
                     isValid = false;
                 }
 
                 // Validate confirm password
                 if (password !== confirmPassword) {
-                  $("#user_confirm_password").addClass('error');
+                  $("#confirm_password").addClass('error');
                     document.getElementById('confirmPasswordError').textContent = 'Passwords do not match.';
                     isValid = false;
                 }

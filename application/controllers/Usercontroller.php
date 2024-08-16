@@ -59,6 +59,11 @@ class Usercontroller extends CI_Controller {
 		$data['order_count'] = $this->Usermodel->getUserOrderCount($id);
 		$data['enquiry_count'] = $this->Usermodel->getUserEnquiryCount($id);
 		$data['white_label_count'] = $this->Usermodel->getWhiteLabelCount();
+		
+		$data['kyc_status'] = $this->Usermodel->check_kyc_status($id);
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_home');
@@ -80,6 +85,9 @@ class Usercontroller extends CI_Controller {
 		$data['enquiry_count'] = $this->Usermodel->getUserEnquiryCount($id);
 		$data['white_label_count'] = $this->Usermodel->getWhiteLabelCount();
 		$data['timeline'] = $this->Usermodel->get_supplier_timeline($id);
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
 
 		$this->load->view('supplier/supplier_header',$data);
 		$this->load->view('supplier/supplier_timeline');
@@ -104,6 +112,7 @@ class Usercontroller extends CI_Controller {
 		$data['timeline'] = $this->Usermodel->get_timeline($id);
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
         $data['kyc_pending'] = !$kycStatus;
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 
 		$this->load->view('agent/agent_header',$data);
 		$this->load->view('agent/agent_timeline');
@@ -128,6 +137,7 @@ class Usercontroller extends CI_Controller {
 		$data['white_label_count'] = $this->Usermodel->getWhiteLabelCount();
 		$data['timeline'] = $this->Usermodel->get_franchise_timeline($id);
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
         $data['kyc_pending'] = !$kycStatus;
 
 		$this->load->view('franchise/franchise_header',$data);
@@ -144,6 +154,9 @@ class Usercontroller extends CI_Controller {
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['timeline'] = $this->Usermodel->get_user_timeline($id);
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_profile');
 	}
@@ -153,11 +166,12 @@ class Usercontroller extends CI_Controller {
 			// User is not logged in, redirect to login page
 			redirect('index.php/Usercontroller/index');
 		}
-		$id = $this->session->userdata('id');
+		$id = $this->session->userdata('id'); 
 		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
 		$data['timeline'] = $this->Usermodel->get_timeline($id);
 
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
         $data['kyc_pending'] = !$kycStatus;
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['agent_bank_data'] = $this->Usermodel->getAgentBankData($id);
@@ -179,6 +193,7 @@ class Usercontroller extends CI_Controller {
         $data['kyc_pending'] = !$kycStatus;
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['supplier_bank_data'] = $this->Usermodel->getSupplierBankData($id);
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 		$this->load->view('supplier/supplier_header',$data);
 		$this->load->view('supplier/supplier_profile');
 	}
@@ -192,6 +207,7 @@ class Usercontroller extends CI_Controller {
 		$id = $this->session->userdata('id');
 		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
 		$data['timeline'] = $this->Usermodel->get_franchise_timeline($id);
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
 		$data['kyc_pending'] = !$kycStatus;
@@ -252,6 +268,9 @@ class Usercontroller extends CI_Controller {
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['composition'] = $this->Usermodel->getComposition();
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_view_composition');
 	}
@@ -295,6 +314,9 @@ class Usercontroller extends CI_Controller {
 		$data['dosage_from'] = $this->Usermodel->getDosageFrom();
 		$data['packing_size'] = $this->Usermodel->getPackingSize();
 		$data['pharmacopeia'] = $this->Usermodel->getPharmacopeia();
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_product_query');
 	}
@@ -408,6 +430,7 @@ class Usercontroller extends CI_Controller {
 				$this->session->set_flashdata('error_message', 'Email already exists');
 				redirect('index.php/Usercontroller/userSignup');
 			} else {
+				// $response = false;
 				// Email does not exist, proceed with registration
 				$response = $this->Usermodel->registerUser($data);
 				if ($response == true) {
@@ -486,6 +509,9 @@ class Usercontroller extends CI_Controller {
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['product_inquiry'] = $this->Usermodel->userViewProductInquiry($id);
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_view_product_inquiry');
 
@@ -499,6 +525,9 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['document_exist'] = $this->Usermodel->getUserDocuments($id );
 		$data['kyc_registration'] = $this->Usermodel->getKycRegistration($id );
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
+        $data['kyc_pending'] = !$kycStatus;
 
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_kyc_registration');
@@ -517,6 +546,7 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['document_exist'] = $this->Usermodel->getUserDocuments($id );
 		$data['kyc_registration'] = $this->Usermodel->getKycRegistration($id );
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 
 		$this->load->view('agent/agent_header',$data);
 		$this->load->view('agent/agent_kyc_registration');
@@ -536,6 +566,7 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['document_exist'] = $this->Usermodel->getUserDocuments($id );
 		$data['kyc_registration'] = $this->Usermodel->getKycRegistration($id );
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 
 		$this->load->view('supplier/supplier_header',$data);
 		$this->load->view('supplier/supplier_kyc_registration');
@@ -554,6 +585,7 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['document_exist'] = $this->Usermodel->getUserDocuments($id );
 		$data['kyc_registration'] = $this->Usermodel->getKycRegistration($id );
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 
 		$this->load->view('franchise/franchise_header',$data);
 		$this->load->view('franchise/franchise_kyc_registration');
@@ -731,22 +763,26 @@ class Usercontroller extends CI_Controller {
 			$timestamp = date('YmdHis');
 			$drugLicenseName = $userId . '_' . $timestamp . '_' . $_FILES["drug_license"]['name'];
 
-			foreach ($_FILES['other_documents']['name'] as $key => $file) {
-				$_FILES['userfile']['name'] = $_FILES['other_documents']['name'][$key];
-				$_FILES['userfile']['type'] = $_FILES['other_documents']['type'][$key];
-				$_FILES['userfile']['tmp_name'] = $_FILES['other_documents']['tmp_name'][$key];
-				$_FILES['userfile']['error'] = $_FILES['other_documents']['error'][$key];
-				$_FILES['userfile']['size'] = $_FILES['other_documents']['size'][$key];
-	
-				if ($this->upload->do_upload('userfile')) {
-					$uploadData[$key] = $this->upload->data();
-					$doc_name = $userId . '_' . $timestamp . '_' . $_FILES['other_documents']['name'][$key];
-					$uploaded_other_doc_names .= $delimiter.$doc_name;
-					$delimiter = '|';
-					$uploadotherfile = move_uploaded_file($_FILES['other_documents']['tmp_name'][$key], $upload_path . $doc_name);
-				} else {
-					$errors[$key] = array('error' => $this->upload->display_errors());
+			if(! empty($_FILES['other_documents'])) {
+
+				foreach ($_FILES['other_documents']['name'] as $key => $file) {
+					$_FILES['userfile']['name'] = $_FILES['other_documents']['name'][$key];
+					$_FILES['userfile']['type'] = $_FILES['other_documents']['type'][$key];
+					$_FILES['userfile']['tmp_name'] = $_FILES['other_documents']['tmp_name'][$key];
+					$_FILES['userfile']['error'] = $_FILES['other_documents']['error'][$key];
+					$_FILES['userfile']['size'] = $_FILES['other_documents']['size'][$key];
+					
+					if ($this->upload->do_upload('userfile')) {
+						$uploadData[$key] = $this->upload->data();
+						$doc_name = $userId . '_' . $timestamp . '_' . $_FILES['other_documents']['name'][$key];
+						$uploaded_other_doc_names .= $delimiter.$doc_name;
+						$delimiter = '|';
+						$uploadotherfile = move_uploaded_file($_FILES['other_documents']['tmp_name'][$key], $upload_path . $doc_name);
+					} else {
+						$errors[$key] = array('error' => $this->upload->display_errors());
+					}
 				}
+				
 			}
 			
 			// Move the uploaded files to the destination folder with the custom names
@@ -764,6 +800,8 @@ class Usercontroller extends CI_Controller {
 				$data['other_documents'] = $uploaded_other_doc_names;
 				$data['tax_details'] = $this->input->get_post('tax_details');
 				$data['iec_code'] = $this->input->get_post('iec_code');
+				$data['added_date'] = date('Y-m-d'); // Current date
+				$data['added_time'] = date('H:i:s'); // Current time
 				
 				// Insert document details into the database
 				$response = $this->Usermodel->userUploadDocuments($data);
@@ -771,14 +809,14 @@ class Usercontroller extends CI_Controller {
 				if ($response) {
 
 					$timelineData = array(
-						'supplier_id' => $userId,
+						'user_id' => $userId,
 						'event_date' => date('Y-m-d'), // Current date
 						'event_time' => date('H:i:s'), // Current time
 						'icon' => 'fas fa-user bg-green',
 						'header' => 'KYC Verification',
 						'body' => 'Distributor KYC verification started'
 					);
-					$this->Usermodel->insert_supplier_event($timelineData);
+					$this->Usermodel->insert_distributor_event($timelineData);
 
 					redirect('index.php/Usercontroller/userHome');
 
@@ -890,6 +928,8 @@ class Usercontroller extends CI_Controller {
 				$data['other_documents'] = $uploaded_other_doc_names;
 				$data['tax_details'] = $this->input->get_post('tax_details');
 				$data['iec_code'] = $this->input->get_post('iec_code');
+				$data['added_date'] = date('Y-m-d');
+				$data['added_time'] = date('H:i:s');
 				
 				// Insert document details into the database
 				$response = $this->Usermodel->userUploadDocuments($data);
@@ -1023,6 +1063,8 @@ class Usercontroller extends CI_Controller {
 				$data['tax_details'] = $this->input->get_post('tax_details');;
 				$data['status'] = 'pending';
 				$data['other_documents'] = $uploaded_other_doc_names;
+				$data['added_date'] = date('Y-m-d');
+				$data['added_time'] = date('H:i:s');
 				
 				// Insert document details into the database
 				$response = $this->Usermodel->userUploadDocuments($data);
@@ -1155,6 +1197,8 @@ class Usercontroller extends CI_Controller {
 				$data['user_id'] = $userId;
 				$data['status'] = 'pending';
 				$data['other_documents'] = $uploaded_other_doc_names;
+				$data['added_date'] = date('Y-m-d');
+				$data['added_time'] = date('H:i:s');
 				
 				// Insert document details into the database
 				$response = $this->Usermodel->userUploadDocuments($data);
@@ -1208,6 +1252,9 @@ class Usercontroller extends CI_Controller {
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
+        $data['kyc_pending'] = !$kycStatus;
 		// echo json_encode($id);
 		// die();
 
@@ -1225,9 +1272,10 @@ class Usercontroller extends CI_Controller {
 		$id = $this->session->userdata('id');
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
-		$kycStatus = $this->Usermodel->check_kyc_status($id);
 		
 		$data['timeline'] = $this->Usermodel->get_franchise_timeline($id);
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
         $data['kyc_pending'] = !$kycStatus;
 		// echo json_encode($id);
 		// die();
@@ -1246,6 +1294,7 @@ class Usercontroller extends CI_Controller {
 		$data['user_data'] = $this->Usermodel->getUserData($id);
 		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
         $data['kyc_pending'] = !$kycStatus;
 		// echo json_encode($id);
 		// die();
@@ -1265,6 +1314,7 @@ class Usercontroller extends CI_Controller {
 		$data['user_documents'] = $this->Usermodel->getUserDocumentsSubmitted($id);
 		$kycStatus = $this->Usermodel->check_kyc_status($id);
         $data['kyc_pending'] = !$kycStatus;
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 		// echo json_encode($id);
 		// die();
 
@@ -1296,6 +1346,9 @@ class Usercontroller extends CI_Controller {
 		// Load view with pagination links
 		$data['pagination_links'] = $this->pagination->create_links();
 		$data['user_data'] = $this->Usermodel->getUserData($id);
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_view_white_label_products',$data);
 	}
@@ -1317,10 +1370,10 @@ class Usercontroller extends CI_Controller {
 
 	public function uploadProfilePicture() {
         // Check if the form is submitted
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Configuration for file upload
-            $config['upload_path'] = './uploads/';
-            $config['allowed_types'] = 'gif|jpg|png';
+            $config['upload_path'] = FCPATH . 'assets/dist/img/';
+            $config['allowed_types'] = 'jpg|png|jpeg';
             $config['max_size'] = 1024; // 1 MB max size (adjust as needed)
             $config['overwrite'] = TRUE; // Overwrite existing file if exists
 
@@ -1334,18 +1387,34 @@ class Usercontroller extends CI_Controller {
 
                 // Update user's profile picture in the database
                 // Example: $this->user_model->updateProfilePicture($file_name);
-
+				$id = $this->session->userdata('id');
+				$this->Usermodel->updateProfilePicture($id,$file_name);
                 // Redirect back to the profile page or display a success message
-                redirect('userProfile');
+				
+				$user_data = $this->Usermodel->getUserData($id);
+				if($user_data['role'] == 'agent') {
+					$this->agentProfile();
+				}
+				else if($user_data['role'] == 'supplier') {
+					$this->supplierProfile();
+
+				}else if($user_data['role'] == 'franchise'){
+					$this->franchiseProfile();
+				}
+				else{
+					$this->userProfile();
+				}
+                
             } else {
                 // File upload failed
                 $error = array('error' => $this->upload->display_errors());
+				// print_r($error);
                 // Handle the error (e.g., display error message)
             }
-        } else {
-            // If the form is not submitted via POST method, redirect to the profile page
-            redirect('userProfile');
-        }
+        // } else {
+        //     // If the form is not submitted via POST method, redirect to the profile page
+        //     redirect('userProfile');
+        // }
     }
 	public function userViewThirdPartyManufacturedProducts(){
 		// Check if the user is logged in
@@ -1361,6 +1430,9 @@ class Usercontroller extends CI_Controller {
 		$data['dosage_from'] = $this->Usermodel->getDosageFrom();
 		$data['packing_size'] = $this->Usermodel->getPackingSize();
 		$data['pharmacopeia'] = $this->Usermodel->getPharmacopeia();
+		$kycStatus = $this->Usermodel->check_kyc_status($id);
+        $data['kyc_pending'] = !$kycStatus;
+		$data['kyc_details'] = $this->Usermodel->getKycRegistration($id);
 
 		$this->load->view('customer/user_header',$data);
 		$this->load->view('customer/user_inquire_third_party_products');

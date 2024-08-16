@@ -333,7 +333,7 @@ class Usermodel extends CI_Model {
             return $query->result_array();
         } else {
             // If no results found, return false or an empty array, depending on your preference
-            return false;
+            return array();
         }
     }
     public function userUploadDocuments($data){
@@ -382,6 +382,9 @@ class Usermodel extends CI_Model {
                 'national_id_proof' => $row->national_id_proof ? true : false,
                 'company_incorporation_certificate' => $row->company_incorporation_certificate ? true : false,
                 'other_documents' => $row->other_documents ? true : false,
+                'status' => $row->status,
+                'added_date' => $row->added_date,
+                'added_time' => $row->added_time,
                 // Add more fields as needed
             );
             
@@ -993,5 +996,15 @@ class Usermodel extends CI_Model {
         } else {
             return false;
         }
+    }
+
+
+    public function updateProfilePicture($user_id, $file_name) {
+        $data = array(
+            'profile_photo' => $file_name
+        );
+
+        $this->db->where('id', $user_id); // Assuming 'id' is the primary key for users
+        return $this->db->update('users', $data); // 'users' is the table name
     }
 }

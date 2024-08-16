@@ -84,3 +84,7 @@ CREATE TABLE `user_timeline` (
   `body` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- SPRINT #3 QUERY
+ALTER TABLE `kyc_registration` ADD `added_date` date, ADD `added_time` time;
+

@@ -48,7 +48,7 @@
                   <label for="exampleInputFile">National ID Proof</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input"  id="nationalIDProof" name="national_id_proof">
+                        <input type="file" class="custom-file-input"  id="nationalIDProof" name="national_id_proof" required>
                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
                       <div class="input-group-append">
@@ -71,12 +71,12 @@
                   <div class="form-group">
                     <label for="exampleInputFile">Other Documents</label>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="other_documents" name="other_documents[]"  multiple>
+                        <input type="file" class="custom-file-input" id="other_documents" name="other_documents[]"  multiple required>
                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
                   </div>
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1" checked="checked">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" checked="checked" required>
                     I agree to the <a href="javascript:void(0);" onclick="redirectToTerms()">Terms and Conditions</a>
                     <!-- <label class="form-check-label" for="exampleCheck1">Terms and conditions</label> -->
                   </div>

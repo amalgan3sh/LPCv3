@@ -91,6 +91,19 @@ class Admincontroller extends CI_Controller {
 
 				$this->Usermodel->insert_supplier_event($timelineData);
 			}
+			else if($user_data['role'] == 'customer') {
+
+				$timelineData = array(
+					'user_id' => $user_id,
+					'event_date' => date('Y-m-d'), // Current date
+					'event_time' => date('H:i:s'), // Current time
+					'icon' => 'fas fa-check-circle bg-green',
+					'header' => 'KYC Verification Accepted',
+					'body' => 'Distributor KYC verification has been accepted'
+				);
+
+				$this->Usermodel->insert_distributor_event($timelineData);
+			}
 			
 			
 			

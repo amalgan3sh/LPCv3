@@ -52,7 +52,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                  <?php foreach ($product_inquiry as $inquiry): ?>
+                  <?php  
+                  foreach ($product_inquiry as $inquiry): ?>
                       <tr>
                           <td><?php echo $inquiry['inquiry_id']; ?></td>
                           <td><?php echo $inquiry['product_name']; ?></td>
