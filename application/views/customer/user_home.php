@@ -29,7 +29,7 @@
             <!-- small box -->
             <!-- <div class="small-box bg-info">
               <div class="inner">
-                <h3><?php echo $enquiry_count; ?></h3>
+                <h3></h3>
 
                 <p>Your inquiry</p>
               </div>
@@ -44,7 +44,7 @@
             <!-- small box -->
             <!-- <div class="small-box bg-success">
               <div class="inner">
-                <h3><?php echo $white_label_count; ?><sup style="font-size: 20px"></sup></h3>
+                <h3><sup style="font-size: 20px"></sup></h3>
 
                 <p>White Labeled Products</p>
               </div>
